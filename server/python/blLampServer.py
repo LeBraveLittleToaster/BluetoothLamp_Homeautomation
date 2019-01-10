@@ -54,18 +54,13 @@ def sendToAllDevices(r,g,b):
 
 def parseArgs():
   parser = argparse.ArgumentParser()
-  parser.add_argument('-r', '--red')
-  parser.add_argument('-g', '--green')
-  parser.add_argument('-b', '--blue')
+  parser.add_argument('-r')
+  parser.add_argument('-g')
+  parser.add_argument('-b')
   args = parser.parse_args()
-  r = None
-  g = None
-  b = None
-
-  print (args.r)
-  print (args.g)
-  print (args.b)
-  print (args)
+  r = args['-r']
+  g = args['-g']
+  b = args['-b']
 
   sendToAllDevices(r,g,b)
 
