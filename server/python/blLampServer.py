@@ -47,11 +47,7 @@ def genMsg(r,g,b):
   return "#" + fillTo4Bytes(r) + fillTo4Bytes(g) + fillTo4Bytes(b)
 
 def fillTo4Bytes(v):
-  x = str(v)
-  while len(x) < 4:
-    print (x)
-    x = "0" + x
-  return x
+  return struct.unpack("4b", struct.pack("I", v))
 
 def parseArgs():
   parser = argparse.ArgumentParser()
