@@ -16,11 +16,13 @@ void loop() {
       Serial.println(msgBuf);
       */
       int r = readValue();
-      Serial.println(r);
+      Serial.println("Red=" + r);
       int g = readValue();
-      Serial.println(g);
+      Serial.println("Green=" + g);
       int b = readValue();
-      Serial.println(b);
+      Serial.println("Blue=" + b);
+      int m = readValue();
+      Serial.println("Mode=" + m);
     }
   }
 }
