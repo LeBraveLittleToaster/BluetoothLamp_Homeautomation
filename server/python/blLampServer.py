@@ -28,7 +28,7 @@ def receiveMessages():
   server_sock.close()
   
 def sendMessageTo(targetBluetoothMacAddress,r,g,b):
-  print "Sending R=" + r + " G=" + g + " B=" + b
+  print "Sending R=" + str(r) + " G=" + str(g) + " B=" + str(b)
   x = DataStream()
   x.append(r)
   x.append(g)
