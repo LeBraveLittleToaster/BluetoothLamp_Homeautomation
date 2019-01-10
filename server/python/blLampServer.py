@@ -33,6 +33,6 @@ def lookUpNearbyBluetoothDevices():
       print "Sending ->hello!!<-" + " [" + str(bdaddr) + "]"
       sendMessageTo(bdaddr)
 
-def sendToAllDevices()
+def sendToAllDevices():
   for address in allowed_devices:
     sendMessageTo(address)
