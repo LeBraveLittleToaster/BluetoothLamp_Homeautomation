@@ -1,7 +1,7 @@
 import bluetooth
 import sys
 import struct
-import getopt
+import argparse
 
 allowed_devices = ["98:D3:31:FC:79:0C"]
 port = 1
@@ -53,18 +53,15 @@ def sendToAllDevices(r,g,b):
     sendMessageTo(address, r,g,b)
 
 def parseArgs():
-  try:
-    opts, args = getopt.getopt(sys.argv[1:], "rgb", ["red", "green", "blue"])
-  except getopt.GetoptError as err:
-    # print help information and exit:
-    print str(err)  # will print something like "option -a not recognized"
-    usage()
-    sys.exit(2)
+  parser = argparse.ArgumentParser()
+  parser.add_argument('-r', '--red')
+  parser.add_argument('-g', '--green')
+  parser.add_argument('-b', '--blue')
+  args = parser.parse_args()
   r = None
   g = None
   b = None
-  verbose = False
-  for o, a in opts:
+  for o, a in args:
     print (o + " " + a)
     if o in ("-r", "--red"):
       r = a
