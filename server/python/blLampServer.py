@@ -24,7 +24,7 @@ def receiveMessages():
   
 def sendMessageTo(targetBluetoothMacAddress,r,g,b):
   print "Sending R=" + str(r) + " G=" + str(g) + " B=" + str(b)
-  x = str(r) + str(g) + str(b)
+  x = str(unichr(r)) + str(unichr(g)) + str(unichr(b))
   port = 1
   sock=bluetooth.BluetoothSocket( bluetooth.RFCOMM )
   sock.connect((targetBluetoothMacAddress, port))
