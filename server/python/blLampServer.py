@@ -54,25 +54,25 @@ def sendToAllDevices(r,g,b):
 
 def parseArgs():
   try:
-        opts, args = getopt.getopt(sys.argv[1:], "rgb", ["red", "green", "blue"])
-    except getopt.GetoptError as err:
-        # print help information and exit:
-        print str(err)  # will print something like "option -a not recognized"
-        usage()
-        sys.exit(2)
-    r = None
-    g = None
-    b = None
-    verbose = False
-    for o, a in opts:
-        if o in ("-r", "--red"):
-          r = a
-        elif o in ("-g", "--green"):
-          g = a
-        elif o in ("-b", "--blue"):
-          b = a
-        else:
-            assert False, "unhandled option"
+    opts, args = getopt.getopt(sys.argv[1:], "rgb", ["red", "green", "blue"])
+  except getopt.GetoptError as err:
+    # print help information and exit:
+    print str(err)  # will print something like "option -a not recognized"
+    usage()
+    sys.exit(2)
+  r = None
+  g = None
+  b = None
+  verbose = False
+  for o, a in opts:
+    if o in ("-r", "--red"):
+      r = a
+    elif o in ("-g", "--green"):
+      g = a
+    elif o in ("-b", "--blue"):
+      b = a
+    else:
+      assert False, "unhandled option"
 
   sendToAllDevices(r,g,b)
 
