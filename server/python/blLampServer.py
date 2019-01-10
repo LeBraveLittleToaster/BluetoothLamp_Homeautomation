@@ -48,7 +48,7 @@ def genMsg(r,g,b):
 
 def fillTo4Bytes(v):
   x = str(v)
-  while len(x) < 4
+  while len(x) < 4:
     print (x)
     x = "0" + x
   return x
