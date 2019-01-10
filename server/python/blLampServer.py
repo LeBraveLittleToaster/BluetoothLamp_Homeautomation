@@ -2,6 +2,7 @@ import bluetooth
 import sys
 import struct
 import argparse
+import time
 
 allowed_devices = ["98:D3:31:FC:79:0C"]
 port = 1
@@ -30,6 +31,7 @@ def sendMessageTo(targetBluetoothMacAddress,r,g,b):
   sock=bluetooth.BluetoothSocket( bluetooth.RFCOMM )
   sock.connect((targetBluetoothMacAddress, port))
   sock.send(msg)
+  time.sleep(5)
   sock.close()
   
 def lookUpNearbyBluetoothDevices():
