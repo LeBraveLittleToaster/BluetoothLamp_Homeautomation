@@ -36,3 +36,5 @@ def lookUpNearbyBluetoothDevices():
 def sendToAllDevices():
   for address in allowed_devices:
     sendMessageTo(address)
+
+sendToAllDevices()
