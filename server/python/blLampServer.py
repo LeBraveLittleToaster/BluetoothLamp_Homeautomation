@@ -65,6 +65,7 @@ def parseArgs():
   b = None
   verbose = False
   for o, a in opts:
+    print (o + " " + a)
     if o in ("-r", "--red"):
       r = a
     elif o in ("-g", "--green"):
