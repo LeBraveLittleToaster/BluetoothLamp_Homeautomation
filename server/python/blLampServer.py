@@ -6,11 +6,6 @@ import argparse
 allowed_devices = ["98:D3:31:FC:79:0C"]
 port = 1
 
-class DataStream(bytearray):
-
-    def append(self, v, fmt='>B'):
-        self.extend(struct.pack(fmt, v))
-
 def receiveMessages():
   server_sock=bluetooth.BluetoothSocket( bluetooth.RFCOMM )
   
@@ -29,10 +24,7 @@ def receiveMessages():
   
 def sendMessageTo(targetBluetoothMacAddress,r,g,b):
   print "Sending R=" + str(r) + " G=" + str(g) + " B=" + str(b)
-  x = DataStream()
-  x.append(r)
-  x.append(g)
-  x.append(b)
+  x = str(r) + str(g) + str(b)
   port = 1
   sock=bluetooth.BluetoothSocket( bluetooth.RFCOMM )
   sock.connect((targetBluetoothMacAddress, port))
