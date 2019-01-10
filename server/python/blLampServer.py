@@ -1,5 +1,7 @@
 import bluetooth
 
+allowed_devices = ["98:D3:31:FC:79:0C"]
+
 def receiveMessages():
   server_sock=bluetooth.BluetoothSocket( bluetooth.RFCOMM )
   
@@ -20,7 +22,7 @@ def sendMessageTo(targetBluetoothMacAddress):
   port = 1
   sock=bluetooth.BluetoothSocket( bluetooth.RFCOMM )
   sock.connect((targetBluetoothMacAddress, port))
-  sock.send("hello!!")
+  sock.send("RGBM1")
   sock.close()
   
 def lookUpNearbyBluetoothDevices():
@@ -31,4 +33,6 @@ def lookUpNearbyBluetoothDevices():
       print "Sending ->hello!!<-" + " [" + str(bdaddr) + "]"
       sendMessageTo(bdaddr)
 
-lookUpNearbyBluetoothDevices()
+def sendToAllDevices()
+  for address in allowed_devices:
+    sendMessageTo(address)
