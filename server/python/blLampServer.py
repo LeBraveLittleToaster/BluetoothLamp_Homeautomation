@@ -46,12 +46,15 @@ def sendToAllDevices(r,g,b):
 
 def parseMsg(r,g,b):
   l = 4
-  x = "#" + fill(str(r), l) + fill(str(g), 4) + fill(str(5), 4)
-  return buffer(x, 0 , 12)
+  x = "#" + fill(str(r), l) + fill(str(g), l) + fill(str(b), l)
+  return buffer(x, 0 , 11)
 
 def fill(v, width):
+  print v
   while len(v) < width:
     v = "0" + v;
+  print v
+  print "++++++++++"
   return v
 
 def parseArgs():
