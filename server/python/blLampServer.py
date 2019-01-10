@@ -50,7 +50,7 @@ def fillTo4Bytes(v):
   tupleValues = struct.unpack("4b", struct.pack("I", v))
   x = ""
   for var in tupleValues:
-    x += var
+    x += str(var)
   return x
 
 def parseArgs():
