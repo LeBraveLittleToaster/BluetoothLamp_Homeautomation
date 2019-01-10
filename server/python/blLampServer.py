@@ -47,7 +47,11 @@ def genMsg(r,g,b):
   return "#" + fillTo4Bytes(r) + fillTo4Bytes(g) + fillTo4Bytes(b)
 
 def fillTo4Bytes(v):
-  return struct.unpack("4b", struct.pack("I", v))
+  tupleValues = struct.unpack("4b", struct.pack("I", v))
+  x = ""
+  for var in tupleValues:
+    x += var
+  return x
 
 def parseArgs():
   parser = argparse.ArgumentParser()

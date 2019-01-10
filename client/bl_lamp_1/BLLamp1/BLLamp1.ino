@@ -1,6 +1,4 @@
-int r = 0;
-int g = 0;
-int b = 0;
+int length = 12;
 
 void setup() {
   Serial.begin(9600);
@@ -12,26 +10,17 @@ void loop() {
     delay(10);
     char c = Serial.read();
     if(c == '#'){
-      r = readValue(4);
-      g = readValue(4);
-      b = readValue(4);
+      char msgBuf[length];
+      Serial.println("New Message");
+      Serial.readBytes(msgBuf, length);
+      Serial.print("V=");
+      Serial.println(msgBuf);
+      int v = 0;
+      for(int i = 0; i < sizeof(msgBuf); i++){
+        v = (int) msgBuf[i];
+        Serial.print(v);
+      }
     }
   }
-}
 
-int readValue(int width){
-  Serial.println("Start reading");
-  int v = 0;
-  int m = width - 1;
-  for(int i = 0; i < width; i++){
-    if(m > 0){
-      v = v + (Serial.parseInt() * pow(10, m));
-    }else{
-      v = v + Serial.parseInt();
-    }
-    m--;
-  }
-  Serial.print("Stopped reading, v is ");
-  Serial.println(v);
-  return v;
 }
