@@ -8,10 +8,10 @@ void loop() {
     delay(10);
     char c = Serial.read();
     int i = (int)c;
-    Serial.print("C=");
+    Serial.print("| C=");
     Serial.print(c);
-    Serial.print("I=");
-    Serial.print(i);
+    Serial.print(" | I=");
+    Serial.println(i);
   }
 
 }
