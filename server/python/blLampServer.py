@@ -46,7 +46,7 @@ def sendToAllDevices(r,g,b):
 
 def parseMsg(r,g,b):
   x = "#" + str(r) + str(g) + str(b)
-  return buffer(x)
+  return buffer(x, 0 , 12)
 
 def parseArgs():
   parser = argparse.ArgumentParser()
