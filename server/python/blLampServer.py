@@ -58,9 +58,9 @@ def parseArgs():
   parser.add_argument('-g', required = True)
   parser.add_argument('-b', required = True)
   args = parser.parse_args()
-  r = args.r
-  g = args.g
-  b = args.b
+  r = int(args.r)
+  g = int(args.g)
+  b = int(args.b)
 
 
   sendToAllDevices(r,g,b)
