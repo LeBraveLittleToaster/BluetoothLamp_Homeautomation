@@ -41,10 +41,10 @@ def lookUpNearbyBluetoothDevices():
       print "Sending ->hello!!<-" + " [" + str(bdaddr) + "]"
       sendMessageTo(bdaddr)
 
-def sendToAllDevices(r,g,b):
+def sendToAllDevices(r,g,b,m):
   for address in allowed_devices:
     print str(bluetooth.lookup_name( address )) + " [" + str(address) + "]"
-    sendMessageTo(address, r,g,b)
+    sendMessageTo(address, r,g,b,m)
 
 def parseMsg(r,g,b,m):
   l = 4
