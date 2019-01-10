@@ -47,7 +47,7 @@ def sendToAllDevices(r,g,b):
 
 def parseMsg(r,g,b):
   l = 4
-  x = "#" + fill(str(r), l) + fill(str(g), l) + fill(str(b), l)
+  x = "#" + fill(str(r), l) + fill(str(g), l) + fill(str(b), l) + "00"
   print x
   print buffer(x)
   return buffer(x)

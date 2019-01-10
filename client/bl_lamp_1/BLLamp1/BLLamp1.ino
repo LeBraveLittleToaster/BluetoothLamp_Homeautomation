@@ -1,7 +1,3 @@
-int length = 12;
-int numberLength = 4;
-int numberCount = 3;
-
 void setup() {
   Serial.begin(9600);
   Serial.println("Hello world");
@@ -30,13 +26,13 @@ void loop() {
 }
 int readValue(){
   Serial.print("START_");
-  int x1 = Serial.read() - 48;
+  int x1 = (Serial.read() - 48) * 1000 ;
   Serial.print(x1);
   Serial.print("_");
-  int x2 = Serial.read() - 48;
+  int x2 = (Serial.read() - 48 ) * 100;
   Serial.print(x2);
   Serial.print("_");
-  int x3 = Serial.read() - 48;
+  int x3 = (Serial.read() - 48) * 10;
   Serial.print(x3);
   Serial.print("_");
   int x4 = Serial.read() - 48;
