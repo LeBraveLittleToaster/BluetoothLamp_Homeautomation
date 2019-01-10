@@ -23,11 +23,11 @@ def receiveMessages():
   server_sock.close()
   
 def sendMessageTo(targetBluetoothMacAddress,r,g,b):
-  print "Sending message " + genMsg(r,g,b)
+  print "Sending message " + parseMsg(r,g,b)
   port = 1
   sock=bluetooth.BluetoothSocket( bluetooth.RFCOMM )
   sock.connect((targetBluetoothMacAddress, port))
-  sock.send(genMsg(r,g,b))
+  sock.send(parseMsg(r,g,b))
   sock.close()
   
 def lookUpNearbyBluetoothDevices():
@@ -43,15 +43,9 @@ def sendToAllDevices(r,g,b):
     print str(bluetooth.lookup_name( address )) + " [" + str(address) + "]"
     sendMessageTo(address, r,g,b)
 
-def genMsg(r,g,b):
-  return "#" + fillTo4Bytes(r) + fillTo4Bytes(g) + fillTo4Bytes(b)
-
-def fillTo4Bytes(v):
-  tupleValues = struct.unpack("4b", struct.pack("I", v))
-  x = ""
-  for var in tupleValues:
-    x += str(var)
-  return x
+def parseMsg(r,g,b):
+  x = "#" + str(r) + str(g) + str(b)
+  return buffer(x)
 
 def parseArgs():
   parser = argparse.ArgumentParser()
