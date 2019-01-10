@@ -44,7 +44,7 @@ def sendToAllDevices(r,g,b):
     sendMessageTo(address, r,g,b)
 
 def genMsg(r,g,b):
-  return fillTo4Bytes(r) + fillTo4Bytes(g) + fillTo4Bytes(b)
+  return "#" + fillTo4Bytes(r) + fillTo4Bytes(g) + fillTo4Bytes(b)
 
 def fillTo4Bytes(v):
   x = str(v)
