@@ -31,7 +31,6 @@ def sendMessageTo(targetBluetoothMacAddress,r,g,b):
   sock=bluetooth.BluetoothSocket( bluetooth.RFCOMM )
   sock.connect((targetBluetoothMacAddress, port))
   sock.send(msg)
-  time.sleep(5)
   sock.close()
   
 def lookUpNearbyBluetoothDevices():
@@ -49,9 +48,8 @@ def sendToAllDevices(r,g,b):
 
 def parseMsg(r,g,b):
   l = 4
-  x = "#" + fill(str(r), l) + fill(str(g), l) + fill(str(b), l) + "00"
+  x = "#" + fill(str(r), l) + fill(str(g), l) + fill(str(b), l)
   print x
-  print buffer(x)
   return buffer(x)
 
 def fill(v, width):
