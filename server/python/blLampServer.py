@@ -27,7 +27,7 @@ def lookUpNearbyBluetoothDevices():
   nearby_devices = bluetooth.discover_devices()
   for bdaddr in nearby_devices:
     print str(bluetooth.lookup_name( bdaddr )) + " [" + str(bdaddr) + "]"
-    if bdaddr == "9C:8C:6E:62:9E:77":
+    if bdaddr == "98:D3:31:FC:79:0C":
       print "Sending ->hello!!<-" + " [" + str(bdaddr) + "]"
       sendMessageTo(bdaddr)
 
