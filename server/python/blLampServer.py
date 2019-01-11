@@ -86,7 +86,7 @@ def collectData():
 
 def run():
   while True:
-    sleep(2)
+    time.sleep(2)
     collectData()
     sendToAllDevices(r,g,b,m);
 
