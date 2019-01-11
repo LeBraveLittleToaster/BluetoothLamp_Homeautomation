@@ -3,9 +3,14 @@ import sys
 import struct
 import argparse
 import time
+import requests
 
 allowed_devices = ["98:D3:31:FC:79:0C"]
 port = 1
+r = 0
+g = 0
+b = 0
+m = 0
 
 def receiveMessages():
   server_sock=bluetooth.BluetoothSocket( bluetooth.RFCOMM )
@@ -75,4 +80,16 @@ def parseArgs():
 
   sendToAllDevices(r,g,b,m)
 
+def collectData():
+  r = requests.get('https://jsonplaceholder.typicode.com/todos/1')
+  print r.json()
+
+def run():
+  while True:
+    sleep(2)
+    collectData()
+    sendToAllDevices(r,g,b,m);
+
+
 parseArgs()
+run()
