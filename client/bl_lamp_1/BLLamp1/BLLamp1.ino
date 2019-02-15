@@ -1,6 +1,22 @@
+#include <FastLED.h>
+
+// How many leds in your strip?
+#define NUM_LEDS 32
+
+// For led chips like Neopixels, which have a data line, ground, and power, you just
+// need to define DATA_PIN.  For led chipsets that are SPI based (four wires - data, clock,
+// ground, and power), like the LPD8806 define both DATA_PIN and CLOCK_PIN
+#define DATA_PIN 4
+
+// Define the array of leds
+CRGB leds[NUM_LEDS];
+
+
 void setup() {
   Serial.begin(9600);
   Serial.println("Hello world");
+  //FastLED.addLeds<WS2812B, DATA_PIN, RGB>(leds, NUM_LEDS);
+  delay(2000);
 }
 
 void loop() {
@@ -8,13 +24,6 @@ void loop() {
     delay(10);
     char c = Serial.read();
     if(c == '#'){
-      /*
-      char msgBuf[length];
-      Serial.println("New Message");
-      Serial.readBytes(msgBuf, length);
-      Serial.print("V=");
-      Serial.println(msgBuf);
-      */
       int r = readValue();
       Serial.print("r=");
       Serial.println(r);
@@ -27,8 +36,23 @@ void loop() {
       int m = readValue();
       Serial.print("m=");
       Serial.println(m);
+      //runColorByMode(r,g,b,m);
     }
   }
+  /*
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(1000);
+  digitalWrite(LED_BUILTIN, LOW);
+  runColorByMode(255,0,0,0);
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(1000);
+  digitalWrite(LED_BUILTIN, LOW);
+  runColorByMode(0,0,255,0);
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(1000);
+  digitalWrite(LED_BUILTIN, LOW);
+  runColorByMode(0,255,0,0);
+  */
 }
 int readValue(){
   Serial.print("START_");
@@ -49,4 +73,13 @@ int readValue(){
   Serial.print(x4);
   Serial.println("_END");
   return x1 + x2 + x3 + x4;
+}
+
+void runColorByMode(int r, int g, int b, int mode){
+  for(int i = 0; i < NUM_LEDS; i++){
+    leds[i].red = r;
+    leds[i].green = g;
+    leds[i].blue = b;
+  }
+  FastLED.show();
 }
