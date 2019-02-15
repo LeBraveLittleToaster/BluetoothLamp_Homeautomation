@@ -5,8 +5,13 @@ import argparse
 import time
 import requests
 
-allowed_devices = ["98:D3:31:FC:79:0C"]
+allowed_devices = ["98:D3:31:F6:0D:FC"]
 port = 1
+
+r = 0
+g = 0
+b = 230
+m = 1
 
 def receiveMessages():
   server_sock=bluetooth.BluetoothSocket( bluetooth.RFCOMM )
@@ -24,9 +29,9 @@ def receiveMessages():
   client_sock.close()
   server_sock.close()
   
-def sendMessageTo(targetBluetoothMacAddress,r,g,b,m):
+def sendMessageTo(targetBluetoothMacAddress):
   print "Sending message "
-  msg = parseMsg(r,g,b,m)
+  msg = parseMsg()
   print msg
   port = 1
   sock=bluetooth.BluetoothSocket( bluetooth.RFCOMM )
@@ -42,12 +47,15 @@ def lookUpNearbyBluetoothDevices():
       print "Sending ->hello!!<-" + " [" + str(bdaddr) + "]"
       sendMessageTo(bdaddr)
 
-def sendToAllDevices(r,g,b,m):
+def sendToAllDevices():
   for address in allowed_devices:
     print str(bluetooth.lookup_name( address )) + " [" + str(address) + "]"
-    sendMessageTo(address, r,g,b,m)
+    try:
+      sendMessageTo(address)
+    except bluetooth.BluetoothError:
+      print ("Device down")
 
-def parseMsg(r,g,b,m):
+def parseMsg():
   l = 4
   x = "#" + fill(str(r), l) + fill(str(g), l) + fill(str(b), l) + fill(str(m), l)
   print x
@@ -73,18 +81,18 @@ def parseArgs():
   b = int(args.b)
   m = int(args.m)
 
-  run(r,g,b,m)
+  run()
 
 def collectData():
   r = requests.get('https://jsonplaceholder.typicode.com/todos/1')
   print r.json()
 
-def run(r,g,b,m):
+def run():
   while True:
     time.sleep(2)
     collectData()
-    sendToAllDevices(r,g,b,m);
+    sendToAllDevices();
 
-
+lookUpNearbyBluetoothDevices()
 parseArgs()
 
