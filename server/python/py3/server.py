@@ -20,14 +20,18 @@ class LEDConnection:
         text = "#" + "".join(map(chr, values))
         self.socket.send(text)
 
-con1 = LEDConnection(serverMACAddress)
-con1.connect()
+try:
+    con1 = LEDConnection(serverMACAddress)
+    con1.connect()
+    while 1:
+        time.sleep(5)
+        con1.sendValues(v0)
+        time.sleep(5)
+        con1.sendValues(v1)
+        time.sleep(5)
+        con1.sendValues(v2)
 
-while 1:
-    time.sleep(5)
-    con1.sendValues(v0)
-    time.sleep(5)
-    con1.sendValues(v1)
-    time.sleep(5)
-    con1.sendValues(v2)
+except bluetooth.btcommon.BluetoothError:
+    print "Host down"
+
 sock.close()
