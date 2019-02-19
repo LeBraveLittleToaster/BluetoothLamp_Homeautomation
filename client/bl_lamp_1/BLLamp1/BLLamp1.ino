@@ -15,7 +15,7 @@ CRGB leds[NUM_LEDS];
 void setup() {
   digitalWrite(LED_BUILTIN, LOW);
   Serial.begin(9600);
-  Serial.println("Hello world");
+  Serial.println("LED controller coming online...");
   //FastLED.addLeds<WS2812B, DATA_PIN, RGB>(leds, NUM_LEDS);
   delay(2000);
 }
@@ -25,23 +25,18 @@ void loop() {
     delay(10);
     char c = Serial.read();
     if(c == '#'){
-      int r = readValue();
-      Serial.print("r=");
+      int r = Serial.read();
+      int g = Serial.read();
+      int b = Serial.read();
+      int m = Serial.read();
+      Serial.println("+++++++++");
       Serial.println(r);
-      int g = readValue();
-      Serial.print("g=");
       Serial.println(g);
-      int b = readValue();
-      Serial.print("b=");
       Serial.println(b);
-      int m = readValue();
-      Serial.print("m=");
       Serial.println(m);
+      Serial.println("+++++++++");
+      delay(2000);
       //runColorByMode(r,g,b,m);
-    }
-    if(c == 'X'){
-      digitalWrite(LED_BUILTIN, HIGH);
-      Serial.write("quit");
     }
   }
   /*
