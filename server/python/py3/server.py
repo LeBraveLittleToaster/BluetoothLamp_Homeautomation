@@ -32,6 +32,6 @@ try:
         con1.sendValues(v2)
 
 except bluetooth.btcommon.BluetoothError:
-    print "Host down"
+    print ("Host down")
 
 sock.close()
