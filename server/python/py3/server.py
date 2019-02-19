@@ -9,7 +9,7 @@ serverMACAddress = '98:d3:31:fd:89:ca'
 port = 1
 
 def sendValues(values):
-    text = "#".join(map(chr, values))
+    text = "#" + "".join(map(chr, values))
     s.send(text)
 
 s = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
