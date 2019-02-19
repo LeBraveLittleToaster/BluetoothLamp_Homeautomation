@@ -19,6 +19,9 @@ class LEDConnection:
     def sendValues(self,values):
         text = "#" + "".join(map(chr, values))
         self.socket.send(text)
+    
+    def close(self):
+        self.socket.close()
 
 try:
     con1 = LEDConnection(serverMACAddress)
@@ -34,4 +37,4 @@ try:
 except bluetooth.btcommon.BluetoothError:
     print ("Host down")
 
-sock.close()
+con1.close()
