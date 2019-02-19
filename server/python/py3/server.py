@@ -16,7 +16,7 @@ class LEDConnection:
         s = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
         s.connect((self.macAddress, port))
 
-    def sendValues(values):
+    def sendValues(self,values):
         text = "#" + "".join(map(chr, values))
         s.send(text)
 
