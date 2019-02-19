@@ -13,6 +13,7 @@ CRGB leds[NUM_LEDS];
 
 
 void setup() {
+  digitalWrite(LED_BUILTIN, LOW);
   Serial.begin(9600);
   Serial.println("Hello world");
   //FastLED.addLeds<WS2812B, DATA_PIN, RGB>(leds, NUM_LEDS);
@@ -37,6 +38,10 @@ void loop() {
       Serial.print("m=");
       Serial.println(m);
       //runColorByMode(r,g,b,m);
+    }
+    if(c == 'X'){
+      digitalWrite(LED_BUILTIN, HIGH);
+      Serial.write("quit");
     }
   }
   /*
