@@ -25,9 +25,9 @@ void loop() {
     delay(10);
     char c = Serial.read();
     if(c == '#'){
-      int r = Serial.read();
-      int g = Serial.read();
-      int b = Serial.read();
+      int r = readColor();
+      int g = readColor();
+      int b = readColor();
       int m = Serial.read();
       Serial.println("+++++++++");
       Serial.println(r);
@@ -39,40 +39,10 @@ void loop() {
       //runColorByMode(r,g,b,m);
     }
   }
-  /*
-  digitalWrite(LED_BUILTIN, HIGH);
-  delay(1000);
-  digitalWrite(LED_BUILTIN, LOW);
-  runColorByMode(255,0,0,0);
-  digitalWrite(LED_BUILTIN, HIGH);
-  delay(1000);
-  digitalWrite(LED_BUILTIN, LOW);
-  runColorByMode(0,0,255,0);
-  digitalWrite(LED_BUILTIN, HIGH);
-  delay(1000);
-  digitalWrite(LED_BUILTIN, LOW);
-  runColorByMode(0,255,0,0);
-  */
 }
-int readValue(){
-  Serial.print("START_");
-  int x1 = (Serial.read() - 48) * 1000 ;
-  delay(1);
-  Serial.print(x1);
-  Serial.print("_");
-  int x2 = (Serial.read() - 48 ) * 100;
-  delay(1);
-  Serial.print(x2);
-  Serial.print("_");
-  int x3 = (Serial.read() - 48) * 10;
-  delay(1);
-  Serial.print(x3);
-  Serial.print("_");
-  int x4 = Serial.read() - 48;
-  delay(1);
-  Serial.print(x4);
-  Serial.println("_END");
-  return x1 + x2 + x3 + x4;
+
+int readColor(){
+  return Serial.read() * 2 % 255;
 }
 
 void runColorByMode(int r, int g, int b, int mode){
