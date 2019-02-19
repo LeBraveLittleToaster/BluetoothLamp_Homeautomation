@@ -1,9 +1,9 @@
 import bluetooth
 import time
 
-v0 = [0,255,0,0]
-v1 = [255,0,0,1]
-v2 = [0,0,255,2]
+v0 = [0,127,0,0]
+v1 = [127,0,0,1]
+v2 = [0,0,127,2]
 
 serverMACAddress = '98:d3:31:fd:89:ca'
 port = 1
