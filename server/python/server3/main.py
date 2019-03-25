@@ -9,10 +9,6 @@ app = Flask(__name__)
 Material(app)
 
 
-
-
-
-
 v0 = [0,127,0,0]
 v1 = [127,0,0,1]
 v2 = [0,0,127,2]
@@ -108,4 +104,4 @@ if __name__ == '__main__':
     print("+++Creating sockets++++++")
     startAndRunSockets()
     app.secret_key = 'raaaaandom'
-    app.run(host='0.0.0.0', debug = True)
+    app.run(host='0.0.0.0')
