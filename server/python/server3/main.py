@@ -50,17 +50,18 @@ class LEDConnection:
     # r/g/b/mode (0-127)
     def sendColorValueWithMode(self,values):
         print("Sending values")
-        if not self.isConnected:
-            self.close()
-            self.connect()
-        text = "#" + "".join(map(chr, values))
-        try:
-            self.socket.send(text)
-            print("Sended data")
-        except bluetooth.btcommon.BluetoothError as e:
-            print("Send data failed")
-            print(e)
-            self.isConnected = False
+        #if not self.isConnected:
+        #    self.close()
+        #    self.connect()
+        if self.isConnected:
+            text = "#" + "".join(map(chr, values))
+            try:
+                self.socket.send(text)
+                print("Sended data")
+            except bluetooth.btcommon.BluetoothError as e:
+                print("Send data failed")
+                print(e)
+                self.isConnected = False
             
         
 def startAndRunSockets():
