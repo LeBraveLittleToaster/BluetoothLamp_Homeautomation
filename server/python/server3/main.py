@@ -72,7 +72,9 @@ def startAndRunSockets():
 def sendRegalData(dict):
     print("Sending data")
     for socket in bluetoothSockets:
-        h = int( int(dict['regalC']) / 2 )
+        h_full_range = int(dict['regalC'])
+        h_full_range *= (360/256)
+        h = int(h_full_range / 2)
         s = int(255/2)
         v = int(255/2)
         m = int(dict['regalM'])
