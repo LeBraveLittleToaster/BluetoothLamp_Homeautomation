@@ -42,10 +42,11 @@ class LEDConnection:
         try:
             self.socket.connect((self.macAddress, port))
             print("Connected to " + self.macAddress)
+            self.isConnected = True
         except bluetooth.btcommon.BluetoothError as e:
             print("Failed to connect to " + self.macAddress)
             print(e)
-            self.isConnected = True
+            self.isConnected = False
 
     # r/g/b/mode (0-127)
     def sendColorValueWithMode(self,values):
