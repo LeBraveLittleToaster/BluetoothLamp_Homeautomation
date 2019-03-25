@@ -24,6 +24,7 @@ def readConfigFile():
     with open("led_strip_config.json") as f:
         json_data = json.load(f)
         for strip in json_data["strips"]:
+            print("Adding strip " + strip["max_address"])
             bluetoothSockets.append(LEDConnection(strip["mac_address"], strip["id"]))
 
 
@@ -32,6 +33,7 @@ class LEDConnection:
         self.macAddress = macAddress
         self.id = id
         self.isConnected = False
+        print("Created strip " + self.macAddress)
 
     def close(self):
         try:
@@ -52,6 +54,7 @@ class LEDConnection:
 
     # r/g/b/mode (0-127)
     def sendColorValueWithMode(self,values):
+        print("Sending values")
         #if not self.isConnected:
         #    self.close()
         #    self.connect()
@@ -67,6 +70,7 @@ class LEDConnection:
         
 def startAndRunSockets():
     for socket in bluetoothSockets:
+        print("Preparing sockets...")
         socket.connect()
 
 def sendRegalData(dict):
@@ -99,7 +103,9 @@ def move_forward():
     return redirect('/colors')
 
 if __name__ == '__main__':
+    print("+++Reading config file+++")
     readConfigFile()
+    print("+++Creating sockets++++++")
     startAndRunSockets()
     app.secret_key = 'raaaaandom'
     app.run(host='0.0.0.0', debug = True)
