@@ -50,9 +50,9 @@ class LEDConnection:
     # r/g/b/mode (0-127)
     def sendColorValueWithMode(self,values):
         print("Sending values")
-        #if not self.isConnected:
-        #    self.close()
-        #    self.connect()
+        if not self.isConnected:
+            self.close()
+            self.connect()
         text = "#" + "".join(map(chr, values))
         try:
             self.socket.send(text)
@@ -71,7 +71,7 @@ def sendRegalData(dict):
     print("Sending data")
     for socket in bluetoothSockets:
         h_full_range = int(dict['regalC'])
-        h_full_range *= (360/256)
+        h_full_range *= (256/360)
         h = int(h_full_range / 2)
         s = int(255/2)
         v = int(255/2)
