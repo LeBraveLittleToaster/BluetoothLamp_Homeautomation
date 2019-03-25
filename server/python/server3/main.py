@@ -24,7 +24,7 @@ def readConfigFile():
     with open("led_strip_config.json") as f:
         json_data = json.load(f)
         for strip in json_data["strips"]:
-            print("Adding strip " + strip["max_address"])
+            print("Adding strip " + strip["mac_address"])
             bluetoothSockets.append(LEDConnection(strip["mac_address"], strip["id"]))
 
 
