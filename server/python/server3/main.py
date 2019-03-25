@@ -71,8 +71,7 @@ def sendRegalData(dict):
     print("Sending data")
     for socket in bluetoothSockets:
         h_full_range = int(dict['regalC'])
-        h_full_range *= (256/360)
-        h = int(h_full_range / 2)
+        h = int((h_full_range * (256/360)) / 2)
         s = int(255/2)
         v = int(255/2)
         m = int(dict['regalM'])
@@ -111,4 +110,5 @@ if __name__ == '__main__':
     print("+++Creating sockets++++++")
     startAndRunSockets()
     app.secret_key = 'raaaaandom'
+    app.jinja_env.cache = {}
     app.run(host='0.0.0.0')
