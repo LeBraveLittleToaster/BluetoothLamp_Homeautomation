@@ -40,6 +40,7 @@ class LEDConnection:
             print ("Error closing socket...")
 
     def connect(self):
+        print("Trying to connect to " + self.macAddress)
         self.socket = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
         try:
             self.socket.connect((self.macAddress, port))
