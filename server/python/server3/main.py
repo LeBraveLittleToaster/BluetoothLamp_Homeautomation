@@ -54,7 +54,9 @@ class LEDConnection:
         text = "#" + "".join(map(chr, values))
         try:
             self.socket.send(text)
+            print("Sended data")
         except bluetooth.btcommon.BluetoothError:
+            print("Send data failed")
             self.isConnected = False
             
         
@@ -63,6 +65,7 @@ def startAndRunSockets():
         socket.connect()
 
 def sendRegalData(dict):
+    print("Sending data")
     for socket in bluetoothSockets:
         socket.sendColorValueWithMode(v0)
     pass
