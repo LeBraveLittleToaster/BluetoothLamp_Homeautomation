@@ -43,6 +43,7 @@ class LEDConnection:
         self.socket = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
         try:
             self.socket.connect((self.macAddress, port))
+            print("Connected to " + self.macAddress)
         except bluetooth.btcommon.BluetoothError as e:
             print("Failed to connect to " + self.macAddress)
             print(e)
