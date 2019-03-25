@@ -49,9 +49,9 @@ class LEDConnection:
 
     # r/g/b/mode (0-127)
     def sendColorValueWithMode(self,values):
-        #if not self.isConnected:
-        #    self.close()
-        #    self.connect()
+        if not self.isConnected:
+            self.close()
+            self.connect()
         if self.isConnected:
             text = "#" + "".join(map(chr, values))
             try:
