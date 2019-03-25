@@ -29,7 +29,6 @@ class LEDConnection:
         self.macAddress = macAddress
         self.id = id
         self.isConnected = False
-        print("Created strip " + self.macAddress)
 
     def close(self):
         try:
@@ -66,7 +65,6 @@ class LEDConnection:
         
 def startAndRunSockets():
     for socket in bluetoothSockets:
-        print("Preparing sockets...")
         socket.connect()
 
 def sendRegalData(dict):
