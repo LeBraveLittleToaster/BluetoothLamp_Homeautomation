@@ -72,8 +72,11 @@ def startAndRunSockets():
 def sendRegalData(dict):
     print("Sending data")
     for socket in bluetoothSockets:
-        c = int( int(dict['regalC']) / 2 )
-        v = [c, 255,255, int(dict['regalM'])]
+        h = int( int(dict['regalC']) / 2 )
+        s = int(255/2)
+        v = int(255/2)
+        m = int(dict['regalM'])
+        v = [h,s,v,m]
         print(v)
         socket.sendColorValueWithMode(v)
     pass
@@ -84,7 +87,6 @@ def default_colors():
         "regalC" : "50",
         "regalM" : "2"
     }
-    
     try:
         dict = session['regalValues']
     except:
