@@ -73,7 +73,7 @@ def sendRegalData(dict):
     print("Sending data")
     for socket in bluetoothSockets:
         c = int( int(dict['regalC']) / 2 )
-        v = [c, 255,255, dict['regalM']]
+        v = [c, 255,255, int(dict['regalM'])]
         print(v)
         socket.sendColorValueWithMode(v)
     pass
