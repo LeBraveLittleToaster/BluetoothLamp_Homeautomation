@@ -1,0 +1,99 @@
+{% extends "material/base.html" %}
+{% block content %}
+<nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo center">LED CONTROLLER</a>
+    </div>
+  </nav>
+
+<form action="/forward/" method="post">  
+  <div class="row" style="padding-top: 20px">
+    <div class="col s12 m4">
+      <div class="card blue-grey darken-1">
+        <div class="card-content white-text">
+            <span class="card-title">Regal</span>
+            <div>
+              <label>Mode</label>
+              <select class="browser-default input-field" style="color:#000000" name = "modeslc" id="modeslc">
+                <option value="0">Option 0</option>
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+                <option value="4">Option 4</option>
+              </select>
+          </div>
+        </div>
+        <div style='padding: 20px'>
+          <label>Color</label>
+          <div id ="output" style="margin-top: 10px; background-color: red; height: 50px;"></div>
+          <div>
+            <p class="range-field">
+              <input type="range" name ="input" id="input" min="0" max="359" />
+            </p>
+          </div>
+        </div>
+        <div class="card-action">
+          <button class="btn waves-effect waves-light" type="submit" name="forwardBtn">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+  var v = JSON.parse('{{data | tojson | safe}}');
+  console.log(v);
+  document.getElementById('input').value = v.regalC;
+  document.getElementById('modeslc').selectedIndex = v.regalM;
+</script>
+
+<script type="text/javascript">
+    let i = document.getElementById('input'),
+        o = document.getElementById('output');
+    
+    var c1 = HSVtoRGB(i.value/ 360, 1,1);
+    o.style.backgroundColor = "rgb(" + c1.r + "," + c1.g + ","+ c1.b + ")";
+
+    // use 'change' instead to see the difference in response
+    i.addEventListener('input', function () {
+        var c = HSVtoRGB(i.value/ 360, 1,1);
+        console.log(Math.floor(i.value));
+        console.log(c);
+        o.style.backgroundColor = "rgb(" + c.r + "," + c.g + ","+ c.b + ")";
+    }, false);
+
+/* accepts parameters
+ * h  Object = {h:x, s:y, v:z}
+ * OR 
+ * h, s, v
+*/
+function HSVtoRGB(h, s, v) {
+    var r, g, b, i, f, p, q, t;
+    if (arguments.length === 1) {
+        s = h.s, v = h.v, h = h.h;
+    }
+    i = Math.floor(h * 6);
+    f = h * 6 - i;
+    p = v * (1 - s);
+    q = v * (1 - f * s);
+    t = v * (1 - (1 - f) * s);
+    switch (i % 6) {
+        case 0: r = v, g = t, b = p; break;
+        case 1: r = q, g = v, b = p; break;
+        case 2: r = p, g = v, b = t; break;
+        case 3: r = p, g = q, b = v; break;
+        case 4: r = t, g = p, b = v; break;
+        case 5: r = v, g = p, b = q; break;
+    }
+    return {
+        r: Math.round(r * 255),
+        g: Math.round(g * 255),
+        b: Math.round(b * 255)
+    };
+}
+</script>
+
+{% endblock %}
