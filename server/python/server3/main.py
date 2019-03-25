@@ -72,7 +72,10 @@ def startAndRunSockets():
 def sendRegalData(dict):
     print("Sending data")
     for socket in bluetoothSockets:
-        socket.sendColorValueWithMode(v0)
+        c = int( int(dict['regalC']) / 2 )
+        v = [c, 255,255, dict['regalM']]
+        print(v)
+        socket.sendColorValueWithMode(v)
     pass
 
 @app.route('/colors')
@@ -86,6 +89,7 @@ def default_colors():
         dict = session['regalValues']
     except:
         print('session missing')
+    print("Rendering template now...")
     return render_template('colorchooser.html', data = dict)
 
 @app.route("/regal/", methods=['POST'])
@@ -96,6 +100,7 @@ def move_forward():
     dict['regalM'] = request.form.get('modeslc')
     session['regalValues'] = dict
     sendRegalData(dict)
+    print("Redirecting now...")
     return redirect('/colors')
 
 if __name__ == '__main__':
