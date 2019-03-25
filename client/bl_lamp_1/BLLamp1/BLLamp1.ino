@@ -25,14 +25,14 @@ void loop() {
     delay(10);
     char c = Serial.read();
     if(c == '#'){
-      int r = readColor();
-      int g = readColor();
-      int b = readColor();
+      int h = readColor();
+      int s = readColor();
+      int v = readColor();
       int m = Serial.read();
       Serial.println("+++++++++");
-      Serial.println(r);
-      Serial.println(g);
-      Serial.println(b);
+      Serial.println(h);
+      Serial.println(s);
+      Serial.println(v);
       Serial.println(m);
       Serial.println("+++++++++");
       delay(2000);

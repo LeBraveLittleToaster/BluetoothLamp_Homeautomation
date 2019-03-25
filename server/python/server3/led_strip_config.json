@@ -1,0 +1,11 @@
+{
+    "strips" : [
+        {
+            "id" : 0,
+            "mac_address" : "98:d3:31:fd:89:ca"
+        },{
+            "id" : 1,
+            "mac_address" : "aa:aa:aa:aa:aa:aa"
+        }
+    ]
+}
