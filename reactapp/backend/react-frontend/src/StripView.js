@@ -1,26 +1,43 @@
 import React, { Component } from 'react';
+import Select from 'react-select';
+import './StripView.css';
 import './App.css';
 
+const options = [
+    {value: 0, label: "Off"},
+    {value: 1, label: "Mode1"},
+    {value: 2, label: "Mode2"}
+]
 
 class StripView extends Component {
 
-  constructor(props){
-    super(props)
-    this.state = props.strip
-  }
+    constructor(props) {
+        super(props)
+        this.state = {
+            selectedOption: props.strip.mode.mode_id,
+            strip: props.strip
+        }
+    }
 
-  componentDidMount(){
-   this.setState = {"strips":[{"id":0,"mode":{"mode_color_b":255,"mode_color_g":0,"mode_color_r":0,"mode_id":1},"name":"Right Shelf"},{"id":1,"mode":{"mode_color_b":255,"mode_color_g":0,"mode_color_r":0,"mode_id":2,"mode_speed":0.5},"name":"Left Shelf"}]}
-  }
+    handleChange = selectedOption => {
+        this.setState({selectedOption: selectedOption, strip: this.state.strip})
+        console.log('Option selected:' , selectedOption)
+    }
 
-  render() {
-      var id = this.state.id
-    return (
-        <div >
-            <h1>MyId={id}</h1>
-        </div>
-    );
-  }
+    render() {
+        const { selectedOption } = this.state.selectedOption
+        return (
+            <div className="bgCard">
+                <h1 className="headers">{this.state.strip.name}</h1>
+                <Select className="select-border"
+                    value={selectedOption}
+                    onChange={this.handleChange}
+                    options={options}
+                    placeholder={"Choose Mode"}
+                />
+            </div>
+        )
+    }
 }
 
 export default StripView;
