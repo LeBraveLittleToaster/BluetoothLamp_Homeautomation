@@ -8,9 +8,13 @@ class ModeTurnOff extends Component{
 
     }
 
+    componentDidMount(){
+        this.props.callback({"mode_id" : 0})
+    }
+
     componentDidUpdate(){
-        this.props.callback({"mode" : "mode0"})
-    }    
+        this.props.callback({"mode_id" : 0})
+    }
 
     render(){
         return (

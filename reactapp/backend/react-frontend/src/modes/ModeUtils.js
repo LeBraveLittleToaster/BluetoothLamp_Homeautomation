@@ -28,4 +28,13 @@ function HSVtoRGB(h, s, v) {
     };
 }
 
-module.exports=HSVtoRGB;
+function ifPresent(value, defaultValue){
+    return (value !== undefined 
+        && value !== null
+        && value !== NaN) ? value : defaultValue;
+}
+
+module.exports={
+    HSVtoRGB,
+    ifPresent
+};

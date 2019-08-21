@@ -5,11 +5,19 @@ import './App.css';
 import ModeTurnedOff from './modes/ModeTurnedOff'
 import ModeSolidColor from './modes/ModeSolidColor'
 import ModeSingleColorWave from './modes/ModeSingleColorWave'
+import ModeMultiColorWave from './modes/ModeMultiColorWave'
+import ModeSingleColorFlicker from './modes/ModeSingleColorFlicker'
+import ModeMultiColorFlicker from './modes/ModeMultiColorFlicker'
+import ModeSingleColorPulse from './modes/ModeSingleColorPulse'
 
 const options = [
-    {value: 0, label: "Off"},
-    {value: 1, label: "Mode1"},
-    {value: 2, label: "Mode2"}
+    { value: 0, label: "Off" },
+    { value: 1, label: "Solid Color" },
+    { value: 2, label: "Single Colorramp" },
+    { value: 3, label: "Rainbow Colorramp" },
+    { value: 4, label: "Single Flicker" },
+    { value: 5, label: "Rainbow Flicker" },
+    { value: 6, label: "Single Colorpulse" },
 ]
 
 
@@ -19,39 +27,49 @@ class StripView extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            selectedOption: this.props.strip.mode.mode_id,
+            selectedOption: options[this.props.strip.mode.mode_id],
             strip: this.props.strip
         }
     }
 
-    componentDidUpdate(){
-        this.props.callback(this.props.key, this.state.strip);
+    componentDidUpdate() {
+        this.props.callback(this.props.id, this.state.strip);
     }
 
-    getModeData(mode){
-        this.state.strip.mode = mode
+    getModeData(mode) {
+        this.state.strip.mode = mode;
+        this.props.callback(this.props.id, this.state.strip)
     }
 
-    getModeOptionsDiv(){
-        switch(this.state.selectedOption.value){
+    getModeOptionsDiv() {
+        switch (this.state.selectedOption.value) {
             case 0:
-                return (<ModeTurnedOff callback={this.getModeData.bind(this)}/>);
+                return (<ModeTurnedOff strip={this.state.strip} callback={this.getModeData.bind(this)} />);
             case 1:
-                return (<ModeSolidColor callback={this.getModeData.bind(this)}/>);
+                return (<ModeSolidColor strip={this.state.strip} callback={this.getModeData.bind(this)} />);
             case 2:
-                return (<ModeSingleColorWave callback={this.getModeData.bind(this)}/>);
-                default:
-                    return (<div><h1>Choose mode or Error</h1></div>)
+                return (<ModeSingleColorWave strip={this.state.strip} callback={this.getModeData.bind(this)} />);
+            case 3:
+                return (<ModeMultiColorWave strip={this.state.strip} callback={this.getModeData.bind(this)} />);
+            case 4:
+                return (<ModeSingleColorFlicker strip={this.state.strip}callback={this.getModeData.bind(this)} />);
+            case 5:
+                return (<ModeMultiColorFlicker strip={this.state.strip}callback={this.getModeData.bind(this)} />);
+            case 6:
+                return (<ModeSingleColorPulse strip={this.state.strip}callback={this.getModeData.bind(this)} />);
+            default:
+                return (<div><h1>Choose mode or Error</h1></div>)
         }
     }
 
     handleChange = selectedOption => {
-        this.setState({selectedOption: selectedOption, strip: this.state.strip})
-        console.log('Option selected:' , selectedOption)
+        this.setState({ selectedOption: selectedOption, strip: this.state.strip })
+        console.log('Option selected:', selectedOption)
     }
 
     componentDidUpdate() {
-        this.props.callback(this.props.id, )
+        console.log(JSON.stringify(this.state))
+        this.props.callback(this.props.id, this.state.strip)
     }
 
     render() {
@@ -63,9 +81,9 @@ class StripView extends Component {
                     value={selectedOption}
                     onChange={this.handleChange}
                     options={options}
-                    placeholder={"Choose Mode"}
+                    placeholder={this.state.selectedOption.label}
                 />
-            {this.getModeOptionsDiv()}
+                {this.getModeOptionsDiv()}
             </div>
         )
     }

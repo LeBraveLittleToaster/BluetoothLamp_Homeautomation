@@ -10,21 +10,7 @@ testStripsConfig = {
                 "name": "Right Shelf",
                 "id": 0,
                 "mode": {
-                    "mode_id": 1,
-                    "mode_color_r": 0,
-                    "mode_color_g": 0,
-                    "mode_color_b": 255
-                }
-            },
-            {
-                "name": "Left Shelf",
-                "id": 1,
-                "mode": {
-                    "mode_id": 2,
-                    "mode_color_r": 0,
-                    "mode_color_g": 0,
-                    "mode_color_b": 255,
-                    "mode_speed": 0.5
+                    "mode_id": 0
                 }
             }
         ]
@@ -43,9 +29,9 @@ def get_all_strips():
     return stripManager.get_all_strips()
 
 
-@app.route("/strip/set/mode/<strip_id>")
-def set_strip_mode(strip_id):
-    if stripManager.set_mode(strip_id, json.load(request.data)):
+@app.route("/strips/set", methods=['POST'])
+def set_strip_mode():
+    if stripManager.merge_strips(request.get_json()):
         return {"success": True}
     else:
         return {"success": False}

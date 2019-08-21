@@ -4,12 +4,13 @@ import Slider from 'react-input-slider';
 import {HSVtoRGB, ifPresent} from "./ModeUtils";
 var mathClamp = require('math-clamp');
 
-class ModeSingleColorWave extends Component{
+
+class ModeSingleColorPulse extends Component{
     constructor(props) {
         super(props)
         this.state = {
-            hue: mathClamp(Math.floor(ifPresent(props.strip.mode.mode_color_h, 0)* 0.4), 0, 100),
-            speed: mathClamp(Math.floor(ifPresent(props.strip.mode.speed, 0)* 0.4), 0 , 100),
+            mode_color_h: mathClamp(Math.floor(ifPresent(props.strip.mode.mode_color_h, 0)* 0.4), 0, 100),
+            pulse_speed: mathClamp(Math.floor(ifPresent(props.strip.mode.pulse_speed, 0)* 0.4), 0, 100),
         }
     }
 
@@ -23,16 +24,16 @@ class ModeSingleColorWave extends Component{
 
     getUpdateCall(){
         return {
-            "mode_id" : 2,
-            "mode_color_h" : mathClamp(Math.floor(this.state.hue * 2.5), 0 , 255),
+            "mode_id" : 6,
+            "mode_color_h" : mathClamp(Math.floor(this.state.mode_color_h * 2.5), 0 , 255),
             "mode_color_s": 255,
             "mode_color_v": 255,
-            "speed": mathClamp(Math.floor(this.state.speed * 2.5), 0 , 255),
+            "pulse_speed": mathClamp(Math.floor(this.state.pulse_speed * 2.5), 0 , 255)
         }
     }
 
     render(){
-        let cFieldColor = HSVtoRGB((this.state.hue / 100.0), 1 , 1);
+        let cFieldColor = HSVtoRGB((this.state.mode_color_h / 100.0), 1 , 1);
         let colorStr = "rgb(" + cFieldColor.r + "," + cFieldColor.g + ","+ cFieldColor.b + ")";
         return (
             
@@ -42,20 +43,21 @@ class ModeSingleColorWave extends Component{
                 <Slider 
                     styles={{thumb: {width: 25, height: 25}, track: {width: "90%"}}}
                     axis="x"
-                    x={this.state.hue}
-                    onChange={(value) => {this.setState({hue: value.x})}}
+                    x={this.state.mode_color_h}
+                    onChange={(value) => {this.setState({mode_color_h: value.x})}}
                 />
-                <h2 className="speedHeader">SPEED</h2>
-                <p className="valueNumberDisplay">{this.state.speed}</p>
+
+                <h2 className="speedHeader">PULSE SPEED</h2>
+                <p className="valueNumberDisplay">{this.state.pulse_speed}</p>
                 <Slider 
                     styles={{thumb: {width: 25, height: 25}, track: {width: "90%"}}}
                     axis="x"
-                    x={this.state.speed}
-                    onChange={(value) => {this.setState({speed: value.x})}}
+                    x={this.state.pulse_speed}
+                    onChange={(value) => {this.setState({pulse_speed: value.x})}}
                 />
             </div>
         )
     }
 }
 
-export default ModeSingleColorWave;
+export default ModeSingleColorPulse;
