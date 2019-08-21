@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import Select from 'react-select';
 import './StripView.css';
 import './App.css';
+import StripViewTemplates from './StripViewTemplates'
+
+var templates = new StripViewTemplates()
 
 const options = [
     {value: 0, label: "Off"},
@@ -16,6 +19,19 @@ class StripView extends Component {
         this.state = {
             selectedOption: props.strip.mode.mode_id,
             strip: props.strip
+        }
+    }
+
+    getModeOptionsDiv(){
+        switch(this.state.selectedOption.value){
+            case 0:
+                return templates.turnOffDiv;
+            case 1:
+                return templates.mode1Div;
+            case 2:
+                return templates.mode2Div;
+                default:
+                    return (<div><h1>Choose mode or Error</h1></div>)
         }
     }
 
@@ -35,6 +51,7 @@ class StripView extends Component {
                     options={options}
                     placeholder={"Choose Mode"}
                 />
+            {this.getModeOptionsDiv()}
             </div>
         )
     }
