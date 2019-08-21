@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import Select from 'react-select';
 import './StripView.css';
 import './App.css';
+import ModeTurnedOff from './modes/ModeTurnedOff'
+import ModeSolidColor from './modes/ModeSolidColor'
+import ModeSingleColorWave from './modes/ModeSingleColorWave'
 
 const options = [
     {value: 0, label: "Off"},
@@ -16,19 +19,27 @@ class StripView extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            selectedOption: props.strip.mode.mode_id,
-            strip: props.strip
+            selectedOption: this.props.strip.mode.mode_id,
+            strip: this.props.strip
         }
+    }
+
+    componentDidUpdate(){
+        this.props.callback(this.props.key, this.state.strip);
+    }
+
+    getModeData(mode){
+        this.state.strip.mode = mode
     }
 
     getModeOptionsDiv(){
         switch(this.state.selectedOption.value){
             case 0:
-                return (<div/>);
+                return (<ModeTurnedOff callback={this.getModeData.bind(this)}/>);
             case 1:
-                return (<div/>);
+                return (<ModeSolidColor callback={this.getModeData.bind(this)}/>);
             case 2:
-                return (<div/>);
+                return (<ModeSingleColorWave callback={this.getModeData.bind(this)}/>);
                 default:
                     return (<div><h1>Choose mode or Error</h1></div>)
         }
@@ -37,6 +48,10 @@ class StripView extends Component {
     handleChange = selectedOption => {
         this.setState({selectedOption: selectedOption, strip: this.state.strip})
         console.log('Option selected:' , selectedOption)
+    }
+
+    componentDidUpdate() {
+        this.props.callback(this.props.id, )
     }
 
     render() {

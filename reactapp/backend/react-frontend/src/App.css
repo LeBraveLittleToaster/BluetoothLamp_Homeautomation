@@ -1,7 +1,6 @@
 .paper{
   padding: 0;
   text-align: center;
-  color: #ff0000;
 }
 
 .windowFrame {
@@ -16,8 +15,14 @@
   color: #D9CCB8;
 }
 
+.gridContainer {
+  margin-left: 50px;
+  margin-right: 300px;
+}
+
 .lowerFrame {
   margin-top: 200px;
+  margin-bottom: 300px;
 }
 
 .float{

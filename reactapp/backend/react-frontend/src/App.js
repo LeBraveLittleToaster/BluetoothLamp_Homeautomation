@@ -26,6 +26,10 @@ class App extends Component {
     console.log("LOL")
   }
 
+  updateData(index, strip){
+    console.log("Index: " + index + " | Strip: " + JSON.stringify(strip))
+  }
+
   render() {
     return (
       <div className="windowFrame">
@@ -33,23 +37,19 @@ class App extends Component {
         <a className="float" onClick={this.onUpdateClicked.bind(this)}>
           <i className="fa fa-plus my-float">Update</i>
         </a>
-        <Grid container spacing={3}>
-          <Grid item className="leftContainer" xs={6}>
-            <div>
-            <Grid container spacing={3}>
-              <Grid item xs={6}>A</Grid>
-              <Grid item xs={6}>B</Grid>
-              <Grid item xs={6}>C</Grid>
-              <Grid item xs={6}>D</Grid>
-            </Grid>
-            </div>
+        <div className="gridContainer">
+          <Grid container spacing={3}>
+            {this.state.strips.map(e => 
+              {return (
+                <Grid key={e.id} item xs={6}> 
+                  <Paper key={e.id} className='paper'>
+                    <StripView id={e.id} key={e.id} strip={e} callback={this.updateData.bind(this)} />
+                  </Paper>
+                </Grid>
+              )}
+            )}
           </Grid>
-          <Grid item className="rightContainer" xs={6}>
-            <Grid container spacing={3}>
-              {this.state.strips.map((object, i) => <Grid item xs={8}> <Paper className='paper'><StripView strip={object} key={i} /> </Paper> </Grid>)}
-            </Grid>
-          </Grid>
-        </Grid>
+        </div>
         <div className="lowerFrame">
           <h2 className="subInfo">Create by Pascal Schiessle</h2>
           <h2 className="subInfo">Powered by React.js</h2>
