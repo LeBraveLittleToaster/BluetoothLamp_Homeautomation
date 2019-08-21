@@ -12,4 +12,13 @@
 
 .select-border{
     padding-bottom: 20px;
+    margin-right: 20px;
+}
+
+.updateBtn{
+    margin: 20px;
+    padding-bottom: 20px;
+    width: 33,3%;
+    margin-left: 50px;
+    float: right;
 }
