@@ -22,32 +22,39 @@ class App extends Component {
     //this.setState = 
   }
 
+  onUpdateClicked() {
+    console.log("LOL")
+  }
+
   render() {
     return (
       <div className="windowFrame">
         <h1 className="headline">LED CONTROL CENTER</h1>
-
-        
-        <div className="splitLeftContainer">
-
-        </div>
-        <div className="splitRightContainer">
-          <Grid container spacing={3}>
-            {this.state.strips.map((object, i) => <Grid item xs={12}> <Paper className='paper'><StripView strip={object} key={i} /> </Paper> </Grid>)}
+        <a className="float" onClick={this.onUpdateClicked.bind(this)}>
+          <i className="fa fa-plus my-float">Update</i>
+        </a>
+        <Grid container spacing={3}>
+          <Grid item className="leftContainer" xs={6}>
+            <div>
+            <Grid container spacing={3}>
+              <Grid item xs={6}>A</Grid>
+              <Grid item xs={6}>B</Grid>
+              <Grid item xs={6}>C</Grid>
+              <Grid item xs={6}>D</Grid>
+            </Grid>
+            </div>
           </Grid>
+          <Grid item className="rightContainer" xs={6}>
+            <Grid container spacing={3}>
+              {this.state.strips.map((object, i) => <Grid item xs={8}> <Paper className='paper'><StripView strip={object} key={i} /> </Paper> </Grid>)}
+            </Grid>
+          </Grid>
+        </Grid>
+        <div className="lowerFrame">
+          <h2 className="subInfo">Create by Pascal Schiessle</h2>
+          <h2 className="subInfo">Powered by React.js</h2>
         </div>
       </div>
-      /*
-      <div className="windowFrame">
-        <div className="grid-container">
-          <Grid container spacing={3}>
-            {this.state.strips.map((object, i) => <Grid item xs={12}> <Paper className='paper'><StripView strip={object} key={i} /> </Paper> </Grid>)}
-          </Grid>
-        </div>
-        <h1 className="headline">LED CONTROL CENTER</h1>
-        <h2 className="header-second">Created with React.js by Pascal Schiessle</h2>
-      </div>
-      */
     );
   }
 }
