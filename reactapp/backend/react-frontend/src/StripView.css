@@ -1,0 +1,25 @@
+.headers {
+    padding-top: 30px;
+    font-size: 50px;
+    color: #435966
+}
+
+.bgCard {
+    background-color: #D9CCB9;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 50px;
+}
+
+.select-border{
+    padding-bottom: 40px;
+    margin-right: 20px;
+}
+
+.updateBtn{
+    margin: 20px;
+    padding-bottom: 20px;
+    width: 33,3%;
+    margin-left: 50px;
+    float: right;
+}

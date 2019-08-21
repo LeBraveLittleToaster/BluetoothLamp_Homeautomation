@@ -1,34 +1,58 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-.root{
-  flex-grow: 1;
-}
-
 .paper{
-  padding: 10;
+  padding: 0;
   text-align: center;
-  color: #ff0000;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.windowFrame {
+  background-color: #282828;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.subInfo {
+  text-align: center;
+  color: #D9CCB8;
+}
+
+.gridContainer {
+  margin-left: 50px;
+  margin-right: 300px;
+}
+
+.lowerFrame {
+  margin-top: 200px;
+  margin-bottom: 300px;
+}
+
+.float{
+	position:fixed;
+	width:180px;
+	height:70px;
+	bottom:40px;
+	right:40px;
+	background-color:#0C9;
+	color:#FFF;
+	border-radius:5px;
+  text-align:center;
+  font-size: 50px;
+	box-shadow: 2px 2px 3px #999;
+}
+
+.my-float{
+	margin-top:22px;
+}
+
+.headline {
+  font-size: 75px;
+  margin-bottom: 200px; 
+  text-align: center;
+  color: #F5F2EB;
+}
+
+.header-second {
+  text-align: center;
+  margin-top: 150px;
+  margin-bottom: 300px;
+  color: #F5F2EB;
 }
