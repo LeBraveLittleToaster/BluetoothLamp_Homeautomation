@@ -12,7 +12,3 @@ class LedStripManager:
 
     def get_all_strips(self):
         return self.strips
-
-    def set_mode(self, mode):
-        print("Tbd")
-
