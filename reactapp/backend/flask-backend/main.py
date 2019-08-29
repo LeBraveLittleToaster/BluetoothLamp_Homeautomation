@@ -1,7 +1,11 @@
-import flask, json;
-from flask import jsonify;
+import flask, json
+import time
+from flask import jsonify
+import bluetooth
 from flask import request
 from strips.strips_util import LedStripManager
+
+from strips.modes import *
 
 app = flask.Flask("__main__")
 
@@ -11,22 +15,12 @@ testStripsConfig = {
                 "name": "Right Shelf",
                 "id": 0,
                 "mode": {
-                    "mode_id": 0
-                }
-            },
-            {
-                "name": "Couch",
-                "id": 0,
-                "mode": {
-                    "mode_id": 0
-                }
-            },
-            {
-                "name": "Left Shelf",
-                "id": 0,
-                "mode": {
-                    "mode_id": 0
-                }
+                    "mode_id": 1,
+                    "hue" : 10,
+                    "saturation" : 35,
+                    "value" : 255
+                },
+                "mac_address" : "98:D3:31:F6:0E:28"
             }
         ]
     }
@@ -47,10 +41,14 @@ def get_all_strips():
 @app.route("/strips/set", methods=['POST'])
 def set_strip_mode():
     if stripManager.merge_strips(request.get_json()):
+        stripManager.sendNetworkMsg()
         return jsonify({"success": True})
     else:
         return jsonify({"success": False})
 
 
-app.run(debug=True)
+#app.run(debug=True)
 
+stripManager.sendNetworkMsg()
+print("Sleeping 5sec")
+time.sleep(10)
