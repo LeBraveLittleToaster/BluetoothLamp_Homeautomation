@@ -1,4 +1,5 @@
-import flask, json
+import flask, json;
+from flask import jsonify;
 from flask import request
 from strips.strips_util import LedStripManager
 
@@ -8,6 +9,20 @@ testStripsConfig = {
         "strips": [
             {
                 "name": "Right Shelf",
+                "id": 0,
+                "mode": {
+                    "mode_id": 0
+                }
+            },
+            {
+                "name": "Couch",
+                "id": 0,
+                "mode": {
+                    "mode_id": 0
+                }
+            },
+            {
+                "name": "Left Shelf",
                 "id": 0,
                 "mode": {
                     "mode_id": 0
@@ -26,15 +41,15 @@ def my_index():
 
 @app.route("/strips/")
 def get_all_strips():
-    return stripManager.get_all_strips()
+    return jsonify(stripManager.get_all_strips())
 
 
 @app.route("/strips/set", methods=['POST'])
 def set_strip_mode():
     if stripManager.merge_strips(request.get_json()):
-        return {"success": True}
+        return jsonify({"success": True})
     else:
-        return {"success": False}
+        return jsonify({"success": False})
 
 
 app.run(debug=True)
