@@ -66,12 +66,19 @@ class LEDStripSocket:
 
     def connect(self):
         self.s = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
-        self.s.connect((self.serverMACAddress, self.port))
+        try:
+            self.s.connect((self.serverMACAddress, self.port))
+            return True
+        except:
+            return False
 
     def sendMode(self, mode):
         for value in mode.getNetworkMsg():
-            print("Sending value %s", (value))
-            self.s.send(bytes([value]))
+            try:
+                print("Sending value %s", (value))
+                self.s.send(bytes([value]))
+            except:
+                print("Failed to send message!")
     
     def close(self):
         self.s.close()
