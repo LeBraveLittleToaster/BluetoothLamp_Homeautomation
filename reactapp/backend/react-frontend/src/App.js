@@ -15,12 +15,12 @@ class App extends Component {
   }
 
   componentDidMount() {
-
-    axios.get('http://localhost:5000/strips').then(res => {
+    axios.get('http://localhost:5000/strips/').then(res => {
       const strips = res.data;
       console.log("Collected data: " + strips);
       this.setState(strips)
       console.log("State data: " + JSON.stringify(this.state));
+      this.forceUpdate();
     })
   }
 
@@ -38,8 +38,12 @@ class App extends Component {
   }
 
   render() {
-    if (this.state === null || this.state === undefined || this.state.strips === null || this.state.strips === undefined) {
-      return (<div className="windowFrame"><h1 className="headline">Waiting for data...</h1></div>)
+    if (this.state === null || this.state === undefined){
+      console.log("No state");
+      return (<div className="windowFrame"><h1 className="headline">Waiting for data...</h1></div>);
+    } else if(this.state.strips === null || this.state.strips === undefined) {
+      console.log("Strips null");
+      return (<div className="windowFrame"><h1 className="headline">Waiting for data...</h1></div>);
     } else {
       return (
         <div className="windowFrame">

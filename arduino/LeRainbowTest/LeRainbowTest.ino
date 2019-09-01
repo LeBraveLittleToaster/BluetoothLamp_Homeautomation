@@ -26,7 +26,7 @@ void setup() {
   digitalWrite(LED_BUILTIN, LOW);
   pinMode(SOUND_SENSOR_PIN, INPUT);
   
-  FastLED.addLeds<WS2812B, DATA_PIN, RGB>(leds, NUM_LEDS);
+  FastLED.addLeds<WS2812B, DATA_PIN, GRB>(leds, NUM_LEDS);
   delay(500);
   setColor(0, NUM_LEDS, 75,0,255);
   FastLED.show();
@@ -60,9 +60,6 @@ void loop() {
     incomingByte = Serial.read(); // read the incoming byte:
     delay(1);
     
-    Serial.print("Received: ");
-    Serial.println(incomingByte);
-    
     if(incomingByte != -1){
       if(isReading && incomingByte != '#'){
         net_values[read_counter] = incomingByte;
@@ -70,28 +67,18 @@ void loop() {
         if(read_counter >= MAX_AMOUNT_READ){
           isReading = false;
           isLightUpdateNeeded = true;
-          Serial.println("Finished reading");
+          
         }
       }else if(incomingByte == '#'){
         read_counter = 0;
         isReading = true;
-        Serial.println("Reading values");
-      } else{
-        Serial.println("Empty byte");
-      }
+        
+      } 
     }
   }
   
 
   if(!isReading && isLightUpdateNeeded){
-    Serial.println("VALUES START");
-    Serial.print("| ");
-    for(int i = 0; i < 7; i++){
-      Serial.print(net_values[i]);
-      Serial.print(" | ");
-    }
-    Serial.println(" (Count: 7) ");
-    Serial.println("VALUES END");
     isLightUpdateNeeded = false;
     setValues();
   }
