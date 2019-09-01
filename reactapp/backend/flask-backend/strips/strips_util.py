@@ -26,7 +26,7 @@ class LedStripManager:
         return True
 
     def sendNetworkMsg(self):
-        for strip, sock in zip(self.strips, self.sockets):
+        for strip, sock in zip(self.strips["strips"], self.sockets):
             print("Sending mode")
             sock.sendMode(self.getMode(strip["mode"]))
 
@@ -36,7 +36,7 @@ class LedStripManager:
     def one(self):
         return ModeOff()
     def two(self,mode):
-        return ModeSolidColor(255,252,250)#mode["hue"], mode["saturation"], mode["value"])
+        return ModeSolidColor(255,0,255)#mode["mode_color_h"], mode["mode_color_s"], mode["mode_color_v"])
     def three(self):
         return ModeOff()
     def four(self):
@@ -68,8 +68,10 @@ class LEDStripSocket:
         self.s = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
         try:
             self.s.connect((self.serverMACAddress, self.port))
+            print("Socket connected")
             return True
-        except:
+        except Exception as e:
+            print(e)
             return False
 
     def sendMode(self, mode):
@@ -77,7 +79,8 @@ class LEDStripSocket:
             try:
                 print("Sending value %s", (value))
                 self.s.send(bytes([value]))
-            except:
+            except Exception as e:
+                print(e)
                 print("Failed to send message!")
     
     def close(self):
