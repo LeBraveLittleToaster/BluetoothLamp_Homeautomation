@@ -36,7 +36,7 @@ class LedStripManager:
     def one(self):
         return ModeOff()
     def two(self,mode):
-        return ModeSolidColor(255,252,250)#mode["hue"], mode["saturation"], mode["value"])
+        return ModeSolidColor(mode["hue"], mode["saturation"], mode["value"])
     def three(self):
         return ModeOff()
     def four(self):
@@ -69,7 +69,8 @@ class LEDStripSocket:
         try:
             self.s.connect((self.serverMACAddress, self.port))
             return True
-        except:
+        except Exception as e:
+            print(e);
             return False
 
     def sendMode(self, mode):
@@ -77,7 +78,8 @@ class LEDStripSocket:
             try:
                 print("Sending value %s", (value))
                 self.s.send(bytes([value]))
-            except:
+            except Exception as e:
+                print(e);
                 print("Failed to send message!")
     
     def close(self):

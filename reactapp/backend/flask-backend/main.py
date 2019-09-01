@@ -17,7 +17,7 @@ testStripsConfig = {
                 "mode": {
                     "mode_id": 1,
                     "hue" : 10,
-                    "saturation" : 35,
+                    "saturationc" : 35,
                     "value" : 255
                 },
                 "mac_address" : "98:D3:31:F6:0E:28"
@@ -47,8 +47,8 @@ def set_strip_mode():
         return jsonify({"success": False})
 
 
-#app.run(debug=True)
+app.run(debug=True)
 
-stripManager.sendNetworkMsg()
-print("Sleeping 5sec")
-time.sleep(10)
+#stripManager.sendNetworkMsg()
+#print("Sleeping 5sec")
+#time.sleep(10)
