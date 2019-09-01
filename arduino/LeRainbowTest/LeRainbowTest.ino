@@ -7,84 +7,94 @@
 int mode = 0;
 long modeTimer = 0;
 
-int trigger = 6;
-int echo = 7;
-long dauer = 0;
-long entfernung = 0;
-
 uint8_t gHue = 0;
-uint8_t gHueDelta = 1;
-
-
 
 uint8_t gSat = 255;
-
-float gWaveRad = 0;
-int gValWave = 130;
-int gValWaveDelta = 125;
-float gValWaveOffset = 1;
-float gValWaveSpeed = 0.01;
-
 uint8_t gVal = 255;
 
-CHSV hsv(gHue, gSat, gVal);
+uint8_t gHueDelta = 1;
+
+float gWaveRad = 0;
+
 CRGB leds[NUM_LEDS];
 
 
 void setup() {
-  digitalWrite(LED_BUILTIN, LOW);
-  pinMode(SOUND_SENSOR_PIN, INPUT);
   Serial.begin(9600);
   Serial.println("LED controller coming online...");
+  
+  digitalWrite(LED_BUILTIN, LOW);
+  pinMode(SOUND_SENSOR_PIN, INPUT);
+  
   FastLED.addLeds<WS2812B, DATA_PIN, RGB>(leds, NUM_LEDS);
   delay(500);
   setColor(0, NUM_LEDS, 75,0,255);
   FastLED.show();
+  
   delay(500);
+  
   setColor(0, NUM_LEDS, 255,255,255);
   FastLED.show();
+  
   delay(500);
+  
   setColor(0, NUM_LEDS, 0,0,0);
   FastLED.show();
+  
   delay(500);
 }
 
-unsigned long oldTimeStamp = millis();
-float border = 10000;
+int incomingByte = 0;
+
+//MODE and 6 x 0-255 values
+int net_values[] = {0,0,0,0,0,0,0};
+
+int read_counter = 0;
+int MAX_AMOUNT_READ = 7;
+
+boolean isReading = true;
+boolean isLightUpdateNeeded = false; 
 
 void loop() {
-  /*
-  if( (millis() - oldTimeStamp) > border ){
-    oldTimeStamp = millis();
-    mode++;
-    if(mode > 9){
-      mode = 0;
+  if (Serial.available() > 0) {
+    incomingByte = Serial.read(); // read the incoming byte:
+    delay(1);
+    
+    Serial.print("Received: ");
+    Serial.println(incomingByte);
+    
+    if(incomingByte != -1){
+      if(isReading && incomingByte != '#'){
+        net_values[read_counter] = incomingByte;
+        read_counter++;
+        if(read_counter >= MAX_AMOUNT_READ){
+          isReading = false;
+          isLightUpdateNeeded = true;
+          Serial.println("Finished reading");
+        }
+      }else if(incomingByte == '#'){
+        read_counter = 0;
+        isReading = true;
+        Serial.println("Reading values");
+      } else{
+        Serial.println("Empty byte");
+      }
     }
   }
-  */
   
-  /*
-  while (Serial.available()) {
-    delay(10);
-    char c = Serial.read();
-    if (c == '#') {
-      int h = readColor();
-      int s = readColor();
-      int v = readColor();
-      mode = Serial.read();
-      Serial.println("+++++++++");
-      Serial.println(h);
-      Serial.println(s);
-      Serial.println(v);
-      Serial.println(mode);
-      Serial.println("+++++++++");
-      gHue = h;
-      gSat = s;
-      gVal = v;
-      
+
+  if(!isReading && isLightUpdateNeeded){
+    Serial.println("VALUES START");
+    Serial.print("| ");
+    for(int i = 0; i < 7; i++){
+      Serial.print(net_values[i]);
+      Serial.print(" | ");
     }
+    Serial.println(" (Count: 7) ");
+    Serial.println("VALUES END");
+    isLightUpdateNeeded = false;
+    setValues();
   }
-  */
   updateColors();
   
 }
@@ -95,28 +105,27 @@ int readColor() {
 }
 
 void updateColors() {
-  mode = 9;
   switch (mode) {
     case 0:
       turnOff();
       break;
     case 1:
-      modeColorWaveFade();
+      setColor(0, NUM_LEDS, gHue, gSat, gVal);
+      FastLED.show();
       break;
     case 2:
-      modeClicker(true, 0);
-      delay(7);
+      modeColorWave(gHue);
       break;
     case 3:
-      modeColorWave(gHue);
+      modeColorWaveFade();
       break;
     case 4:
       modeClicker(false, gHue);
       delay(25);
       break;
     case 5:
-      setColor(0, NUM_LEDS, gHue, gSat, gVal);
-      FastLED.show();
+      modeClicker(true, 0);
+      delay(7);
       break;
     case 6:
       modeColorFade();
@@ -249,4 +258,52 @@ void moveLineDown(){
     leds[i - 7] = leds[i];
   }
   setColor(NUM_LEDS - 7 , 7, 0,0,0);
+}
+
+void setValues(){
+  mode = net_values[0];
+  switch(mode){
+    case 0:
+      //turn off need no values
+      break;
+    case 1:
+      gHue = net_values[1];
+      gSat = net_values[2];
+      gVal = net_values[3];
+      break;
+    case 2:
+      gHue = net_values[1];
+      gSat = net_values[2];
+      gVal = net_values[3];
+      break;
+    case 3:
+      gHue = net_values[1];
+      gSat = net_values[2];
+      gVal = net_values[3];
+      break;
+    case 4:
+      gHue = net_values[1];
+      gSat = net_values[2];
+      gVal = net_values[3];
+      break;
+    case 5:
+      gHue = net_values[1];
+      gSat = net_values[2];
+      gVal = net_values[3];
+      break;
+    case 6:
+      gHue = net_values[1];
+      gSat = net_values[2];
+      gVal = net_values[3];
+      break;
+    case 7:
+      //need no values
+      break;
+    case 8:
+      //need no values
+      break;
+    case 9:
+      //tbd
+      break;
+  }
 }
