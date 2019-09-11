@@ -12,7 +12,7 @@ class LedStripManager:
 
     def __init__(self, strips):
         self.strips = strips["strips"]
-        self.createBLSockets()
+        #self.createBLSockets()
 
     def createBLSockets(self):
         i = 1

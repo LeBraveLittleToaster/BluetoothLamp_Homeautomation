@@ -14,22 +14,22 @@ class App extends Component {
     this.state = null;
   }
 
-  componentDidMount() {
-    axios.get('http://localhost:5000/strips/').then(res => {
+  async componentDidMount() {
+    await axios.get('http://localhost:5000/strips/').then(res => {
       const strips = res.data;
       console.log("Collected data: " + strips);
       this.setState(strips)
       console.log("State data: " + JSON.stringify(this.state));
       this.forceUpdate();
-    })
+    }).catch(console.log)
   }
 
-  onUpdateClicked() {
+  async onUpdateClicked() {
     console.log(JSON.stringify(this.state.strips))
     axios.post('http://localhost:5000/strips/set', JSON.stringify(this.state), { headers: { 'Content-Type': 'application/json' } }).then(res => {
       const success = res.data.success;
       console.log("Post is success: " + success)
-    });
+    })
   }
 
   updateData(index, strip) {

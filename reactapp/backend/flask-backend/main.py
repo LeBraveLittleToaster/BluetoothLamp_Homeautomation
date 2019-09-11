@@ -58,7 +58,7 @@ def set_strip_mode():
         return jsonify({"success": False})
 
 
-app.run(host='0.0.0.0',port=5000)
+app.run(host='0.0.0.0',port=5000, debug=True)
 
 #stripManager.sendNetworkMsg()
 #print("Sleeping 5sec")
