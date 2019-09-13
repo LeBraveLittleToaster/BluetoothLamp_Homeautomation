@@ -3,11 +3,15 @@ import time
 from flask import jsonify
 import bluetooth
 from flask import request
+from flask_cors import CORS, cross_origin
 from strips.strips_util import LedStripManager
 
 from strips.modes import *
 
+
 app = flask.Flask("__main__")
+cors = CORS(app)
+app.config['CORS_HEADER'] = 'Content-Type'
 
 testStripsConfig = {
         "strips": [
@@ -24,8 +28,9 @@ testStripsConfig = {
             }
         ]
     }
-
+print("Creating sockets")
 stripManager = LedStripManager(testStripsConfig)
+print("Starting frontend")
 
 
 @app.route("/")
@@ -34,6 +39,7 @@ def my_index():
 
 
 @app.route("/strips/")
+@cross_origin()
 def get_all_strips():
     rsp = {
         "strips" : stripManager.get_all_strips()
@@ -42,15 +48,17 @@ def get_all_strips():
 
 
 @app.route("/strips/set", methods=['POST'])
+@cross_origin()
 def set_strip_mode():
-    if stripManager.merge_strips(request.get_json()):
+    print(request.get_json());
+    if stripManager.merge_strips(request.get_json()["strips"]):
         stripManager.sendNetworkMsg()
         return jsonify({"success": True})
     else:
         return jsonify({"success": False})
 
 
-app.run(debug=True)
+app.run(host='0.0.0.0',port=5000, debug=True)
 
 #stripManager.sendNetworkMsg()
 #print("Sleeping 5sec")

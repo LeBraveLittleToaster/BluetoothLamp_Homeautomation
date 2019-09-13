@@ -7,10 +7,8 @@ def filterStartParameter(valuelist):
 
 class ModeOff:
 
-    networkMsg = [35,0,0,0,0,0,0]
-
     def __init__(self):
-        pass
+        self.networkMsg = [35,0,0,0,0,0,0,0]
 
     def getNetworkMsg(self):
         print("NetworkMsg: %s" , (self.networkMsg))
@@ -18,9 +16,8 @@ class ModeOff:
 
 class ModeSolidColor:
 
-    networkMsg = [35,1]
-
     def __init__(self, hue, saturation, value):
+        self.networkMsg = [35,1]
         self.networkMsg.extend((hue, saturation, value,0,0,0)) # mode
 
     def getNetworkMsg(self):
@@ -28,9 +25,8 @@ class ModeSolidColor:
 
 class ModeColorrampSingleColor:
 
-    networkMsg = [35,2]
-
     def __init__(self, hue, saturation, value, speed):
+        self.networkMsg = [35,2]
         self.networkMsg.extend((hue, saturation, value, speed,0,0)) # mode
 
     def getNetworkMsg(self):
@@ -38,9 +34,8 @@ class ModeColorrampSingleColor:
 
 class ModeColorrampMulticolor:
 
-    networkMsg = [35,3]
-
     def __init__(self, color_move_speed, color_shift_speed ):
+        self.networkMsg = [35,3]
         self.networkMsg.extend((0,0,0,color_move_speed, color_shift_speed,0)) # mode
 
     def getNetworkMsg(self):
@@ -48,9 +43,8 @@ class ModeColorrampMulticolor:
 
 class ModeFlickerSingleColor:
 
-    networkMsg = [35,4]
-
     def __init__(self, hue, saturation, value, color_spawn_speed, color_spawn_amount):
+        self.networkMsg = [35,4]
         self.networkMsg.extend((hue, saturation, value, color_spawn_speed, color_spawn_amount,0)) # mode
 
     def getNetworkMsg(self):
@@ -58,9 +52,8 @@ class ModeFlickerSingleColor:
 
 class ModeFlickerMultiColor:
 
-    networkMsg = [35,5]
-
     def __init__(self, color_spawn_speed, color_spawn_amount):
+        self.networkMsg = [35,5]
         self.networkMsg.extend((0,0,0, color_spawn_speed, color_spawn_amount,0)) # mode
 
     def getNetworkMsg(self):
@@ -68,9 +61,8 @@ class ModeFlickerMultiColor:
 
 class ModePulse:
 
-    networkMsg = [35,6]
-
     def __init__(self, hue, saturation, value, pulse_speed):
+        self.networkMsg = [35,6]
         self.networkMsg.extend((hue, saturation, value, pulse_speed,0,0)) # mode
 
     def getNetworkMsg(self):

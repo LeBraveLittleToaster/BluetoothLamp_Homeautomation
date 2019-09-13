@@ -1,5 +1,6 @@
 import bluetooth
 import json
+import time
 from .modes import *
 from flask import jsonify
 
@@ -11,7 +12,7 @@ class LedStripManager:
 
     def __init__(self, strips):
         self.strips = strips["strips"]
-        self.createBLSockets()
+        #self.createBLSockets()
 
     def createBLSockets(self):
         i = 1
@@ -22,41 +23,35 @@ class LedStripManager:
             socket.connect()
 
     def merge_strips(self, strips):
+        self.strips.clear()
         self.strips = strips
         return True
 
     def sendNetworkMsg(self):
-        for strip, sock in zip(self.strips["strips"], self.sockets):
-            print("Sending mode")
+        for strip, sock in zip(self.strips, self.sockets):
             sock.sendMode(self.getMode(strip["mode"]))
 
     def get_all_strips(self):
         return self.strips
 
-    def one(self):
-        return ModeOff()
-    def two(self,mode):
-        return ModeSolidColor(255,0,255)#mode["mode_color_h"], mode["mode_color_s"], mode["mode_color_v"])
-    def three(self):
-        return ModeOff()
-    def four(self):
-        return ModeOff()
-    def five(self):
-        return ModeOff()
-    def six(self):    
-        return ModeOff()
-
     def getMode(self, mode):
-        print(mode)
-        switcher = {
-            0: self.one(),
-            1: self.two(mode),
-            2: self.three(),
-            3: self.four(),
-            4: self.five(),
-            5: self.six()
-        }
-        return switcher.get(mode["mode_id"], ModeOff())
+        mode_id = mode["mode_id"]
+        if mode_id == 0:
+            return ModeOff()
+        elif mode_id == 1: 
+            return ModeSolidColor(mode["mode_color_h"], mode["mode_color_s"], mode["mode_color_v"])
+        elif mode_id == 2:
+            return ModeColorrampSingleColor(mode["mode_color_h"], mode["mode_color_s"], mode["mode_color_v"], mode["speed"])
+        elif mode_id == 3:
+            return ModeColorrampMultiColor(mode["speed"], mode["shift_speed"])
+        elif mode_id == 4:
+            return ModeFlickerSingleColor(mode["mode_color_h"], mode["mode_color_s"], mode["mode_color_v"], mode["spawn_speed"],mode["spawn_amount"])
+        elif mode_id == 5:
+            return ModeFlickerMultiColor(mode["spawn_speed"],mode["spawn_amount"])
+        elif mode_id == 6:
+            return ModePulse(mode["mode_color_h"], mode["mode_color_s"], mode["mode_color_v"], mode["pulse_speed"])
+            
+        return ModeOff()
 
 class LEDStripSocket:
     def __init__(self, strip, port):
@@ -75,6 +70,7 @@ class LEDStripSocket:
             return False
 
     def sendMode(self, mode):
+        print("Send mode called")
         for value in mode.getNetworkMsg():
             try:
                 print("Sending value %s", (value))
