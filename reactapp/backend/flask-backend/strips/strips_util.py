@@ -12,7 +12,7 @@ class LedStripManager:
 
     def __init__(self, strips):
         self.strips = strips["strips"]
-        #self.createBLSockets()
+        self.createBLSockets()
 
     def createBLSockets(self):
         i = 1
@@ -43,7 +43,7 @@ class LedStripManager:
         elif mode_id == 2:
             return ModeColorrampSingleColor(mode["mode_color_h"], mode["mode_color_s"], mode["mode_color_v"], mode["speed"])
         elif mode_id == 3:
-            return ModeColorrampMultiColor(mode["speed"], mode["shift_speed"])
+            return ModeColorrampMulticolor(mode["speed"], mode["shift_speed"])
         elif mode_id == 4:
             return ModeFlickerSingleColor(mode["mode_color_h"], mode["mode_color_s"], mode["mode_color_v"], mode["spawn_speed"],mode["spawn_amount"])
         elif mode_id == 5:
@@ -81,3 +81,7 @@ class LEDStripSocket:
     
     def close(self):
         self.s.close()
+
+    def reconnect(self):
+        self.close()
+        self.connect()

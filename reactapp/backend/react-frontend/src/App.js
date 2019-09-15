@@ -15,6 +15,8 @@ class App extends Component {
   }
 
   async componentDidMount() {
+    //this.setState(this.state)
+    
     await axios.get('http://localhost:5000/strips/').then(res => {
       const strips = res.data;
       console.log("Collected data: " + strips);
@@ -22,6 +24,7 @@ class App extends Component {
       console.log("State data: " + JSON.stringify(this.state));
       this.forceUpdate();
     }).catch(console.log)
+    
   }
 
   async onUpdateClicked() {
@@ -34,7 +37,7 @@ class App extends Component {
 
   updateData(index, strip) {
     this.state.strips[index].mode = strip.mode;
-
+    console.log("On update")
   }
 
   render() {
@@ -55,7 +58,7 @@ class App extends Component {
             <Grid container spacing={3}>
               {this.state.strips.map(e => {
                 return (
-                  <Grid key={e.id} item xs={6}>
+                  <Grid key={e.id} item xs={10}>
                     <Paper key={e.id} className='paper'>
                       <StripView id={e.id} key={e.id} strip={e} callback={this.updateData.bind(this)} />
                     </Paper>

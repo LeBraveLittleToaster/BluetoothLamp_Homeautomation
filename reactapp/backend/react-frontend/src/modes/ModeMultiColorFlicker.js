@@ -36,20 +36,9 @@ class ModeMultiColorFlicker extends Component{
     }
 
     render(){
-        let cFieldColor = HSVtoRGB((this.state.mode_color_h / 100.0), 1 , 1);
-        let colorStr = "rgb(" + cFieldColor.r + "," + cFieldColor.g + ","+ cFieldColor.b + ")";
         return (
             
             <div>
-                <h2>COLOR</h2>
-                <div className="colorField" style={{backgroundColor: colorStr}}></div>
-                <Slider 
-                    styles={{thumb: {width: 25, height: 25}, track: {width: "90%"}}}
-                    axis="x"
-                    x={this.state.mode_color_h}
-                    onChange={(value) => {this.setState({mode_color_h: value.x})}}
-                />
-
                 <h2 className="speedHeader">SPAWN SPEED</h2>
                 <p className="valueNumberDisplay">{this.state.spawn_speed}</p>
                 <Slider 

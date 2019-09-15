@@ -12,7 +12,7 @@ uint8_t gFourthVal = 0;
 uint8_t gFiftVal = 0;
 uint8_t gSixtVal = 0;
 
-uint8_t gHueDelta = 0;
+uint8_t gHueDelta = 1;
 
 float gWaveRad = 0;
 
@@ -34,7 +34,6 @@ void setup() {
   Serial.println("LED controller coming online...");
   
   digitalWrite(LED_BUILTIN, LOW);
-  pinMode(SOUND_SENSOR_PIN, INPUT);
   
   FastLED.addLeds<WS2812B, DATA_PIN, GRB>(leds, NUM_LEDS);
   delay(500);
@@ -46,6 +45,39 @@ void setup() {
   delay(1000);
 }
 
+//#########################UTILITY###################
+void setColor(int offset, int count, int hue, int sat, int value) {
+  for (int i = offset; i < offset + count; i++) {
+    leds[i] = CHSV(hue, sat, value);
+  }
+}
+
+void moveLineUp(){
+  for(int i = (NUM_LEDS - 8); i >= 0; i--){
+    leds[i + 7] = leds[i];
+  }
+  setColor(0, 7, 0,0,0);
+}
+
+void moveLineDown(){
+  for(int i = 7; i < NUM_LEDS; i++){
+    leds[i - 7] = leds[i];
+  }
+  setColor(NUM_LEDS - 7 , 7, 0,0,0);
+}
+
+void setValues(){
+  mode = net_values[0];
+  gHue = net_values[1];
+  gVal = net_values[2];
+  gSat = net_values[3];
+  gFourthVal = net_values[4];
+  gFiftVal = net_values[5];
+  gSixtVal = net_values[6];
+}
+
+//#########################################################
+
 
 void loop() {
   if (Serial.available() > 0) {
@@ -56,10 +88,12 @@ void loop() {
       if(isReading && incomingByte != '#'){
         net_values[read_counter] = incomingByte;
         read_counter++;
+        Serial.print(incomingByte);
+        Serial.print(" | ");
         if(read_counter >= MAX_AMOUNT_READ){
           isReading = false;
           isLightUpdateNeeded = true;
-          
+          Serial.println("Finished reading");
         }
       }else if(incomingByte == '#'){
         read_counter = 0;
@@ -101,16 +135,14 @@ void updateColors() {
       delay(7);
       break;
     case 6:
-      modeColorFade();
+      modeStarfallDown(0, 0);
+      //modeColorFade();
       break;
     case 7:
       modeStarfallDown(0, 0);
       break;
     case 8:
       modeStarfallUp(0,0);
-      break;
-    case 9:
-      modeAudioReactSquaresColor();
       break;
   }
 }
@@ -123,10 +155,12 @@ void turnOff(){
 
 //Mode 2 - Sin Wave
 void modeColorWave(int hue) {
-  int curWaveRad = gWaveRad;
-
-  gWaveRad += 0.01;
-
+  float curWaveRad = gWaveRad;
+  
+  //net_values{4] == Speed
+  if(net_values[4] > 0){
+    gWaveRad += ((float)net_values[4] / 2550);  
+  }
   for(int i = 0; i < NUM_LEDS; i+= 7){
     int val = (sin(curWaveRad) + 1) * 127;
     curWaveRad++;
@@ -141,18 +175,19 @@ void modeClicker(bool isRainbow, int8_t hue) {
   if (isRainbow) {
     hue = random(0, 256);
   }
-  if (random(0, 5) == 0) {
-    leds[random(0, NUM_LEDS)] = CHSV( hue, gSat, gVal);
+  float spawnQuantity = (float)net_values[5];
+  if(spawnQuantity >= 0){
+    if (random(0, ((float) 635 / spawnQuantity)) == 0) {
+      leds[random(0, NUM_LEDS)] = CHSV( hue, gSat, gVal);
+    }
   }
+  
   for (int i = 0; i < NUM_LEDS; i++) {
-    leds[i].nscale8(230);
+    //230
+    leds[i].nscale8(255 - (int)((float)net_values[4] / (float)10));
   }
   FastLED.show();
 }
-
-
-//#########################################################
-
 
 
 //Set gHueDelta to something greater or smaller to speed it
@@ -164,16 +199,22 @@ void modeColorFade(){
 }
 
 void modeColorWaveFade() {
-  delay(10);
-  gHue += gHueDelta;
-
-  int x = 5;
-  for(int i = 0; i < NUM_LEDS; i+=7){
-    for(int ii = 0; ii < 7; ii++){
-      uint8_t xHue = gHue + i * x;
-       leds[i + ii] = CHSV(xHue, gSat, gVal);
+  float curWaveRad = gWaveRad;
+  uint8_t curHue = gHue;
+  
+  //net_values{4] == Speed
+  if(net_values[4] > 0){
+    gWaveRad += ((float)net_values[4] / 2550);  
+  }
+  for(int i = 0; i < NUM_LEDS; i+= 7){
+    int val = (sin(curWaveRad) + 1) * 127;
+    curWaveRad++;
+    setColor(i, 7, curHue, 255, val);
+    if(net_values[5] > 0){
+      curHue += 10 * ((float)255 / (float) net_values[5]);
     }
   }
+  gHue += gHueDelta;
   FastLED.show();
 }
 
@@ -207,35 +248,4 @@ void modeStarfallUp(uint8_t hue, uint8_t sat){
   }
   FastLED.show();
   delay(40);
-}
-
-
-void setColor(int offset, int count, int hue, int sat, int value) {
-  for (int i = offset; i < offset + count; i++) {
-    leds[i] = CHSV(hue, sat, value);
-  }
-}
-
-void moveLineUp(){
-  for(int i = (NUM_LEDS - 8); i >= 0; i--){
-    leds[i + 7] = leds[i];
-  }
-  setColor(0, 7, 0,0,0);
-}
-
-void moveLineDown(){
-  for(int i = 7; i < NUM_LEDS; i++){
-    leds[i - 7] = leds[i];
-  }
-  setColor(NUM_LEDS - 7 , 7, 0,0,0);
-}
-
-void setValues(){
-  mode = net_values[0];
-  gHue = net_values[1];
-  gVal = net_values[2];
-  gSat = net_values[3];
-  gFourthVal = net_values[4];
-  gFiftVal = net_values[5];
-  gSixtVal = net_values[6];
 }

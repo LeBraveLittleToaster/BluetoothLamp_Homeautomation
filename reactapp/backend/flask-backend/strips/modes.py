@@ -36,7 +36,7 @@ class ModeColorrampMulticolor:
 
     def __init__(self, color_move_speed, color_shift_speed ):
         self.networkMsg = [35,3]
-        self.networkMsg.extend((0,0,0,color_move_speed, color_shift_speed,0)) # mode
+        self.networkMsg.extend((255,255,255,color_move_speed, color_shift_speed,0)) # mode
 
     def getNetworkMsg(self):
         return filterStartParameter(self.networkMsg)
@@ -54,7 +54,7 @@ class ModeFlickerMultiColor:
 
     def __init__(self, color_spawn_speed, color_spawn_amount):
         self.networkMsg = [35,5]
-        self.networkMsg.extend((0,0,0, color_spawn_speed, color_spawn_amount,0)) # mode
+        self.networkMsg.extend((255,255,255, color_spawn_speed, color_spawn_amount,0)) # mode
 
     def getNetworkMsg(self):
         return filterStartParameter(self.networkMsg)

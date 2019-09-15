@@ -50,7 +50,7 @@ def get_all_strips():
 @app.route("/strips/set", methods=['POST'])
 @cross_origin()
 def set_strip_mode():
-    print(request.get_json());
+    print(request.get_json())
     if stripManager.merge_strips(request.get_json()["strips"]):
         stripManager.sendNetworkMsg()
         return jsonify({"success": True})
