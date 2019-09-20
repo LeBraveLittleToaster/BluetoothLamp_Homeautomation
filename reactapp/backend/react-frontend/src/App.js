@@ -73,8 +73,8 @@ class App extends Component {
             <h2 className="subInfo">Create by Pascal Schiessle</h2>
             <h2 className="subInfo unselectable">Powered by React.js</h2>
 
-            <div className="reconnect_btn unselectable">
-              <a onClick={this.onReconnect.bind(this)}>
+            <div onClick={this.onReconnect.bind(this)} className="reconnect_btn unselectable">
+              <a>
                 <i>Reconnect</i>
               </a>
             </div>
