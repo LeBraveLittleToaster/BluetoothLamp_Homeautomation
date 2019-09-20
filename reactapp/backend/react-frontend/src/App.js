@@ -14,8 +14,6 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    //this.setState(this.state)
-    
     await axios.get('http://localhost:5000/strips/').then(res => {
       const strips = res.data;
       console.log("Collected data: " + strips);
@@ -23,7 +21,6 @@ class App extends Component {
       console.log("State data: " + JSON.stringify(this.state));
       this.forceUpdate();
     }).catch(console.log)
-    
   }
 
   async onUpdateClicked() {
@@ -32,7 +29,10 @@ class App extends Component {
       const success = res.data.success;
       console.log("Post is success: " + success)
     })
-    
+  }
+  async onReconnect() {
+    console.log("Reconnecting")
+    axios.get('http://localhost:5000/strips/reconnect', JSON.stringify(this.state), { headers: { 'Content-Type': 'application/json' } });
   }
 
   updateData(index, strip) {
@@ -71,7 +71,13 @@ class App extends Component {
           </div>
           <div className="lowerFrame">
             <h2 className="subInfo">Create by Pascal Schiessle</h2>
-            <h2 className="subInfo">Powered by React.js</h2>
+            <h2 className="subInfo unselectable">Powered by React.js</h2>
+
+            <div className="reconnect_btn unselectable">
+              <a onClick={this.onReconnect.bind(this)}>
+                <i>Reconnect</i>
+              </a>
+            </div>
           </div>
         </div>
       );
