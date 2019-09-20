@@ -4,7 +4,7 @@
 }
 
 h2{
-    color: #435966;
+    color: #000000;
 }
 
 .speedHeader {
@@ -13,8 +13,8 @@ h2{
 }
 
 .valueNumberDisplay {
-    font-size: 25px;
-    color: #424441;
+    font-size: px;
+    color: #33393d;
 }
 
 .colorField {

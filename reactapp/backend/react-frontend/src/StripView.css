@@ -1,11 +1,12 @@
 .headers {
-    padding-top: 30px;
-    font-size: 50px;
-    color: #435966
+    font-size: 3em;
+    color: #33393d
 }
 
 .bgCard {
-    background-color: #D9CCB9;
+    overflow: hidden;
+    min-height: 500px;
+    border-radius: 20px;
     padding-left: 30px;
     padding-right: 30px;
     padding-bottom: 50px;

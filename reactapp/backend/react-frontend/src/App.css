@@ -1,13 +1,24 @@
 .paper{
   padding: 0;
   text-align: center;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 13pt;
+  border-radius: 15px;
+  background-image: linear-gradient(to top right, #eeeeee, #dddddd);
 }
 
 .windowFrame {
-  background-color: #282828;
+  background-color: #f8f8f8;
   width: 100%;
   height: 100%;
   overflow: hidden;
+  background-image: linear-gradient(to top right, #3F2463, #6C194F);
+}
+
+.horizontal_line{
+  height: 20px;
+  background-color: #cacaca;
+  width: 100%;
 }
 
 .subInfo {
@@ -17,7 +28,7 @@
 
 .gridContainer {
   margin-left: 50px;
-  margin-right: 300px;
+  margin-right: 50px;
 }
 
 .lowerFrame {
@@ -30,29 +41,16 @@
 	width:180px;
 	height:70px;
 	bottom:40px;
-	right:40px;
-	background-color:#0C9;
-	color:#FFF;
-	border-radius:5px;
+  right:40px;
+  background-image: linear-gradient(to top right, #eeeeee, #c7c7c7);
+	color:#666b6e;
+	border-radius:10px;
   text-align:center;
+  font-family: 'Rajdhani', sans-serif;;
   font-size: 50px;
-	box-shadow: 2px 2px 3px #999;
+	box-shadow: 2px 2px 5px #333;
 }
 
 .my-float{
 	margin-top:22px;
-}
-
-.headline {
-  font-size: 75px;
-  margin-bottom: 200px; 
-  text-align: center;
-  color: #F5F2EB;
-}
-
-.header-second {
-  text-align: center;
-  margin-top: 150px;
-  margin-bottom: 300px;
-  color: #F5F2EB;
 }

@@ -78,6 +78,7 @@ class StripView extends Component {
             <div className="bgCard">
                 <h1 className="headers">{this.state.strip.name}</h1>
                 <Select className="select-border"
+                    maxMenuHeight={300}
                     value={selectedOption}
                     onChange={this.handleChange}
                     options={options}
