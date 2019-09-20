@@ -14,8 +14,8 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    this.setState(this.state)
-    /*
+    //this.setState(this.state)
+    
     await axios.get('http://localhost:5000/strips/').then(res => {
       const strips = res.data;
       console.log("Collected data: " + strips);
@@ -23,22 +23,22 @@ class App extends Component {
       console.log("State data: " + JSON.stringify(this.state));
       this.forceUpdate();
     }).catch(console.log)
-    */
+    
   }
 
   async onUpdateClicked() {
-    /*
     console.log(JSON.stringify(this.state.strips))
     axios.post('http://localhost:5000/strips/set', JSON.stringify(this.state), { headers: { 'Content-Type': 'application/json' } }).then(res => {
       const success = res.data.success;
       console.log("Post is success: " + success)
     })
-    */
+    
   }
 
   updateData(index, strip) {
     this.state.strips[index].mode = strip.mode;
     console.log("On update")
+    console.log(strip.mode)
   }
 
   render() {
