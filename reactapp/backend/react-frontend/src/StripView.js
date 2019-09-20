@@ -77,12 +77,13 @@ class StripView extends Component {
         return (
             <div className="bgCard">
                 <h1 className="headers">{this.state.strip.name}</h1>
-                <Select className="select-border"
+                <Select 
                     maxMenuHeight={300}
                     value={selectedOption}
                     onChange={this.handleChange}
                     options={options}
                     placeholder={this.state.selectedOption.label}
+                    readonly
                 />
                 {this.getModeOptionsDiv()}
             </div>
