@@ -24,8 +24,8 @@ class LedStripManager:
             socket.connect()
             
     def reconnectAll(self):
-        for strip in self.strips:
-            self.socket.reconnect()
+        for socket in self.sockets:
+            socket.reconnect()
 
     def merge_strips(self, strips):
         self.strips.clear()
@@ -34,7 +34,7 @@ class LedStripManager:
 
     def sendNetworkMsg(self):
         for strip, sock in zip(self.strips, self.sockets):
-            sock.sendMode(self.getMode(strip["mode"]), True)
+            sock.sendMode(self.getMode(strip["mode"]))
 
     def get_all_strips(self):
         return self.strips
@@ -90,4 +90,5 @@ class LEDStripSocket:
 
     def reconnect(self):
         self.close()
+        time.sleep(5)
         self.connect()

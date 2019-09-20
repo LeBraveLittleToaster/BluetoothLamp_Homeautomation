@@ -41,6 +41,7 @@ def my_index():
 def reconnect_all():
     print("Reconnecting all strips")
     stripManager.reconnectAll()
+    return "{'success':true}"
 
 @app.route("/strips/")
 @cross_origin()
