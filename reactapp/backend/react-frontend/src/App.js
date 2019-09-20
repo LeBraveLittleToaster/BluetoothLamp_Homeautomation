@@ -14,7 +14,7 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    await axios.get('http://localhost:5000/strips/').then(res => {
+    await axios.get('http://192.168.0.2:5000/strips/').then(res => {
       const strips = res.data;
       console.log("Collected data: " + strips);
       this.setState(strips)
@@ -25,14 +25,14 @@ class App extends Component {
 
   async onUpdateClicked() {
     console.log(JSON.stringify(this.state.strips))
-    axios.post('http://localhost:5000/strips/set', JSON.stringify(this.state), { headers: { 'Content-Type': 'application/json' } }).then(res => {
+    axios.post('http://192.168.0.2:5000/strips/set', JSON.stringify(this.state), { headers: { 'Content-Type': 'application/json' } }).then(res => {
       const success = res.data.success;
       console.log("Post is success: " + success)
     })
   }
   async onReconnect() {
     console.log("Reconnecting")
-    axios.get('http://localhost:5000/strips/reconnect', JSON.stringify(this.state), { headers: { 'Content-Type': 'application/json' } });
+    axios.get('http://192.168.0.2:5000/strips/reconnect', JSON.stringify(this.state), { headers: { 'Content-Type': 'application/json' } });
   }
 
   updateData(index, strip) {

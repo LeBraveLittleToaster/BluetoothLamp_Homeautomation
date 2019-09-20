@@ -16,7 +16,7 @@ app.config['CORS_HEADER'] = 'Content-Type'
 testStripsConfig = {
         "strips": [
             {
-                "name": "Right Shelf",
+                "name": "TV Shelfs",
                 "id": 0,
                 "mode": {
                     "mode_id": 1,
