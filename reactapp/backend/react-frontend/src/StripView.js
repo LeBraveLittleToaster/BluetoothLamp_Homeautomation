@@ -83,7 +83,7 @@ class StripView extends Component {
                     onChange={this.handleChange}
                     options={options}
                     placeholder={this.state.selectedOption.label}
-                    readonly
+                    readOnly={true}
                     isSearchable={false}
                 />
                 {this.getModeOptionsDiv()}
