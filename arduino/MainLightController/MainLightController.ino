@@ -69,8 +69,8 @@ void moveLineDown(){
 void setValues(){
   mode = net_values[0];
   gHue = net_values[1];
-  gVal = net_values[2];
-  gSat = net_values[3];
+  gSat = net_values[2];
+  gVal = net_values[3];
   gFourthVal = net_values[4];
   gFiftVal = net_values[5];
   gSixtVal = net_values[6];
