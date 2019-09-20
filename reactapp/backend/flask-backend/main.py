@@ -37,6 +37,10 @@ print("Starting frontend")
 def my_index():
     return flask.render_template("index.html", token="Hello Flask+React")
 
+@app.route("/strips/reconnect")
+def reconnect_all():
+    print("Reconnecting all strips")
+    stripManager.reconnectAll()
 
 @app.route("/strips/")
 @cross_origin()
@@ -58,7 +62,7 @@ def set_strip_mode():
         return jsonify({"success": False})
 
 
-app.run(host='0.0.0.0',port=5000, debug=True)
+app.run(host='0.0.0.0',port=5000, debug=False)
 
 #stripManager.sendNetworkMsg()
 #print("Sleeping 5sec")

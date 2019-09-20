@@ -13,14 +13,19 @@ class LedStripManager:
     def __init__(self, strips):
         self.strips = strips["strips"]
         self.createBLSockets()
+        time.sleep(2)
 
     def createBLSockets(self):
         i = 1
         for strip in self.strips:
-            self.sockets.append(LEDStripSocket(strip, i))
+            self.sockets.append(LEDStripSocket(strip, 1))
             i += 1
         for socket in self.sockets:
             socket.connect()
+            
+    def reconnectAll(self):
+        for strip in self.strips:
+            self.socket.reconnect()
 
     def merge_strips(self, strips):
         self.strips.clear()
@@ -29,7 +34,7 @@ class LedStripManager:
 
     def sendNetworkMsg(self):
         for strip, sock in zip(self.strips, self.sockets):
-            sock.sendMode(self.getMode(strip["mode"]))
+            sock.sendMode(self.getMode(strip["mode"]), True)
 
     def get_all_strips(self):
         return self.strips
@@ -78,6 +83,7 @@ class LEDStripSocket:
             except Exception as e:
                 print(e)
                 print("Failed to send message!")
+                
     
     def close(self):
         self.s.close()
