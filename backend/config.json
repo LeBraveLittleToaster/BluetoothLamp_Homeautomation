@@ -1,0 +1,25 @@
+{
+  "strips": [
+    {
+      "name" : "Esstisch",
+      "con_type" : "BLUETOOTH",
+      "options" : {
+        "address" : "X:X:X:X:X"
+      }
+    },
+    {
+      "name" : "Fernseher",
+      "con_type" : "BLUETOOTH",
+      "options" : {
+        "address" : "X:X:X:X:X"
+      }
+    },
+    {
+      "name" : "KALLAX Schlafzimmer",
+      "con_type" : "GPIO",
+      "options" : {
+        "pin" : 14
+      }
+    }
+  ]
+}
