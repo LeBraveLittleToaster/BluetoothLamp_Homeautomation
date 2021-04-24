@@ -1,0 +1,74 @@
+<DashboardScreen>:
+    GridLayout:
+        id: dashboard_grid
+        rows: 2
+        Button:
+            text:"Settings"
+            id: settings_btn
+            on_press:root.on_settings_clicked(self)
+<SettingsScreen>:
+    BoxLayout:
+        Button:
+            text:"go back to first screen"
+            on_press:root.manager.current='dashboard_screen'
+
+<StripDetailScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            orientation: 'horizontal'
+            BoxLayout:
+                orientation: 'vertical'
+                Slider:
+                    id: slider_hue
+                    min: 0
+                    max: 255
+                    step: 1
+                    orientation: 'vertical'
+                    value_track: True
+                    value_track_width: 20
+                    cursor_size: 50, 50
+                    value_track_color: [1,0,0,1]
+                    on_touch_up: root.on_slider_up(self)
+                    on_touch_down: root.on_slider_down(self)
+                Label:
+                    size_hint_y: None
+                    text: "Color"
+            BoxLayout:
+                orientation: 'vertical'
+                Slider:
+                    id: slider_brightness
+                    min: 0
+                    max: 100
+                    step: 1
+                    orientation: 'vertical'
+                    value_track: True
+                    value_track_width: 20
+                    cursor_size: 50, 50
+                    value_track_color: [0,1,0,1]
+                    on_touch_up: root.on_slider_up(self)
+                    on_touch_down: root.on_slider_down(self)
+                Label:
+                    size_hint_y: None
+                    text: "Brightness"
+            BoxLayout:
+                orientation: 'vertical'
+                Slider:
+                    id: slider_speed
+                    min: 0
+                    max: 100
+                    step: 1
+                    orientation: 'vertical'
+                    value_track: True
+                    value_track_color: [0,0,1,1]
+                    value_track_width: 20
+                    cursor_size: 50, 50
+                    on_touch_up: root.on_slider_up(self)
+                    on_touch_down: root.on_slider_down(self)
+                Label:
+                    size_hint_y: None
+                    text: "Speed"
+        Button:
+            size_hint_y:  None
+            text:"Go back"
+            on_press:root.manager.current='dashboard_screen'
