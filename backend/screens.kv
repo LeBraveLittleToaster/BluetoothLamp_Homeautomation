@@ -2,10 +2,17 @@
     GridLayout:
         id: dashboard_grid
         rows: 2
+        spacing: 10
+        padding: 10
         Button:
-            text:"Settings"
             id: settings_btn
             on_press:root.on_settings_clicked(self)
+            Image:
+                source: './pictures/cog-outline_white.png'
+                y: self.parent.y + self.parent.height / 2 - 24
+                x: self.parent.x + self.parent.width / 2 - 24
+                size: 48, 48
+                allow_stretch: True
 <SettingsScreen>:
     BoxLayout:
         Button:
@@ -28,8 +35,8 @@
                     cursor_size: 50, 50
                     background_vertical: "./pictures/Hue_Slider.png"
                     cursor_image: "./pictures/Slider_btn.png"
-                    cursor_width: 80
-                    cursor_height: 30
+                    cursor_width: 120
+                    cursor_height: 50
                     on_touch_up: root.on_slider_up(self)
                     on_touch_down: root.on_slider_down(self)
                 Label:
@@ -45,8 +52,8 @@
                     orientation: 'vertical'
                     cursor_size: 50, 50
                     cursor_image: "./pictures/Slider_btn.png"
-                    cursor_width: 80
-                    cursor_height: 30
+                    cursor_width: 120
+                    cursor_height: 50
                     on_touch_up: root.on_slider_up(self)
                     on_touch_down: root.on_slider_down(self)
                 Label:
@@ -62,8 +69,8 @@
                     orientation: 'vertical'
                     cursor_size: 50, 50
                     cursor_image: "./pictures/Slider_btn.png"
-                    cursor_width: 80
-                    cursor_height: 30
+                    cursor_width: 120
+                    cursor_height: 50
                     on_touch_up: root.on_slider_up(self)
                     on_touch_down: root.on_slider_down(self)
                 Label:
