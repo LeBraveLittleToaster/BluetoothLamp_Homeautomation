@@ -1,0 +1,8 @@
+{
+	"is_first_time_launch" : true,
+	"packages" : [
+		{"name" : "libbluetooth-dev", "command": "sudo apt install libbluetooth-dev"},
+		{"name" : "bluetooth", "command" : "sudo apt install bluetooth"},
+		{"name" : "sdl2", "command" : "sudo apt install python3-sdl2"}
+	]
+}
