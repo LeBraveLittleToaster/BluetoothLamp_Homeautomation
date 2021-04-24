@@ -25,10 +25,11 @@
                     max: 255
                     step: 1
                     orientation: 'vertical'
-                    value_track: True
-                    value_track_width: 20
                     cursor_size: 50, 50
-                    value_track_color: [1,0,0,1]
+                    background_vertical: "./pictures/Hue_Slider.png"
+                    cursor_image: "./pictures/Slider_btn.png"
+                    cursor_width: 80
+                    cursor_height: 30
                     on_touch_up: root.on_slider_up(self)
                     on_touch_down: root.on_slider_down(self)
                 Label:
@@ -42,10 +43,10 @@
                     max: 100
                     step: 1
                     orientation: 'vertical'
-                    value_track: True
-                    value_track_width: 20
                     cursor_size: 50, 50
-                    value_track_color: [0,1,0,1]
+                    cursor_image: "./pictures/Slider_btn.png"
+                    cursor_width: 80
+                    cursor_height: 30
                     on_touch_up: root.on_slider_up(self)
                     on_touch_down: root.on_slider_down(self)
                 Label:
@@ -59,10 +60,10 @@
                     max: 100
                     step: 1
                     orientation: 'vertical'
-                    value_track: True
-                    value_track_color: [0,0,1,1]
-                    value_track_width: 20
                     cursor_size: 50, 50
+                    cursor_image: "./pictures/Slider_btn.png"
+                    cursor_width: 80
+                    cursor_height: 30
                     on_touch_up: root.on_slider_up(self)
                     on_touch_down: root.on_slider_down(self)
                 Label:
