@@ -10,9 +10,12 @@ from requests import Response
 from de.pschiessle.stripper.shared.db_objects.MongoDbObjects import DbNode
 
 
-def do_register_node(node_col: Collection, node_name: str) -> Optional[str]:
+def do_register_node(node_col: Collection, node_name: str, node_port: int) -> Optional[str]:
     result: InsertOneResult = node_col.insert_one(
-        DbNode(node_name, socket.gethostbyname(socket.gethostname())).get_as_db_obj())
+        DbNode(
+            node_name,
+            socket.gethostbyname(socket.gethostname()) + ":" + str(node_port)
+        ).get_as_db_obj())
     if result.acknowledged:
         return result.inserted_id
     else:
@@ -40,11 +43,11 @@ def get_all_registered_nodes(node_col: Collection) -> List[str]:
 
 def check_if_alive(ip: str) -> bool:
     try:
-        rsp: Response = requests.get("http://" + ip + ":1234/ping")
+        rsp: Response = requests.get("http://" + ip + "/ping")
         return rsp.status_code == 200
     except Exception as exc:
         return False
 
 
-def remove_node(node_col: Collection, node_id:str):
+def remove_node(node_col: Collection, node_id: str):
     node_col.delete_one({"_id": node_id})
