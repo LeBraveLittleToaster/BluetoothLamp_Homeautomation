@@ -1,5 +1,6 @@
 import json
 
+from flask.json import jsonify
 from flask_cors import CORS
 from flask import Flask
 from markupsafe import escape
@@ -10,7 +11,7 @@ app = Flask(__name__)
 CORS(app)
 
 
-with open('./config.json') as config_json:
+with open('../default_config.json') as config_json:
     config: Config = Config(json.load(config_json))
 
 

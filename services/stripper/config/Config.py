@@ -1,6 +1,7 @@
 from enum import Enum
 
-from typing import List
+from objprint import add_objprint
+from typing import List, Optional
 
 
 class ConType(Enum):
@@ -20,7 +21,12 @@ def auto_str(cls):
     return cls
 
 
-def parse_options_by_type(con_type: ConType, options: dict):
+class ConOptions:
+    def __init__(self):
+        pass
+
+
+def parse_options_by_type(con_type: ConType, options: dict) -> Optional[ConOptions]:
     try:
         if con_type == ConType.BLUETOOTH:
             return BluetoothConOptions(options["address"])
@@ -33,32 +39,30 @@ def parse_options_by_type(con_type: ConType, options: dict):
     return None
 
 
-def to_strip(strip_id: int, json_strip: dict):
+def to_config_strip(strip_id: int, json_strip: dict):
     try:
         con_type = ConType[json_strip["con_type"]]
         options = parse_options_by_type(con_type, json_strip["options"])
-        return None if options is None else ConfigStrip(json_strip["name"], strip_id, con_type, options)
+        return None if options is None else ConfigStrip(json_strip["name"], json_strip["location"], strip_id, con_type,
+                                                        options)
     except KeyError:
         return None
 
-
+@add_objprint()
 class Config:
     def __init__(self, json_config: dict):
+        self.version = json_config["version"]
         self.strips: List[ConfigStrip] = parse_strips(json_config)
 
-
-class ConOptions:
-    def __init__(self):
-        pass
-
-
+@add_objprint()
 @auto_str
 class ConfigStrip:
-    def __init__(self, name: str, strip_id: int, con_type: ConType, options: ConOptions):
-        self.name = name
-        self.strip_id = strip_id
-        self.con_type = con_type
-        self.options = options
+    def __init__(self, name: str, location: str, strip_id: int, con_type: ConType, options: ConOptions):
+        self.name: str = name
+        self.location: str = location
+        self.strip_id: int = strip_id
+        self.con_type: ConType = con_type
+        self.options: ConOptions = options
 
 
 class BluetoothConOptions(ConOptions):
@@ -76,15 +80,15 @@ class GPIOConOptions(ConOptions):
 class MqttConOptions(ConOptions):
     def __init__(self, address: str, topic: str, username: str, password: str):
         super().__init__()
-        self.address = address
-        self.topic = topic
-        self.username = username
-        self.password = password
+        self.address: str = address
+        self.topic: str = topic
+        self.username: str = username
+        self.password: str = password
 
 
 def parse_strips(json_strips: dict) -> List[ConfigStrip]:
     if "strips" in json_strips and isinstance(json_strips["strips"], list):
         return list(filter(lambda x: x is not None,
-                           map(lambda i_x: to_strip(i_x[0], i_x[1]), enumerate(json_strips["strips"]))))
+                           map(lambda i_x: to_config_strip(i_x[0], i_x[1]), enumerate(json_strips["strips"]))))
     else:
         raise Exception("Failed to parse config!")

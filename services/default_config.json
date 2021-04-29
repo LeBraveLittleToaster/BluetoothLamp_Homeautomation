@@ -1,0 +1,32 @@
+{
+  "version" : "0.0.1",
+  "strips": [
+    {
+      "con_type": "BLUETOOTH",
+      "name": "Esstisch",
+      "location": "Wohnzimmer",
+      "options": {
+        "address": "XX:XX:XX:XX:XX"
+      }
+    },
+    {
+      "con_type": "GPIO",
+      "name": "Beistelltisch",
+      "location": "Wohnzimmer",
+      "options": {
+        "pin": 2
+      }
+    },
+    {
+      "con_type": "GPIO",
+      "name": "Beistelltisch",
+      "location": "Wohnzimmer",
+      "options": {
+        "address" : "some url",
+        "topic" : "some topic",
+        "username" : "some uname",
+        "password" : "some password"
+      }
+    }
+  ]
+}
