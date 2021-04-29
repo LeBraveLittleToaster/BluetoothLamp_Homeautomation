@@ -29,9 +29,9 @@ class ConOptions:
 def parse_options_by_type(con_type: ConType, options: dict) -> Optional[ConOptions]:
     try:
         if con_type == ConType.BLUETOOTH:
-            return BluetoothConOptions(options["address"])
+            return BluetoothConOptions(options["address"], options["port"])
         elif con_type == ConType.GPIO:
-            return GPIOConOptions(options["pin"])
+            return GpioConOptions(options["pin"])
         elif con_type == ConType.MQTT:
             return MqttConOptions(options["address"], options["topic"], options["username"], options["password"])
     except KeyError:
@@ -48,11 +48,13 @@ def to_config_strip(strip_id: int, json_strip: dict):
     except KeyError:
         return None
 
+
 @add_objprint()
 class Config:
     def __init__(self, json_config: dict):
         self.version = json_config["version"]
         self.strips: List[ConfigStrip] = parse_strips(json_config)
+
 
 @add_objprint()
 @auto_str
@@ -66,12 +68,13 @@ class ConfigStrip:
 
 
 class BluetoothConOptions(ConOptions):
-    def __init__(self, address: str):
+    def __init__(self, address: str, port: int):
         super().__init__()
-        self.address = address
+        self.address: str = address
+        self.port: int = port
 
 
-class GPIOConOptions(ConOptions):
+class GpioConOptions(ConOptions):
     def __init__(self, pin: int):
         super().__init__()
         self.pin = pin

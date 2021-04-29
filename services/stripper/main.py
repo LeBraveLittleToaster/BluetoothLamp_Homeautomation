@@ -6,6 +6,7 @@ from flask import Flask
 from markupsafe import escape
 
 from stripper.config.Config import Config
+from stripper.strip_manager import StripManager
 
 app = Flask(__name__)
 CORS(app)
@@ -14,8 +15,8 @@ CORS(app)
 with open('../default_config.json') as config_json:
     config: Config = Config(json.load(config_json))
 
-
-
+strips_manager = StripManager(config)
+strips_manager.print()
 
 
 @app.route('/user/<username>')

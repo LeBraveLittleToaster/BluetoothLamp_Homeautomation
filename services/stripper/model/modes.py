@@ -6,7 +6,8 @@ def filter_start_parameter(valuelist):
 
 
 class Mode:
-    pass
+    def get_network_msg(self):
+        pass
 
 
 class ModeOff(Mode):
@@ -77,3 +78,29 @@ class ModePulse(Mode):
 
     def get_network_msg(self):
         return filter_start_parameter(self.networkMsg)
+
+
+def get_mode(mode_options: dict):
+    mode_id = mode_options["mode_id"]
+    if mode_id == 0:
+        return ModeOff()
+    elif mode_id == 1:
+        return ModeSolidColor(mode_options["mode_color_h"], mode_options["mode_color_s"],
+                              mode_options["mode_color_v"])
+    elif mode_id == 2:
+        return ModeColorrampSingleColor(mode_options["mode_color_h"], mode_options["mode_color_s"],
+                                        mode_options["mode_color_v"],
+                                        mode_options["speed"])
+    elif mode_id == 3:
+        return ModeColorrampMulticolor(mode_options["speed"], mode_options["shift_speed"])
+    elif mode_id == 4:
+        return ModeFlickerSingleColor(mode_options["mode_color_h"], mode_options["mode_color_s"],
+                                      mode_options["mode_color_v"],
+                                      mode_options["spawn_speed"], mode_options["spawn_amount"])
+    elif mode_id == 5:
+        return ModeFlickerMultiColor(mode_options["spawn_speed"], mode_options["spawn_amount"])
+    elif mode_id == 6:
+        return ModePulse(mode_options["mode_color_h"], mode_options["mode_color_s"], mode_options["mode_color_v"],
+                         mode_options["pulse_speed"])
+
+    return ModeOff()

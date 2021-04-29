@@ -6,7 +6,8 @@
       "name": "Esstisch",
       "location": "Wohnzimmer",
       "options": {
-        "address": "XX:XX:XX:XX:XX"
+        "address": "XX:XX:XX:XX:XX",
+        "port" : 1
       }
     },
     {
@@ -18,8 +19,8 @@
       }
     },
     {
-      "con_type": "GPIO",
-      "name": "Beistelltisch",
+      "con_type": "MQTT",
+      "name": "QQ",
       "location": "Wohnzimmer",
       "options": {
         "address" : "some url",
