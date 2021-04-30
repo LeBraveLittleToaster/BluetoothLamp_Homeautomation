@@ -24,6 +24,7 @@
       "location": "Wohnzimmer",
       "options": {
         "address" : "some url",
+        "port" : 1883,
         "topic" : "some topic",
         "username" : "some uname",
         "password" : "some password"

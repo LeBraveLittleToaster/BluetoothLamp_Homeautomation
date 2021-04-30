@@ -2,7 +2,7 @@ from typing import List
 
 from stripper.config.Config import Config
 from stripper.model.strips import ControllableStrip
-from stripper.strip_manager_utils import convert_config_to_controllable_strips
+from stripper.managers.strip_manager_utils import convert_config_to_controllable_strips
 
 
 class StripManager:

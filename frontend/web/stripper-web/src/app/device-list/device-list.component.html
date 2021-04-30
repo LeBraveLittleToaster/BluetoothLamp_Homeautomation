@@ -1,0 +1,9 @@
+<ng-template [ngIf]="this.devices !== undefined">
+    <div class="device-grid-container" >
+        <mat-card class="device-grid-item" *ngFor="let device of this.devices; let i=index;">
+            <a class="device-grid-card-header">{{device.name}}</a>
+            <input [(colorPicker)]="this.color[i]" [style.background]="this.color[i]"/>
+            <button mat-button color="primary" (click)="onSubmitClick(i)">Submit</button>
+        </mat-card>
+    </div>
+</ng-template>

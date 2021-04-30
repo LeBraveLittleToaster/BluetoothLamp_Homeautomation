@@ -33,7 +33,7 @@ def parse_options_by_type(con_type: ConType, options: dict) -> Optional[ConOptio
         elif con_type == ConType.GPIO:
             return GpioConOptions(options["pin"])
         elif con_type == ConType.MQTT:
-            return MqttConOptions(options["address"], options["topic"], options["username"], options["password"])
+            return MqttConOptions(options["address"], options["port"], options["topic"], options["username"], options["password"])
     except KeyError:
         pass
     return None
@@ -81,9 +81,10 @@ class GpioConOptions(ConOptions):
 
 
 class MqttConOptions(ConOptions):
-    def __init__(self, address: str, topic: str, username: str, password: str):
+    def __init__(self, url: str, port: int, topic: str, username: str, password: str):
         super().__init__()
-        self.address: str = address
+        self.url: str = url
+        self.port = port
         self.topic: str = topic
         self.username: str = username
         self.password: str = password

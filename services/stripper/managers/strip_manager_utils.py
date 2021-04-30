@@ -8,21 +8,29 @@ from stripper.model.strips import ControllableStrip, BluetoothStrip, MqttStrip, 
 def config_to_controllable_strip(config_strip: ConfigStrip) -> ControllableStrip:
     if config_strip.con_type == ConType.BLUETOOTH:
         return BluetoothStrip(
+            config_strip.name,
+            config_strip.location,
             config_strip.strip_id,
             config_strip.options,
             ModeOff())
     elif config_strip.con_type == ConType.MQTT:
         return MqttStrip(
+            config_strip.name,
+            config_strip.location,
             config_strip.strip_id,
             config_strip.options,
             ModeOff())
     elif config_strip.con_type == ConType.GPIO:
         return GpioStrip(
+            config_strip.name,
+            config_strip.location,
             config_strip.strip_id,
             config_strip.options,
             ModeOff())
     else:
         return BluetoothStrip(
+            config_strip.name,
+            config_strip.location,
             config_strip.strip_id,
             config_strip.options,
             ModeOff())

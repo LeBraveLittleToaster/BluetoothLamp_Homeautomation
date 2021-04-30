@@ -1,0 +1,18 @@
+.device-grid-container {
+    display:flex;
+    flex-wrap: wrap;
+}
+
+.device-grid-item {
+    background-color: gray;
+    height: 250px;
+    min-width: 250px;
+    max-width: 1000px;
+    flex-grow: 10;
+    margin: 25px;
+}
+
+
+.device-grid-card-header{
+    
+}
