@@ -1,4 +1,5 @@
 import json
+import colorsys
 
 from flask_cors import CORS
 from flask import Flask, request
@@ -28,7 +29,18 @@ def get_device_list():
 
 @app.route('/device/<int:d_id>/mode/set', methods=['POST'])
 def set_mode_for_strip_by_id(d_id):
-    return "id " + str(d_id)
+    if request.is_json and "color" in request.json and "mode_id" in request.json:
+        body: dict = request.json
+        h = body.get('color').strip('#')
+        rgb = tuple(int(h[i:i + 2], 16) for i in (0, 2, 4))
+
+        color = colorsys.rgb_to_hsv(rgb[0] / float(256), rgb[1] / float(256), rgb[2] / float(256))
+
+        print("Color: " + str(color))
+        return "id " + str(d_id)
+    else:
+        print("NO COLOR")
+        return "WRONG"
 
 
 @app.route('/device/<int:d_id>/mode/send', methods=["GET"])
