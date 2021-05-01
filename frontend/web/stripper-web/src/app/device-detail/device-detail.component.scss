@@ -25,3 +25,14 @@
 #device-detail-tabs-container{
     width: 100%;
 }
+#device-detail-modes{
+    width: 100%;
+    flex-wrap: wrap;
+}
+.device-detail-modes-item{
+    flex: 1 1 20%;
+  box-sizing: border-box;
+  align-items: center;
+  flex-direction: row;
+  display: flex;
+}
