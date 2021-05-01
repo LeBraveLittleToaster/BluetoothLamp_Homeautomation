@@ -43,6 +43,16 @@ def set_mode_for_strip_by_id(d_id):
         return "WRONG"
 
 
+@app.route('/device/<int:d_id>/brightness/set', methods=['POST'])
+def set_brightness_for_strip_by_id(d_id: int):
+    if request.is_json and "brightness" in request.json:
+        print(request.json.get("brightness"))
+    else:
+        print("No brightness here")
+
+    return "ok"
+
+
 @app.route('/device/<int:d_id>/mode/send', methods=["GET"])
 def send_mode_for_strip_by_id(d_id: int):
     return "id " + str(d_id)

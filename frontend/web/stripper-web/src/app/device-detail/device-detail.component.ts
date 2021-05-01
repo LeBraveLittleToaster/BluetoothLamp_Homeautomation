@@ -7,9 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DeviceDetailComponent implements OnInit {
 
+  isTurnedOff = false
+  brightness = 0
+
   constructor() { }
 
   ngOnInit(): void {
   }
+
+  sliderOnChange(value:number | null) : void{
+    this.brightness = value == null ? 0 : value
+  }
+
 
 }
