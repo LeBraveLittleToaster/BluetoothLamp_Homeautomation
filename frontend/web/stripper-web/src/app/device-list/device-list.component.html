@@ -1,12 +1,21 @@
 <ng-template [ngIf]="this.devices !== undefined">
-    <div class="device-grid-container" >
-        <mat-card class="device-grid-item" *ngFor="let device of this.devices; let i=index;">
-            <!--
-            <a class="device-grid-card-header">{{device.name}}</a>
-            <input [(colorPicker)]="this.color[i]" [style.background]="this.color[i]"/>
-            <button mat-button color="primary" (click)="onSubmitClick(i)">Submit</button>
-            -->
-            <app-device-detail></app-device-detail>
-        </mat-card>
+    <div class="device-container">
+        <div class="device-grid-container">
+            <div class="device-grid-header" *ngIf="this.selectedDevice === undefined" [@fade]>
+            <a>Devices</a>
+        </div>
+        <div class="device-grid">
+            <ng-template [ngIf]="this.selectedDevice === undefined">
+                <div class="device-grid-item" [@fade] *ngFor="let device of devices" (click)="selectDevice(device)">
+                    <img (click)="onOnClicked(device)" class="device-icon-center" src="/assets/lightbulb_on.svg" alt="image">
+                    <a class="device-grid-item-header">{{device.name}}</a>
+                </div>
+            </ng-template>
+            <div class="device-grid-controls-container" *ngIf="this.selectedDevice !== undefined" [@fade_delayed]>
+                <app-device-controls [selectedDevice]="this.selectedDevice" (onBack)="selectDevice(undefined)"></app-device-controls>
+            </div>
+        </div>
     </div>
+    </div>
+
 </ng-template>

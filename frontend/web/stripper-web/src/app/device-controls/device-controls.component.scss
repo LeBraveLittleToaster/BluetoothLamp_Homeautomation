@@ -1,0 +1,55 @@
+.device-controls-back-icon {
+    margin-top: 10px;
+    margin-left: 7px;
+    height: 30px;
+    width: 30px;
+}
+
+.device-controls-header-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.device-controls-header-text{
+    height: 100%;
+    font-family: Inter, sans-serif;
+    font-size: 1.5rem;
+    margin-right: 12px;
+    margin-top: 10px;
+}
+
+.device-controls-container {
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+}
+
+button{
+    width: 30%;
+}
+
+.btn-group {
+    
+}
+
+.btn-group button {
+    padding: 10px 24px; /* Some padding */
+    cursor: pointer; /* Pointer/hand icon */
+  }
+  
+  .btn-group button:not(:last-child) {
+    border-right: none; /* Prevent double borders */
+  }
+  
+  /* Clear floats (clearfix hack) */
+  .btn-group:after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  
+  /* Add a background color on hover */
+  .btn-group button:hover {
+    background-color: rgba(44, 197, 24, 0.37);
+  }
