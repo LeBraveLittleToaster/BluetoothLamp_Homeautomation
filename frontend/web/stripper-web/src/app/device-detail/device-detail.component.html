@@ -1,0 +1,31 @@
+<div id="device-detail-container">
+    <div id="device-detail-container-column">
+        <div id="device-detail-light-switch-container">
+            
+        </div>
+        <div>
+            <mat-slider
+            #brightnessSlider
+            class="device-detail-brightness-slider"
+            max=100
+            min=0
+            step=10
+            [disabled]="isTurnedOff"
+            (input)="sliderOnChange(brightnessSlider.value)"
+            vertical="vertical"
+            aria-labelledby="brightness"></mat-slider>
+        </div>
+    </div>
+    <div id="device-detail-tabs-container">
+        <p>
+            Mode:
+            <mat-button-toggle-group id="device-detail-modes" class="col-xs-12">
+              <mat-button-toggle class="device-detail-modes-item" value=0>Mode0</mat-button-toggle>
+              <mat-button-toggle class="device-detail-modes-item" value=1>Mode1</mat-button-toggle>
+              <mat-button-toggle class="device-detail-modes-item" value=2>Mode2</mat-button-toggle>
+              <mat-button-toggle class="device-detail-modes-item" value=3>Mode3</mat-button-toggle>
+              <mat-button-toggle class="device-detail-modes-item" value=4>Mode4</mat-button-toggle>
+            </mat-button-toggle-group>
+          </p>
+    </div>
+</div>

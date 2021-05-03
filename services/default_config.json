@@ -1,0 +1,34 @@
+{
+  "version" : "0.0.1",
+  "strips": [
+    {
+      "con_type": "BLUETOOTH",
+      "name": "Esstisch",
+      "location": "Wohnzimmer",
+      "options": {
+        "address": "XX:XX:XX:XX:XX",
+        "port" : 1
+      }
+    },
+    {
+      "con_type": "GPIO",
+      "name": "Beistelltisch",
+      "location": "Wohnzimmer",
+      "options": {
+        "pin": 2
+      }
+    },
+    {
+      "con_type": "MQTT",
+      "name": "QQ",
+      "location": "Wohnzimmer",
+      "options": {
+        "address" : "some url",
+        "port" : 1883,
+        "topic" : "some topic",
+        "username" : "some uname",
+        "password" : "some password"
+      }
+    }
+  ]
+}
