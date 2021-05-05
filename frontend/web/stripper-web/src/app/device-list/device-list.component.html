@@ -1,3 +1,20 @@
+<mat-toolbar class="toolbar">
+    <span>LED</span>
+    <div class="toolbar-spacer"></div>
+    <div>
+        <ng-template [ngIf]="isLoadingMoods">
+            <mat-spinner [diameter]=30 class="spinner"></mat-spinner>
+        </ng-template>
+        <ng-template [ngIf]="!isLoadingMoods">
+            <button mat-button (click)="openBottomSheet()">Mood</button>
+        </ng-template>
+    </div>
+</mat-toolbar>
+
+<div class="chooser-container">
+</div>
+
+<!--
 <ng-template [ngIf]="this.devices !== undefined">
     <div class="device-container">
         <div class="device-grid-container">
@@ -19,3 +36,4 @@
     </div>
 
 </ng-template>
+-->

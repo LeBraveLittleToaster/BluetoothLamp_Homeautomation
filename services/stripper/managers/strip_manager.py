@@ -29,3 +29,7 @@ class StripManager:
         for key, c_strip in self.strips:
             print(c_strip)
         self.config = config
+
+    def set_mood_mode(self, mode):
+        for strip in self.strips:
+            strip.set_mode(mode)

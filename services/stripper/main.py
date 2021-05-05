@@ -7,7 +7,8 @@ from markupsafe import escape
 
 from stripper.config.Config import Config
 from stripper.managers.strip_manager import StripManager
-from stripper.net_messages.device_messages import get_device_list_message
+from stripper.model.modes import get_mode, ModeOff, Mode
+from stripper.net_messages.device_messages import get_device_list_message, get_moods_list_message
 
 app = Flask(__name__)
 CORS(app)
@@ -25,6 +26,21 @@ strips_manager.print()
 @app.route('/device/list', methods=['GET'])
 def get_device_list():
     return get_device_list_message(strips_manager.strips)
+
+
+@app.route('/moods/list', methods=['GET'])
+def get_moods_list():
+    return get_moods_list_message(config.moods)
+
+
+@app.route('/moods/set', methods=['POST'])
+def set_mood_by_mode():
+    if request.is_json and "mode" in request.json:
+        body: dict = request.json
+        mode: Mode = get_mode(body.get("mode"))
+        print("Setting mode: " + str(mode))
+        strips_manager.set_mood_mode(mode)
+    return "{}"
 
 
 @app.route('/device/<int:d_id>/mode/set', methods=['POST'])
