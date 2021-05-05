@@ -4,7 +4,7 @@ import { Component, Input, OnInit, Output } from '@angular/core';
 import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { ActivatedRoute } from '@angular/router';
 import Device from '../api-objects/device';
-import Mood from '../api-objects/Mood'
+import Mood from '../api-objects/Mood';
 import { MoodChooserComponent } from '../mood-chooser/mood-chooser.component';
 
 
@@ -21,27 +21,7 @@ export interface DeviceListResponse{
 @Component({
   selector: 'app-device-list',
   templateUrl: './device-list.component.html',
-  styleUrls: ['./device-list.component.scss'],
-  animations: [
-    trigger('fade', [      
-      transition(':enter', [
-        style({opacity: 0}),
-        animate(".5s", style({opacity: 1}))
-      ]),
-      transition(':leave', [
-        animate(".5s", style({opacity: 0}))
-      ])
-    ]),
-    trigger('fade_delayed', [      
-      transition(':enter', [
-        style({opacity: 0}),
-        animate(".5s .5s", style({opacity: 1}))
-      ]),
-      transition(':leave', [
-        animate(".5s .5s", style({opacity: 0}))
-      ])
-    ])
-  ],
+  styleUrls: ['./device-list.component.scss']
 })
 export class DeviceListComponent implements OnInit {
  
@@ -52,9 +32,10 @@ export class DeviceListComponent implements OnInit {
   moods:Mood[] | undefined = undefined;
 
   color:string[] = []
-  isDetailOpen:boolean = false
-  selectedDevice:Device|undefined = undefined
   lastSelectedClass:any = undefined;
+
+  isSelectingColor:boolean = false;
+  selectedDevices:Device[] | undefined;
 
   constructor(private http:HttpClient, private _bottomSheet: MatBottomSheet) { }
 
@@ -75,13 +56,23 @@ export class DeviceListComponent implements OnInit {
     
   }
 
+  switchToColorSelect(){
+    console.log(this.selectedDevices)
+    if(this.selectedDevices !== undefined){
+      this.isSelectingColor = true
+    }
+  }
+  switchToDeviceSelect(){
+    this.isSelectingColor = false
+  }
+  
+
   openBottomSheet(): void {
     this._bottomSheet.open(MoodChooserComponent,
       {
         data: this.moods
       });
   }
-
   
   onSubmitClick(index:number):void{
     console.log("INDEX=" + this.color[index])

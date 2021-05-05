@@ -10,7 +10,20 @@
 
     vertical-align: center;
     border-radius: 30px;
-    background-color: red;
+    background-color: gray;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.device-list-header{
+    display: flex;
+    padding-left: 30px;
+    padding-top: 30px;
+    margin-bottom: 20px;
+}
+
+.switch-to-color-button {    
+    
 }
 
 .toolbar{

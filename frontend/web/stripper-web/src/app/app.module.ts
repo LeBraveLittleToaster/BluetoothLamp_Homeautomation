@@ -22,10 +22,8 @@ import { MatGridListModule } from '@angular/material/grid-list'
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet'
 import { FormsModule } from '@angular/forms'; 
 import { AngularSvgIconModule } from 'angular-svg-icon';
-import { ColorPickerModule } from 'ngx-color-picker';
 import { DeviceControlsComponent } from './device-controls/device-controls.component';
 import { MoodChooserComponent } from './mood-chooser/mood-chooser.component';
-
 
 
 @NgModule({
@@ -42,7 +40,6 @@ import { MoodChooserComponent } from './mood-chooser/mood-chooser.component';
     BrowserAnimationsModule,
     HttpClientModule,
     MatCardModule,
-    ColorPickerModule,
     MatButtonModule,
     MatSliderModule,
     MatTabsModule,

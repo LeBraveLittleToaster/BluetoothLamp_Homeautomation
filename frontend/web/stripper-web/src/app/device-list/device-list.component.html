@@ -12,6 +12,29 @@
 </mat-toolbar>
 
 <div class="chooser-container">
+    
+    <ng-template [ngIf]="!isSelectingColor">
+        <div class="device-list-header">
+            <h2>Choose device(s)</h2>
+            <span class="toolbar-spacer"></span>
+            <button mat-fab color="primary" (click)="switchToColorSelect()" class="switch-to-color-button">
+                <mat-icon>keyboard_arrow_right</mat-icon>
+            </button>
+        </div>
+        <mat-selection-list [(ngModel)]="selectedDevices">
+            <mat-list-option *ngFor="let device of this.devices" [value]="device">Name {{device.name}}</mat-list-option>
+        </mat-selection-list>
+    </ng-template>
+    <ng-template [ngIf]="isSelectingColor">
+        <div class="device-list-header">
+            <h2>Choose color</h2>
+            <span class="toolbar-spacer"></span>
+            <button mat-fab color="primary" (click)="switchToDeviceSelect()" class="switch-to-color-button">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+        <app-device-controls></app-device-controls>
+    </ng-template>
 </div>
 
 <!--
