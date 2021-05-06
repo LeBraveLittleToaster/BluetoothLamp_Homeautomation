@@ -8,12 +8,18 @@ import Device from '../api-objects/device';
 })
 export class DeviceControlsComponent implements OnInit {
 
-  @Input() selectedDevice:Device | undefined;
+  @Input() selectedDevices:Device[] | undefined;
   @Output() onBack:EventEmitter<any> = new EventEmitter();
 
   constructor() { }
 
   ngOnInit(): void {
+    
+  }
+
+  onFinishChoosing(options:any){
+    console.log("ANY")
+    console.log(options)
   }
 
   onBackClicked(){

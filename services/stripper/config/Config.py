@@ -3,6 +3,8 @@ from enum import Enum
 from objprint import add_objprint
 from typing import List, Optional
 
+from stripper.model.modes import get_mode, Mode
+
 
 class ConType(Enum):
     BLUETOOTH = 0
@@ -33,7 +35,8 @@ def parse_options_by_type(con_type: ConType, options: dict) -> Optional[ConOptio
         elif con_type == ConType.GPIO:
             return GpioConOptions(options["pin"])
         elif con_type == ConType.MQTT:
-            return MqttConOptions(options["address"], options["port"], options["topic"], options["username"], options["password"])
+            return MqttConOptions(options["address"], options["port"], options["topic"], options["username"],
+                                  options["password"])
     except KeyError:
         pass
     return None
@@ -49,10 +52,42 @@ def to_config_strip(strip_id: int, json_strip: dict):
         return None
 
 
+class ConfigMood:
+    def __init__(self, name: str, mode: Mode):
+        self.name = name
+        self.mode = mode
+
+    def to_dict(self):
+        return {
+            "name": self.name,
+            "mode": self.mode.to_dict()
+        }
+
+
+def to_config_mood(json_config) -> Optional[ConfigMood]:
+    try:
+        name = json_config.get("name")
+        mode = get_mode(json_config.get("mode"))
+        return None if name is None or mode is None else ConfigMood(name, mode)
+    except KeyError:
+        print("Parse error on mode!")
+        return None
+
+
+def parse_moods(json_config) -> Optional[List[ConfigMood]]:
+    try:
+        moods = json_config["moods"]
+        config_moods: List[ConfigMood] = list(map(lambda e: to_config_mood(e), moods))
+        return [] if config_moods is None else config_moods
+    except KeyError:
+        return None
+
+
 @add_objprint()
 class Config:
     def __init__(self, json_config: dict):
         self.version = json_config["version"]
+        self.moods: List[ConfigMood] = parse_moods(json_config)
         self.strips: List[ConfigStrip] = parse_strips(json_config)
 
 

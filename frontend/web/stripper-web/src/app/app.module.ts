@@ -7,7 +7,6 @@ import { DeviceListComponent } from './device-list/device-list.component';
 import { DeviceDetailComponent } from './device-detail/device-detail.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http'
-import { DeviceListResolver } from './device-list/device-list.resolver';
 import { MatCardModule } from '@angular/material/card'
 import { MatButtonModule } from '@angular/material/button'
 import { MatSliderModule } from '@angular/material/slider'
@@ -15,12 +14,16 @@ import { MatTabsModule } from '@angular/material/tabs'
 import { MatButtonToggleModule } from '@angular/material/button-toggle'
 import { MatListModule } from '@angular/material/list'
 import { MatIconModule } from '@angular/material/icon'
+import { MatToolbarModule } from '@angular/material/toolbar'
+import { MatRadioModule } from '@angular/material/radio'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { MatProgressBarModule } from '@angular/material/progress-bar'
 import { MatGridListModule } from '@angular/material/grid-list'
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet'
 import { FormsModule } from '@angular/forms'; 
 import { AngularSvgIconModule } from 'angular-svg-icon';
-import { ColorPickerModule } from 'ngx-color-picker';
 import { DeviceControlsComponent } from './device-controls/device-controls.component';
-
+import { MoodChooserComponent } from './mood-chooser/mood-chooser.component';
 
 
 @NgModule({
@@ -28,7 +31,8 @@ import { DeviceControlsComponent } from './device-controls/device-controls.compo
     AppComponent,
     DeviceListComponent,
     DeviceDetailComponent,
-    DeviceControlsComponent
+    DeviceControlsComponent,
+    MoodChooserComponent
   ],
   imports: [
     BrowserModule,
@@ -36,22 +40,22 @@ import { DeviceControlsComponent } from './device-controls/device-controls.compo
     BrowserAnimationsModule,
     HttpClientModule,
     MatCardModule,
-    ColorPickerModule,
     MatButtonModule,
     MatSliderModule,
     MatTabsModule,
     MatButtonToggleModule,
     MatListModule,
     MatIconModule,
+    MatToolbarModule,
+    MatRadioModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
     AngularSvgIconModule.forRoot(),
     MatGridListModule,  
-    FormsModule
+    FormsModule,
+    MatBottomSheetModule
   ],
-  providers: [
-    DeviceListResolver,
-
-
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
