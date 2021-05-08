@@ -11,8 +11,7 @@ class Mode:
         pass
 
     @staticmethod
-    def from_dict(data:dict):
-        print("DATA:" + str(data))
+    def from_dict(data: dict):
         return get_mode(data)
 
     def __str__(self):
@@ -20,6 +19,7 @@ class Mode:
 
     def __repr__(self):
         return str(self.to_dict())
+
 
 class ModeOff(Mode):
 

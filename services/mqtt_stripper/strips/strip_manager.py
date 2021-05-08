@@ -1,16 +1,27 @@
-from typing import List
+from typing import List, Optional
 
+import paho.mqtt.client as mqtt
+
+from mqtt_stripper.config.runnerconfig import RunnerConfig
 from mqtt_stripper.strips.db.device import Device
 from mqtt_stripper.strips.db.modes import Mode
 from mqtt_stripper.strips.db.mongo_connector import MongoConnector
-from stripper.config.Config import Config
-from stripper.model.strips import ControllableStrip
-from stripper.managers.strip_manager_utils import convert_config_to_controllable_strips
+
+
+def on_connect_mqtt(client, user_data, flags, rc):
+    print("Connected with result code " + str(rc))
 
 
 class StripManager:
-    def __init__(self, mongo_con: MongoConnector):
+    def __init__(self, mongo_con: MongoConnector, runner_config: RunnerConfig):
         self.mongo_con: MongoConnector = mongo_con
+        self.runner_config: RunnerConfig = runner_config
+        self.mqtt_client: mqtt.Client = mqtt.Client()
+        self.mqtt_client.on_connect = on_connect_mqtt
+        self.mqtt_client.username_pw_set(self.runner_config.mqtt_username, self.runner_config.mqtt_password)
+
+    def connect(self):
+        self.mqtt_client.connect(self.runner_config.mqtt_ip, self.runner_config.mqtt_port)
 
     def print(self):
         print("+++++++++++++")
@@ -30,7 +41,12 @@ class StripManager:
             devices: List[Device] = self.mongo_con.get_devices_in_id_list(
                 list(map(lambda x: x.strip_uuid, mood.manipulators))
             )
-            print(devices)
+            for manipulator in mood.manipulators:
+                for device in devices:
+                    if device.uuid == manipulator.strip_uuid:
+                        self.mqtt_client.publish(device.input_topic, str(manipulator.mode.to_dict()))
 
     def set_mode(self, strip_uuid: str, mode: Mode):
-        print("Setting strip: " + strip_uuid + " to mode: " + str(mode))
+        device:Optional[Device] = self.mongo_con.get_device(strip_uuid)
+        if device is not None:
+            self.mqtt_client.publish(device.input_topic, str(mode.to_dict()))

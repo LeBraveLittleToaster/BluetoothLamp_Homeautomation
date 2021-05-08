@@ -1,9 +1,11 @@
 import uuid
+import argparse
 from typing import List
 
 from flask import Flask, request, abort
 from flask_cors import CORS
 
+from mqtt_stripper.config.runnerconfig import RunnerConfig
 from mqtt_stripper.network.NetworkMessages import DeviceMessages, MoodMessages
 from mqtt_stripper.strips.db.device import Device
 from mqtt_stripper.strips.db.modes import ModeOff, ModeSolidColor, Mode
@@ -14,9 +16,16 @@ from mqtt_stripper.strips.strip_manager import StripManager
 app = Flask(__name__)
 CORS(app)
 
-# with open('../default_config.json') as config_json:
-#    config: RunnerConfig = RunnerConfig.from_dict(json.load(config_json))
+parser = argparse.ArgumentParser()
+parser.add_argument("port", help="port the server is running on (http)",
+                    type=int)
+parser.add_argument("mqtt_ip", help="mqtt server ip", type=str)
+parser.add_argument("mqtt_port", help="mqtt server port", type=int)
+parser.add_argument("mqtt_username", help="mqtt username", type=str)
+parser.add_argument("mqtt_password", help="mqtt password", type=str)
+p_args = parser.parse_args()
 
+config = RunnerConfig(p_args.port, p_args.mqtt_ip, p_args.mqtt_port, p_args.mqtt_username, p_args.mqtt_password)
 
 mongo_con = MongoConnector(MongoDbConfig.get_default_config())
 try:
@@ -36,8 +45,8 @@ try:
 except AlreadyPresentException as e:
     print("Mood uuid_mood already in database...")
 
-s_manager = StripManager(mongo_con)
-
+s_manager = StripManager(mongo_con, config)
+s_manager.connect()
 
 # s_manager.set_mood_mode("uuid_mood")
 
@@ -110,4 +119,4 @@ def set_mode(s_uuid):
     abort(500)
 
 
-app.run("0.0.0.0", 4321)
+app.run("0.0.0.0", config.http_port)

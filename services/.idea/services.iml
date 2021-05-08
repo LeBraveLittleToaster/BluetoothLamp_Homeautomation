@@ -10,14 +10,6 @@
   <component name="PackageRequirementsSettings">
     <option name="removeUnused" value="true" />
   </component>
-  <component name="PyNamespacePackagesService">
-    <option name="namespacePackageFolders">
-      <list>
-        <option value="$MODULE_DIR$/stripper" />
-        <option value="$MODULE_DIR$/test" />
-      </list>
-    </option>
-  </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_FOLDERS">
       <list>
