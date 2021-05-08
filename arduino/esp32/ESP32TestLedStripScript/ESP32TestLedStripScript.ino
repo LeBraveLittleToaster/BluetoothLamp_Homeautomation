@@ -1,29 +1,35 @@
 #include <FastLED.h>
-#include <WiFi.h>
-#include <credentials.h>
+#include "credentials.h"
+#include "EspMQTTClient.h"
 
 #define NUM_LEDS 3
 #define DATA_PIN 12 //D12
 
+EspMQTTClient client(
+  WIFI_SSID,
+  WIFI_PASSWD,
+  MQTT_SERVER,
+  MQTT_USERNAME,
+  MQTT_PASSWORD,
+  "MyEsp",
+  MQTT_PORT
+);
+
 uint8_t gHue = 0;
 uint8_t gBrightness = 255;
 uint8_t  gHueDelta = 3;
- 
-  
+
 
 CRGB leds[NUM_LEDS];
 
 
 void setup() {
-  Serial.begin(115200);
-  WiFi.begin(WIFI_SSID, WIFI_PASSWD);
- 
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.println("Connecting to WiFi..");
-  }
-  Serial.println("Connected to the WiFi network");
+
+  Serial.begin(9600);
+
+  
   Serial.println("LED controller coming online...");
+  Serial.println(WIFI_SSID);
 
   FastLED.addLeds<WS2812B, DATA_PIN, GRB>(leds, NUM_LEDS);
   FastLED.setBrightness(gBrightness);
@@ -37,8 +43,21 @@ void setup() {
 }
 
 
+void onConnectionEstablished() {
+  client.subscribe("test/in", [] (const String &payload)  {
+    Serial.println(payload);
+  });
+
+  client.publish("test/out", "This is a message from myesp");
+}
+
+
+  
+
+
 void loop() {
-  gHue += gHueDelta;
+  client.loop();
+  
   setColor(0, NUM_LEDS, gHue, 255, 255);
   delay(100);
   FastLED.show();
