@@ -76,6 +76,15 @@
                 Label:
                     size_hint_y: None
                     text: "Speed"
+            BoxLayout:
+                orientation: 'vertical'
+                Spinner:
+                    id: mode_spinner
+                    size_hint: None, None
+                    size: 100, 44
+                    text: 'Mode0'
+                    values: 'Mode0', 'Mode1', 'Mode2', 'Mode3', 'Mode4'
+                    on_text: root.on_selection(self)
         Button:
             size_hint_y:  None
             text:"Go back"

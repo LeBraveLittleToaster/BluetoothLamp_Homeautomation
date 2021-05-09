@@ -1,21 +1,23 @@
 from typing import List, Optional, Mapping, Dict
 import paho.mqtt.client as mqtt
-from utils.Config import Config, Strip
+from utils.Config import Config, Strip, MqttConOptions
 from utils.runnerconfig import RunnerConfig
 
 
 class StripValue:
 
-    def __init__(self, strip_id: int, hue=0, brightness=0, speed=0):
+    def __init__(self, strip_id: int, hue=0, brightness=0, speed=0, mode_id=0):
         self.hue = hue
         self.brightness = brightness
         self.speed = speed
         self.strip_id = strip_id
+        self.mode_id = mode_id
 
-    def update_all_values(self, hue: int, brightness: int, speed: int):
+    def update_all_values(self, hue: int, brightness: int, speed: int, mode_id: int):
         self.hue = hue
         self.brightness = brightness
         self.speed = speed
+        self.mode_id = mode_id
 
 
 def on_connect_mqtt(client, user_data, flags, rc):
@@ -40,9 +42,52 @@ class StripManager:
     def select_id(self, strip_id: int) -> None:
         self.selected_id = strip_id
 
-    def set_strip_value(self, strip_id: int, hue: int, brightness: int, speed: int):
+    @staticmethod
+    def get_str_from_mode(mode_id:int):
+        if mode_id == 1:
+            return "Mode1"
+        elif mode_id == 2:
+            return "Mode2"
+        elif mode_id == 3:
+            return "Mode3"
+        elif mode_id == 4:
+            return 4
+        else:
+            return "Mode0"
+
+    @staticmethod
+    def get_mode_from_str(mode: str):
+        if mode == "Mode1":
+            return 1
+        elif mode == "Mode2":
+            return 2
+        elif mode == "Mode3":
+            return 3
+        elif mode == "Mode4":
+            return 4
+        else:
+            return 0
+
+    def set_strip_value(self, strip_id: int, hue: int, brightness: int, speed: int, mode: str):
         strip_value = self.strip_values.get(strip_id, StripValue(strip_id))
-        strip_value.update_all_values(hue, brightness, speed)
+        strip_value.update_all_values(hue, brightness, speed, self.get_mode_from_str(mode))
+        self.send_to_mqtt(strip_id, hue, brightness, speed, self.get_mode_from_str(mode))
+
+    def send_to_mqtt(self, strip_id: int, hue: int, brightness: int, speed: int, mode_id: int):
+        strip = self.get_strip_by_id(strip_id)
+        options: MqttConOptions = strip.options
+        if self.mqtt_client.is_connected() is False:
+            self.reconnect_mqtt()
+        self.mqtt_client.publish(options.output_topic, str({
+            "mode_id": mode_id,
+            "hue": hue,
+            "brightness": brightness,
+            "speed": speed
+        }))
+
+    def reconnect_mqtt(self):
+        self.mqtt_client.disconnect()
+        self.connect()
 
     def get_or_add_strip_value_by_id(self, strip_id: int) -> StripValue:
         strip_value: Optional[StripValue] = self.strip_values.get(strip_id, None)

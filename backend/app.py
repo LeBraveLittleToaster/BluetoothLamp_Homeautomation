@@ -9,6 +9,7 @@ from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.screenmanager import ScreenManager, Screen, WipeTransition
 from kivy.uix.slider import Slider
+from kivy.uix.spinner import Spinner
 
 from utils.Config import Config
 from utils.StripManager import StripManager, StripValue
@@ -17,16 +18,13 @@ from utils.runnerconfig import RunnerConfig
 Builder.load_file("screens.kv")
 
 parser = argparse.ArgumentParser()
-parser.add_argument("port", help="port the server is running on (http)",
-                    type=int)
 parser.add_argument("mqtt_ip", help="mqtt server ip", type=str)
 parser.add_argument("mqtt_port", help="mqtt server port", type=int)
 parser.add_argument("mqtt_username", help="mqtt username", type=str)
 parser.add_argument("mqtt_password", help="mqtt password", type=str)
 p_args = parser.parse_args()
 
-runner_config = RunnerConfig(p_args.port, p_args.mqtt_ip, p_args.mqtt_port, p_args.mqtt_username, p_args.mqtt_password)
-
+runner_config = RunnerConfig(4200, p_args.mqtt_ip, p_args.mqtt_port, p_args.mqtt_username, p_args.mqtt_password)
 
 
 def get_id(instance):
@@ -39,12 +37,14 @@ class StripDetailScreen(Screen):
     def __init__(self, **kw):
         super().__init__(**kw)
         self.is_dragging = False
+        self.mode = "Mode1"
 
     def on_pre_enter(self, *args):
         strip_value: StripValue = strip_manager.get_or_add_strip_value_by_id(strip_manager.selected_id)
         self.ids.slider_hue.value = strip_value.hue
         self.ids.slider_brightness.value = strip_value.brightness
         self.ids.slider_speed.value = strip_value.speed
+        self.ids.mode_spinner.value = StripManager.get_str_from_mode(strip_value.mode_id)
 
     def update_strip_value(self):
         print("Updating")
@@ -52,7 +52,8 @@ class StripDetailScreen(Screen):
             strip_manager.selected_id,
             self.ids.slider_hue.value,
             self.ids.slider_brightness.value,
-            self.ids.slider_speed.value
+            self.ids.slider_speed.value,
+            self.ids.mode_spinner.text
         )
 
     def on_slider_up(self, instance: Slider):
@@ -62,6 +63,10 @@ class StripDetailScreen(Screen):
 
     def on_slider_down(self, instance: Slider):
         self.is_dragging = True
+
+    def on_selection(self, instance: Spinner):
+        print("Selected " + instance.text)
+        self.update_strip_value()
 
 
 class DashboardScreen(Screen):
