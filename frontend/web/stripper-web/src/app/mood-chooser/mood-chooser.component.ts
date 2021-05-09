@@ -21,7 +21,7 @@ export class MoodChooserComponent implements OnInit {
 
   onMoodChanged(mood:Mood){
     this.http.post("http://localhost:4321/moods/set", {
-      "mode" : mood.mode
+      //"mode" : mood.mode
     }).subscribe();
   }
 

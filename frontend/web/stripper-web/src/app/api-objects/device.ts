@@ -1,7 +1,5 @@
 export default interface Device{
-    id:number;
+    uuid:number;
     location:string;
     name:string;
-    con_type:string;
-    mode:any;
 }

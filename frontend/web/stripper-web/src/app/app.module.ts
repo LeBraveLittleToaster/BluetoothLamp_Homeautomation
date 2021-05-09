@@ -24,6 +24,9 @@ import { FormsModule } from '@angular/forms';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { DeviceControlsComponent } from './device-controls/device-controls.component';
 import { MoodChooserComponent } from './mood-chooser/mood-chooser.component';
+import { DeviceManagerComponent } from './device/device-manager/device-manager.component';
+import { ToolbarComponent } from './toolbar/toolbar.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 
 @NgModule({
@@ -32,7 +35,10 @@ import { MoodChooserComponent } from './mood-chooser/mood-chooser.component';
     DeviceListComponent,
     DeviceDetailComponent,
     DeviceControlsComponent,
-    MoodChooserComponent
+    MoodChooserComponent,
+    DeviceManagerComponent,
+    ToolbarComponent,
+    LandingPageComponent
   ],
   imports: [
     BrowserModule,

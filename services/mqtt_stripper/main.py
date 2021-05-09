@@ -53,7 +53,9 @@ s_manager.connect()
 
 @app.route("/device/list", methods=["GET"])
 def get_device_list():
-    return DeviceMessages.get_device_list_msg(mongo_con.get_device_list())
+    response = DeviceMessages.get_device_list_msg(mongo_con.get_device_list())
+    print(response)
+    return response
 
 
 @app.route("/device/add", methods=["PUT"])
