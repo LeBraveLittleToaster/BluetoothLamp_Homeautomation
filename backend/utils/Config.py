@@ -15,16 +15,13 @@ def auto_str(cls):
 
 
 class ConType(Enum):
-    BLUETOOTH = 0
-    GPIO = 1
+    MQTT = 0
 
 
 def parse_options_by_type(con_type: ConType, options: dict):
     try:
-        if con_type == ConType.BLUETOOTH:
-            return BluetoothConOptions(options["address"])
-        elif con_type == ConType.GPIO:
-            return BluetoothConOptions(options["pin"])
+        if con_type == ConType.MQTT:
+            return MqttConOptions(options["output_topic"])
     except KeyError:
         pass
     return None
@@ -67,13 +64,7 @@ class Strip:
         self.options = options
 
 
-class BluetoothConOptions(ConOptions):
-    def __init__(self, address: str):
+class MqttConOptions(ConOptions):
+    def __init__(self, output_topic: str):
         super().__init__()
-        self.address = address
-
-
-class GPIOConOptions(ConOptions):
-    def __init__(self, pin: int):
-        super().__init__()
-        self.pin = pin
+        self.output_topic = output_topic

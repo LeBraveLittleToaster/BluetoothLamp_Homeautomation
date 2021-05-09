@@ -1,3 +1,4 @@
+import argparse
 import json
 from typing import Optional
 
@@ -11,8 +12,21 @@ from kivy.uix.slider import Slider
 
 from utils.Config import Config
 from utils.StripManager import StripManager, StripValue
+from utils.runnerconfig import RunnerConfig
 
 Builder.load_file("screens.kv")
+
+parser = argparse.ArgumentParser()
+parser.add_argument("port", help="port the server is running on (http)",
+                    type=int)
+parser.add_argument("mqtt_ip", help="mqtt server ip", type=str)
+parser.add_argument("mqtt_port", help="mqtt server port", type=int)
+parser.add_argument("mqtt_username", help="mqtt username", type=str)
+parser.add_argument("mqtt_password", help="mqtt password", type=str)
+p_args = parser.parse_args()
+
+runner_config = RunnerConfig(p_args.port, p_args.mqtt_ip, p_args.mqtt_port, p_args.mqtt_username, p_args.mqtt_password)
+
 
 
 def get_id(instance):
@@ -33,6 +47,7 @@ class StripDetailScreen(Screen):
         self.ids.slider_speed.value = strip_value.speed
 
     def update_strip_value(self):
+        print("Updating")
         strip_manager.set_strip_value(
             strip_manager.selected_id,
             self.ids.slider_hue.value,
@@ -96,5 +111,6 @@ if __name__ == '__main__':
     with open('config.json') as config_json:
         config = Config(json.load(config_json))
         global strip_manager
-        strip_manager = StripManager(config.strips)
+        strip_manager = StripManager(config.strips, runner_config)
+        strip_manager.connect()
         BackendApp(config).run()

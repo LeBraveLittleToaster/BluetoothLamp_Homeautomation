@@ -1,6 +1,7 @@
 from typing import List, Optional, Mapping, Dict
-
+import paho.mqtt.client as mqtt
 from utils.Config import Config, Strip
+from utils.runnerconfig import RunnerConfig
 
 
 class StripValue:
@@ -17,13 +18,24 @@ class StripValue:
         self.speed = speed
 
 
+def on_connect_mqtt(client, user_data, flags, rc):
+    print("Connected with result code " + str(rc))
+
+
 class StripManager:
-    def __init__(self, strips: List[Strip], strip_values=None):
+    def __init__(self, strips: List[Strip], runner_config: RunnerConfig, strip_values=None):
         self.strips: List[Strip] = strips
+        self.runner_config = runner_config
         self.selected_id: Optional[int] = None
         self.strip_values: Dict[int, StripValue] = strip_values \
             if strip_values is not None \
             else self.generate_empty_values(self.strips)
+        self.mqtt_client: mqtt.Client = mqtt.Client()
+        self.mqtt_client.on_connect = on_connect_mqtt
+        self.mqtt_client.username_pw_set(self.runner_config.mqtt_username, self.runner_config.mqtt_password)
+
+    def connect(self):
+        self.mqtt_client.connect(self.runner_config.mqtt_ip, self.runner_config.mqtt_port)
 
     def select_id(self, strip_id: int) -> None:
         self.selected_id = strip_id
