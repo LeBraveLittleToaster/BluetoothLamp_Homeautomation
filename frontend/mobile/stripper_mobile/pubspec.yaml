@@ -24,6 +24,7 @@ dependencies:
   http: ^0.13.3
   flutter_spinkit: "^4.1.2"
   prompt_dialog: ^1.0.0
+  sleek_circular_slider: ^2.0.0
   flutter:
     sdk: flutter
 
