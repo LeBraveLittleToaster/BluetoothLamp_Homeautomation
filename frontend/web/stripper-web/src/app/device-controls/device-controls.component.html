@@ -1,9 +1,3 @@
-<div class="device-controls-container">
-    <div class="device-controls-header-container">
-        <img (click)="onBackClicked()" class="device-controls-back-icon" src="/assets/arrow_back.svg" alt="image">
-        <a class="device-controls-header-text">{{selectedDevice?.name}}</a>
-    </div>
-    <div>
-        Here choose color and parameter
-    </div>
+<div class="color-slider-bg">
+    <input type="range" class="rgb-slider" min="0" max="255" step="1">
 </div>

@@ -8,6 +8,7 @@
 // Be sure that you only ever include this mixin once!
 @include mat-core();
 
+
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
@@ -24,7 +25,7 @@ $stripper-web-theme: mat-light-theme(
     color: (
       primary: $stripper-web-primary,
       accent: $stripper-web-accent,
-      warn: $stripper-web-warn,
+      warn: $stripper-web-warn
     ),
   )
 );
@@ -41,8 +42,8 @@ body {
   height: 100%;
 }
 body {
-  background: #edc0bf;
-  background: linear-gradient(90deg, #edc0bf 0, #c4caef 58%);
+  background: #181818;
+  background: linear-gradient(90deg, #212429 0, #212429 58%);
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
