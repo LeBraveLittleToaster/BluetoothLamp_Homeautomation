@@ -29,10 +29,10 @@ class MongoConnector:
     def get_device_list(self) -> List[Device]:
         return list(map(lambda x: Device.from_dict(x), list(self.device_col.find())))
 
-    def add_device(self, uuid: str, name: str, location: str, input_topic: str, output_topic: str):
+    def add_device(self, uuid: str, name: str, location: str, supported_modes: List[int], input_topic: str, output_topic: str):
         if self.device_col.count({"uuid": uuid}) == 0:
             self.device_col.insert_one(Device(
-                uuid, name, location, input_topic, output_topic
+                uuid, name, location, supported_modes, input_topic, output_topic
             ).to_dict())
         else:
             raise AlreadyPresentException()

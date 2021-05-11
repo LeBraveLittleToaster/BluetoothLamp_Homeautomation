@@ -1,5 +1,5 @@
-import uuid
 import argparse
+import uuid
 from typing import List
 
 from flask import Flask, request, abort
@@ -29,12 +29,12 @@ config = RunnerConfig(p_args.port, p_args.mqtt_ip, p_args.mqtt_port, p_args.mqtt
 
 mongo_con = MongoConnector(MongoDbConfig.get_default_config())
 try:
-    mongo_con.add_device("uuid1", "name", "loc", "in", "out")
+    mongo_con.add_device("uuid1", "name", "loc", [1, 2, 3, 4, 5], "in", "out")
 except AlreadyPresentException as e:
     print("Device uuid1 already in database...")
 
 try:
-    mongo_con.add_device("uuid2", "name2", "loc2", "in2", "out2")
+    mongo_con.add_device("uuid2", "name2", "loc2", [1, 2, 3], "in2", "out2")
 except AlreadyPresentException as e:
     print("Device uuid2 already in database...")
 
@@ -47,6 +47,7 @@ except AlreadyPresentException as e:
 
 s_manager = StripManager(mongo_con, config)
 s_manager.connect()
+
 
 # s_manager.set_mood_mode("uuid_mood")
 

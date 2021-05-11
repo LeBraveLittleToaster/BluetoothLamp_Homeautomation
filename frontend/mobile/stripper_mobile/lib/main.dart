@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:prompt_dialog/prompt_dialog.dart';
 import 'package:stripper_mobile/colorsetter/ColorSetterWidget.dart';
 import 'package:stripper_mobile/devicemanager/DeviceManagerWidget.dart';
+import 'package:stripper_mobile/devicemanager/DeviceSelecterWidget.dart';
 import 'package:stripper_mobile/net/requester.dart';
 import 'package:stripper_mobile/types/device.dart';
 
@@ -43,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _getWidgetOption(int index, List<Device> devices) {
     switch (index) {
       case 0:
-        return ColorSetterWidget(devices: devices);
+        return DeviceSelecterWidget(devices: devices);
       case 1:
         return DeviceManagerWidget(devices: devices);
       default:
@@ -105,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       BottomNavigationBarItem(
                           icon: Icon(Icons.devices), label: "Devices"),
                       BottomNavigationBarItem(
-                          icon: Icon(Icons.settings), label: "Settings")
+                          icon: Icon(Icons.mood), label: "Moods")
                     ],
                     currentIndex: _selectedIndex,
                     selectedItemColor: Colors.amber[800],
