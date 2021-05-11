@@ -73,6 +73,15 @@ def add_device():
     abort(409)
 
 
+@app.route("/device/<string:d_uuid>/state/set$is_on=<string:s_is_on>", methods=["PUT"])
+def set_device_is_on(d_uuid, s_is_on: str):
+    if s_is_on.lower() in ['true', 'false']:
+        s_manager.set_is_on(d_uuid, s_is_on.lower() == 'true')
+        return "", 200
+    else:
+        return "", 507
+
+
 @app.route("/device/<string:d_uuid>/delete", methods=["DELETE"])
 def delete_device(d_uuid):
     mongo_con.remove_device(d_uuid)

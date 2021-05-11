@@ -19,9 +19,9 @@ class DeviceMessages:
         })
 
     @staticmethod
-    def get_device_add_msg(uuid:str):
+    def get_device_add_msg(uuid: str):
         return json.dumps({
-            "uuid" : uuid
+            "uuid": uuid
         })
 
 

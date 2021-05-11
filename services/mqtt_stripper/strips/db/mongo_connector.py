@@ -2,7 +2,8 @@ from typing import List, Optional, Any
 
 from pymongo import MongoClient
 
-from mqtt_stripper.strips.db.device import Device
+from mqtt_stripper.strips.db.device import Device, DeviceState
+from mqtt_stripper.strips.db.modes import Mode
 from mqtt_stripper.strips.db.mood import MoodManipulator, Mood
 
 
@@ -29,13 +30,20 @@ class MongoConnector:
     def get_device_list(self) -> List[Device]:
         return list(map(lambda x: Device.from_dict(x), list(self.device_col.find())))
 
-    def add_device(self, uuid: str, name: str, location: str, supported_modes: List[int], input_topic: str, output_topic: str):
+    def add_device(self, uuid: str, name: str, location: str, supported_modes: List[int], input_topic: str,
+                   output_topic: str):
         if self.device_col.count({"uuid": uuid}) == 0:
             self.device_col.insert_one(Device(
-                uuid, name, location, supported_modes, input_topic, output_topic
+                uuid, name, location, supported_modes, DeviceState(False), input_topic, output_topic
             ).to_dict())
         else:
             raise AlreadyPresentException()
+
+    def update_device_is_on(self, device_uuid: str, is_on: bool):
+        self.device_col.update_one({"uuid": device_uuid}, {"$set": {"state.is_on": is_on}})
+
+    def update_device_mode(self, device_uuid: str, mode: Mode):
+        self.device_col.update_one({"uuid": device_uuid}, {"$set": {"state.c_mode": mode.to_dict()}})
 
     def get_device(self, uuid: str) -> Optional[Device]:
         doc: Optional[Any] = self.device_col.find_one({"uuid": uuid})
