@@ -1,4 +1,5 @@
 import abc
+from typing import Optional
 
 
 class Mode:
@@ -12,7 +13,7 @@ class Mode:
 
     @staticmethod
     def from_dict(data: dict):
-        return get_mode(data)
+        return None if data is None else get_mode(data)
 
     def __str__(self):
         return str(self.to_dict())
@@ -34,27 +35,27 @@ class ModeOff(Mode):
 
 class ModeSolidColor(Mode):
 
-    def __init__(self, hue, saturation, value):
+    def __init__(self, h, s, v):
         super().__init__(1)
-        self.hue = hue
-        self.saturation = saturation
-        self.value = value
+        self.h = h
+        self.s = s
+        self.v = v
 
     def to_dict(self):
-        return {"mode_id": self.mode_id, "hue": self.hue, "saturation": self.saturation, "value": self.value}
+        return {"mode_id": self.mode_id, "h": self.h, "s": self.s, "v": self.v}
 
 
 class ModeColorrampSingleColor(Mode):
 
-    def __init__(self, hue, saturation, value, speed):
+    def __init__(self, h, s, v, speed):
         super().__init__(2)
-        self.hue = hue
-        self.saturation = saturation
-        self.value = value
+        self.h = h
+        self.s = s
+        self.v = v
         self.speed = speed
 
     def to_dict(self):
-        return {"mode_id": self.mode_id, "hue": self.hue, "saturation": self.saturation, "value": self.value,
+        return {"mode_id": self.mode_id, "h": self.h, "s": self.s, "v": self.v,
                 "speed": self.speed}
 
 
@@ -67,22 +68,22 @@ class ModeColorrampMulticolor(Mode):
         self.color_shift_speed = color_shift_speed
 
     def to_dict(self):
-        return {"mode_id": self.mode_id, "hue": 255, "saturation": 255, "value": 255,
+        return {"mode_id": self.mode_id, "h": 255, "s": 255, "v": 255,
                 "color_move_speed": self.color_move_speed, "color_shift_speed": self.color_shift_speed}
 
 
 class ModeFlickerSingleColor(Mode):
 
-    def __init__(self, hue, saturation, value, color_spawn_speed, color_spawn_amount):
+    def __init__(self, h, s, v, color_spawn_speed, color_spawn_amount):
         super().__init__(4)
-        self.hue = hue
-        self.saturation = saturation
-        self.value = value
+        self.h = h
+        self.s = s
+        self.v = v
         self.color_spawn_speed = color_spawn_speed
         self.color_spawn_amount = color_spawn_amount
 
     def to_dict(self):
-        return {"mode_id": self.mode_id, "hue": self.hue, "saturation": self.saturation, "value": self.value,
+        return {"mode_id": self.mode_id, "h": self.h, "s": self.s, "v": self.v,
                 "color_spawn_speed": self.color_spawn_speed, "color_spawn_amount": self.color_spawn_amount}
 
 
@@ -95,45 +96,42 @@ class ModeFlickerMultiColor(Mode):
         self.color_spawn_amount = color_spawn_amount
 
     def to_dict(self):
-        return {"mode_id": self.mode_id, "hue": 255, "saturation": 255, "value": 255,
+        return {"mode_id": self.mode_id, "h": 255, "s": 255, "v": 255,
                 "color_spawn_speed": self.color_spawn_speed, "color_spawn_amount": self.color_spawn_amount}
 
 
 class ModePulse(Mode):
 
-    def __init__(self, hue, saturation, value, pulse_speed):
+    def __init__(self, h, s, v, pulse_speed):
         super().__init__(6)
-        self.hue = hue
-        self.saturation = saturation
-        self.value = value
+        self.h = h
+        self.s = s
+        self.v = v
         self.pulse_speed = pulse_speed
 
     def to_dict(self):
-        return {"mode_id": self.mode_id, "hue": self.hue, "saturation": self.saturation, "value": self.value,
+        return {"mode_id": self.mode_id, "h": self.h, "s": self.s, "v": self.v,
                 "pulse_speed": self.pulse_speed}
 
 
-def get_mode(mode_options: dict) -> Mode:
+def get_mode(mode_options: dict) -> Optional[Mode]:
     mode_id = mode_options["mode_id"]
-    if mode_id == 0:
-        return ModeOff()
-    elif mode_id == 1:
-        return ModeSolidColor(mode_options["hue"], mode_options["saturation"],
-                              mode_options["value"])
+    if mode_id == 1:
+        return ModeSolidColor(mode_options["h"], mode_options["s"],
+                              mode_options["v"])
     elif mode_id == 2:
-        return ModeColorrampSingleColor(mode_options["hue"], mode_options["saturation"],
-                                        mode_options["value"],
+        return ModeColorrampSingleColor(mode_options["h"], mode_options["s"],
+                                        mode_options["v"],
                                         mode_options["speed"])
     elif mode_id == 3:
         return ModeColorrampMulticolor(mode_options["speed"], mode_options["shift_speed"])
     elif mode_id == 4:
-        return ModeFlickerSingleColor(mode_options["hue"], mode_options["saturation"],
-                                      mode_options["value"],
+        return ModeFlickerSingleColor(mode_options["h"], mode_options["s"],
+                                      mode_options["v"],
                                       mode_options["spawn_speed"], mode_options["spawn_amount"])
     elif mode_id == 5:
         return ModeFlickerMultiColor(mode_options["spawn_speed"], mode_options["spawn_amount"])
     elif mode_id == 6:
-        return ModePulse(mode_options["hue"], mode_options["saturation"], mode_options["value"],
+        return ModePulse(mode_options["h"], mode_options["s"], mode_options["v"],
                          mode_options["pulse_speed"])
-
-    return ModeOff()
+    return None

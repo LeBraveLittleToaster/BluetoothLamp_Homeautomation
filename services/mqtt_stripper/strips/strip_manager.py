@@ -3,6 +3,7 @@ from typing import List, Optional
 import paho.mqtt.client as mqtt
 
 from mqtt_stripper.config.runnerconfig import RunnerConfig
+from mqtt_stripper.network.MqttMessages import MqttModeMessage, MqttOnOffMessage
 from mqtt_stripper.strips.db.device import Device
 from mqtt_stripper.strips.db.modes import Mode
 from mqtt_stripper.strips.db.mongo_connector import MongoConnector
@@ -44,9 +45,17 @@ class StripManager:
             for manipulator in mood.manipulators:
                 for device in devices:
                     if device.uuid == manipulator.strip_uuid:
+                        self.mongo_con.update_device_mode(device.uuid, manipulator.mode)
                         self.mqtt_client.publish(device.input_topic, str(manipulator.mode.to_dict()))
 
-    def set_mode(self, strip_uuid: str, mode: Mode):
-        device:Optional[Device] = self.mongo_con.get_device(strip_uuid)
+    def set_is_on(self, device_uuid: str, is_on:bool):
+        device: Optional[Device] = self.mongo_con.get_device(device_uuid)
         if device is not None:
-            self.mqtt_client.publish(device.input_topic, str(mode.to_dict()))
+            self.mongo_con.update_device_is_on(device_uuid, is_on)
+            self.mqtt_client.publish(device.input_topic, MqttOnOffMessage(is_on).to_json())
+
+    def set_mode(self, strip_uuid: str, mode: Mode):
+        device: Optional[Device] = self.mongo_con.get_device(strip_uuid)
+        if device is not None:
+            self.mongo_con.update_device_mode(device.uuid, mode)
+            self.mqtt_client.publish(device.input_topic, MqttModeMessage(mode).to_json())

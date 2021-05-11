@@ -1,4 +1,7 @@
+import MoodManipulator from "./mood-manipulator";
+
 export default interface Mood{
-    name:number;
-    mode:any;
+    uuid:string,
+    name:number,
+    manipulators:MoodManipulator[]
 }
