@@ -1,7 +1,5 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 import 'package:stripper_mobile/colorsetter/modes/CircularColorSelectWidget.dart';
 import 'package:stripper_mobile/net/requester.dart';
 import 'package:stripper_mobile/types/device.dart';

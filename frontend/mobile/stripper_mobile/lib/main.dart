@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:prompt_dialog/prompt_dialog.dart';
-import 'package:stripper_mobile/colorsetter/ColorSetterWidget.dart';
-import 'package:stripper_mobile/devicemanager/DeviceManagerWidget.dart';
 import 'package:stripper_mobile/devicemanager/DeviceSelecterWidget.dart';
 import 'package:stripper_mobile/net/requester.dart';
 import 'package:stripper_mobile/types/device.dart';

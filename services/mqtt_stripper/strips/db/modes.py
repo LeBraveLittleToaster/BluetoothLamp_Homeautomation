@@ -11,6 +11,10 @@ class Mode:
     def to_dict(self):
         pass
 
+    @abc.abstractmethod
+    def to_mqtt_dict(self):
+        pass
+
     @staticmethod
     def from_dict(data: dict):
         return None if data is None else get_mode(data)
@@ -32,6 +36,9 @@ class ModeOff(Mode):
             "mode_id": self.mode_id
         }
 
+    def to_mqtt_dict(self):
+        return self.to_dict();
+
 
 class ModeSolidColor(Mode):
 
@@ -44,6 +51,10 @@ class ModeSolidColor(Mode):
 
     def to_dict(self):
         return {"mode_id": self.mode_id, "h": self.h, "s": self.s, "v": self.v, "brightness": self.brightness}
+
+    def to_mqtt_dict(self):
+        return {"mode_id": self.mode_id,
+                "color": {"h": self.h, "s": self.s, "v": self.v, "brightness": self.brightness}, "options": {}}
 
 
 class ModeColorrampSingleColor(Mode):
@@ -59,6 +70,9 @@ class ModeColorrampSingleColor(Mode):
         return {"mode_id": self.mode_id, "h": self.h, "s": self.s, "v": self.v,
                 "speed": self.speed}
 
+    def to_mqtt_dict(self):
+        return self.to_dict();
+
 
 class ModeColorrampMulticolor(Mode):
 
@@ -71,6 +85,9 @@ class ModeColorrampMulticolor(Mode):
     def to_dict(self):
         return {"mode_id": self.mode_id, "h": 255, "s": 255, "v": 255,
                 "color_move_speed": self.color_move_speed, "color_shift_speed": self.color_shift_speed}
+
+    def to_mqtt_dict(self):
+        return self.to_dict();
 
 
 class ModeFlickerSingleColor(Mode):
@@ -87,6 +104,9 @@ class ModeFlickerSingleColor(Mode):
         return {"mode_id": self.mode_id, "h": self.h, "s": self.s, "v": self.v,
                 "color_spawn_speed": self.color_spawn_speed, "color_spawn_amount": self.color_spawn_amount}
 
+    def to_mqtt_dict(self):
+        return self.to_dict();
+
 
 class ModeFlickerMultiColor(Mode):
 
@@ -99,6 +119,9 @@ class ModeFlickerMultiColor(Mode):
     def to_dict(self):
         return {"mode_id": self.mode_id, "h": 255, "s": 255, "v": 255,
                 "color_spawn_speed": self.color_spawn_speed, "color_spawn_amount": self.color_spawn_amount}
+
+    def to_mqtt_dict(self):
+        return self.to_dict();
 
 
 class ModePulse(Mode):
@@ -113,6 +136,9 @@ class ModePulse(Mode):
     def to_dict(self):
         return {"mode_id": self.mode_id, "h": self.h, "s": self.s, "v": self.v,
                 "pulse_speed": self.pulse_speed}
+
+    def to_mqtt_dict(self):
+        return self.to_dict();
 
 
 def get_mode(mode_options: dict) -> Optional[Mode]:

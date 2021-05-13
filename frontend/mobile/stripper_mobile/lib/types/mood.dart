@@ -1,4 +1,3 @@
-import 'package:stripper_mobile/types/data.dart';
 import 'package:stripper_mobile/types/mood_manipulator.dart';
 
 class Mood {

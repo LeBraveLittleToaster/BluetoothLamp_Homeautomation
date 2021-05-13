@@ -13,15 +13,21 @@ def on_connect_mqtt(client, user_data, flags, rc):
     print("Connected with result code " + str(rc))
 
 
+def on_disconnect_mqtt(client, user_data, rc):
+    print("Disconnected with result code " + str(rc))
+
+
 class StripManager:
     def __init__(self, mongo_con: MongoConnector, runner_config: RunnerConfig):
         self.mongo_con: MongoConnector = mongo_con
         self.runner_config: RunnerConfig = runner_config
         self.mqtt_client: mqtt.Client = mqtt.Client()
         self.mqtt_client.on_connect = on_connect_mqtt
+        self.mqtt_client.on_disconnect = on_disconnect_mqtt
         self.mqtt_client.username_pw_set(self.runner_config.mqtt_username, self.runner_config.mqtt_password)
 
     def connect(self):
+        self.mqtt_client.loop_start()
         self.mqtt_client.connect(self.runner_config.mqtt_ip, self.runner_config.mqtt_port)
 
     def print(self):
@@ -48,7 +54,7 @@ class StripManager:
                         self.mongo_con.update_device_mode(device.uuid, manipulator.mode)
                         self.mqtt_client.publish(device.input_topic, str(manipulator.mode.to_dict()))
 
-    def set_is_on(self, device_uuid: str, is_on:bool):
+    def set_is_on(self, device_uuid: str, is_on: bool):
         device: Optional[Device] = self.mongo_con.get_device(device_uuid)
         if device is not None:
             self.mongo_con.update_device_is_on(device_uuid, is_on)
