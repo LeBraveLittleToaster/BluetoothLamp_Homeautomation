@@ -45,8 +45,6 @@ class _MyHomePageState extends State<MyHomePage> {
     switch (index) {
       case 0:
         return DeviceSelecterWidget(devices: devices);
-      case 1:
-        return DeviceManagerWidget(devices: devices);
       default:
         return Text('Index 2: School', style: optionStyle);
     }
@@ -74,37 +72,42 @@ class _MyHomePageState extends State<MyHomePage> {
               : Scaffold(
                   appBar: AppBar(
                     title: Text(widget.title),
-                    actions: _selectedIndex != 1
-                        ? []
-                        : [
-                            IconButton(
-                              icon: Icon(Icons.add),
-                              onPressed: () async {
-                                return print(await prompt(
-                                  context,
-                                  title: Text("Add device uuid.."),
-                                  initialValue: '',
-                                  textOK: Text('Yes'),
-                                  textCancel: Text('No'),
-                                  hintText: 'Please add uuid...',
-                                  minLines: 1,
-                                  maxLines: 3,
-                                  autoFocus: true,
-                                  obscureText: false,
-                                ));
-                              },
-                            )
-                          ],
+                    actions: [
+                      IconButton(
+                        icon: Icon(Icons.add),
+                        onPressed: () async {
+                          return print(await prompt(
+                            context,
+                            title: Text("Add device uuid.."),
+                            initialValue: '',
+                            textOK: Text('Yes'),
+                            textCancel: Text('No'),
+                            hintText: 'Please add uuid...',
+                            minLines: 1,
+                            maxLines: 3,
+                            autoFocus: true,
+                            obscureText: false,
+                          ));
+                        },
+                      )
+                    ],
                   ),
-                  body: Center(
-                    child: _getWidgetOption(_selectedIndex, snapshot.data),
-                  ),
+                  body: Center(child: Column(
+                    children: [
+                      Text("LOL"),
+                      Expanded(
+                        child: ConstrainedBox(
+                            constraints:
+                                BoxConstraints(minWidth: 300, maxWidth: 700),
+                            child: _getWidgetOption(
+                                _selectedIndex, snapshot.data)),
+                      ),
+                    ],
+                  )),
                   bottomNavigationBar: BottomNavigationBar(
                     items: const <BottomNavigationBarItem>[
                       BottomNavigationBarItem(
                           icon: Icon(Icons.home), label: "Home"),
-                      BottomNavigationBarItem(
-                          icon: Icon(Icons.devices), label: "Devices"),
                       BottomNavigationBarItem(
                           icon: Icon(Icons.mood), label: "Moods")
                     ],

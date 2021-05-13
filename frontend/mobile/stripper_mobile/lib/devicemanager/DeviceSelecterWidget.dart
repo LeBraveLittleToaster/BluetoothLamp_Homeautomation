@@ -1,47 +1,88 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stripper_mobile/colorsetter/ColorSetterWidget.dart';
 import 'package:stripper_mobile/types/device.dart';
 
-class DeviceSelecterWidget extends StatefulWidget {
+import 'ManageDevice.dart';
+
+class DeviceSelecterWidget extends StatelessWidget {
   final List<Device> devices;
   const DeviceSelecterWidget({Key key, @required this.devices})
       : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _DeviceSelecterState();
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        itemBuilder: (context, index) {
+          return DeviceSelecterListItemWidget(device: devices[index]);
+        },
+        itemCount: devices.length);
+  }
 }
 
-class _DeviceSelecterState extends State<DeviceSelecterWidget> {
-  List<Device> devices;
+class DeviceSelecterListItemWidget extends StatefulWidget {
+  final Device device;
 
-  _onLightbulbClicked(int index) {
-    devices[index].state.is_on = !devices[index].state.is_on;
+  const DeviceSelecterListItemWidget({Key key, @required this.device})
+      : super(key: key);
+  @override
+  State<StatefulWidget> createState() => _DeviceSelecterListItemState();
+}
+
+class _DeviceSelecterListItemState extends State<DeviceSelecterListItemWidget> {
+  Device device;
+
+  _onLightbulbClicked() {
     setState(() {
-      devices = List.from(devices);
+      device.state.is_on = !device.state.is_on;
     });
   }
 
   @override
   void initState() {
-    devices = this.widget.devices;
+    device = this.widget.device;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    devices.forEach((element) => print(element.toJson()));
-    return ListView.builder(
-        itemCount: devices.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(devices[index].name),
-            trailing: IconButton(
-                onPressed: () => _onLightbulbClicked(index),
-                icon: Icon(devices[index].state.is_on
+    return ListTile(
+        title: Text(device.name),
+        onLongPress: kIsWeb
+            ? null
+            : () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ManageDeviceRoute(device: device))),
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ColorSetterWidget(device: device),
+              ));
+        },
+        trailing: kIsWeb
+            ? Wrap(
+                spacing: 12,
+                children: [
+                  IconButton(
+                      onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  ManageDeviceRoute(device: device))),
+                      icon: Icon(Icons.settings)),
+                  IconButton(
+                      onPressed: () => _onLightbulbClicked(),
+                      icon: Icon(device.state.is_on
+                          ? Icons.lightbulb
+                          : Icons.lightbulb_outline)),
+                ],
+              )
+            : IconButton(
+                onPressed: () => _onLightbulbClicked(),
+                icon: Icon(device.state.is_on
                     ? Icons.lightbulb
-                    : Icons.lightbulb_outline)),
-          );
-        });
+                    : Icons.lightbulb_outline)));
   }
 }
-
