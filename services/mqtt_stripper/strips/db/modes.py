@@ -35,14 +35,15 @@ class ModeOff(Mode):
 
 class ModeSolidColor(Mode):
 
-    def __init__(self, h, s, v):
+    def __init__(self, h, s, v, brightness):
         super().__init__(1)
         self.h = h
         self.s = s
         self.v = v
+        self.brightness = brightness
 
     def to_dict(self):
-        return {"mode_id": self.mode_id, "h": self.h, "s": self.s, "v": self.v}
+        return {"mode_id": self.mode_id, "h": self.h, "s": self.s, "v": self.v, "brightness": self.brightness}
 
 
 class ModeColorrampSingleColor(Mode):
@@ -118,7 +119,7 @@ def get_mode(mode_options: dict) -> Optional[Mode]:
     mode_id = mode_options["mode_id"]
     if mode_id == 1:
         return ModeSolidColor(mode_options["h"], mode_options["s"],
-                              mode_options["v"])
+                              mode_options["v"], mode_options["brightness"])
     elif mode_id == 2:
         return ModeColorrampSingleColor(mode_options["h"], mode_options["s"],
                                         mode_options["v"],
