@@ -94,7 +94,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   body: Center(child: Column(
                     children: [
-                      Text("LOL"),
                       Expanded(
                         child: ConstrainedBox(
                             constraints:

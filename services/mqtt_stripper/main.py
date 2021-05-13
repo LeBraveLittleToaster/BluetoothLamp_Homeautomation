@@ -40,7 +40,7 @@ except AlreadyPresentException as e:
 
 try:
     manis: List[MoodManipulator] = [MoodManipulator("uuid1", ModeOff()),
-                                    MoodManipulator("uuid2", ModeSolidColor(123, 321, 111))]
+                                    MoodManipulator("uuid2", ModeSolidColor(123, 321, 111, 255))]
     mongo_con.add_mood("uuid_mood", "Moodname", manis)
 except AlreadyPresentException as e:
     print("Mood uuid_mood already in database...")
@@ -128,6 +128,10 @@ def set_mode(s_uuid):
             mode = Mode.from_dict(data.get("mode"))
             s_manager.set_mode(s_uuid, mode)
             return "", 200
+        else:
+            print("No json field mode found...")
+    else:
+        print("Body is no json...aborting...")
     abort(500)
 
 

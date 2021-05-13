@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stripper_mobile/colorsetter/ColorSetterWidget.dart';
+import 'package:stripper_mobile/net/requester.dart';
 import 'package:stripper_mobile/types/device.dart';
 
 import 'ManageDevice.dart';
@@ -36,6 +37,7 @@ class _DeviceSelecterListItemState extends State<DeviceSelecterListItemWidget> {
     setState(() {
       device.state.is_on = !device.state.is_on;
     });
+    Requester.setDeviceIsOn(device.uuid, device.state.is_on);
   }
 
   @override

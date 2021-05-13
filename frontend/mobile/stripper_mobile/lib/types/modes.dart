@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Mode {
   int mode_id;
   Mode(this.mode_id);
@@ -25,25 +27,29 @@ class ModeOff extends Mode {
 
 class ModeSolidColor extends Mode {
   ModeSolidColor({
-    this.hue,
-    this.saturation,
-    this.value,
+    @required this.hue,
+    @required this.saturation,
+    @required this.value,
+    @required this.brightness
   }) : super(1);
 
   int hue;
   int saturation;
   int value;
+  int brightness;
 
   factory ModeSolidColor.fromJson(Map<String, dynamic> json) => ModeSolidColor(
-        hue: json["hue"],
-        saturation: json["saturation"],
-        value: json["value"],
+        hue: json["h"],
+        saturation: json["s"],
+        value: json["v"],
+        brightness: json["brightness"]
       );
 
   Map<String, dynamic> toJson() => {
         "mode_id": mode_id,
-        "hue": hue,
-        "saturation": saturation,
-        "value": value,
+        "h": hue,
+        "s": saturation,
+        "v": value,
+        "brightness" : brightness
       };
 }
