@@ -9,45 +9,39 @@ class DeviceSelecterWidget extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() => _DeviceSelecterState();
-
 }
 
-class _DeviceSelecterState extends State<DeviceSelecterWidget>{
+class _DeviceSelecterState extends State<DeviceSelecterWidget> {
+  List<Device> devices;
+
+  _onLightbulbClicked(int index) {
+    devices[index].state.is_on = !devices[index].state.is_on;
+    setState(() {
+      devices = List.from(devices);
+    });
+  }
+
+  @override
+  void initState() {
+    devices = this.widget.devices;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-        itemCount: widget.devices.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-        ),
-        itemBuilder: (BuildContext context, int index) {
-          return GestureDetector(
-            onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        ColorSetterWidget(device: widget.devices[index]))),
-            child: new Card(
-              child: new GridTile(
-                  footer: new Text(widget.devices[index].name),
-                  child: Padding(
-                    padding: const EdgeInsets.all(50.0),
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: Icon(
-                        Icons.lightbulb,
-                        color: Colors.white,
-                        size: 60.0,
-                      ),
-                      style: ElevatedButton.styleFrom(
-                          shape: CircleBorder(), primary: Colors.green),
-                    ),
-                  )
-                  //new IconButton(icon: Icon(Icons.lightbulb), onPressed: () {}),
-                  ),
-            ),
+    devices.forEach((element) => print(element.toJson()));
+    return ListView.builder(
+        itemCount: devices.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(devices[index].name),
+            trailing: IconButton(
+                onPressed: () => _onLightbulbClicked(index),
+                icon: Icon(devices[index].state.is_on
+                    ? Icons.lightbulb
+                    : Icons.lightbulb_outline)),
           );
         });
   }
 }
+
