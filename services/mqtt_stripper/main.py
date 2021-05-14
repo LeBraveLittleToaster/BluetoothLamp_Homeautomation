@@ -39,11 +39,18 @@ except AlreadyPresentException as e:
     print("Device uuid2 already in database...")
 
 try:
-    manis: List[MoodManipulator] = [MoodManipulator("uuid1", ModeOff()),
+    manis: List[MoodManipulator] = [MoodManipulator("uuid1", ModeSolidColor(1, 2, 3, 123)),
                                     MoodManipulator("uuid2", ModeSolidColor(123, 321, 111, 255))]
     mongo_con.add_mood("uuid_mood", "Moodname", manis)
 except AlreadyPresentException as e:
     print("Mood uuid_mood already in database...")
+
+try:
+    manis: List[MoodManipulator] = [MoodManipulator("uuid1", ModeSolidColor(3, 2, 1, 321)),
+                                    MoodManipulator("uuid2", ModeSolidColor(123, 321, 111, 255))]
+    mongo_con.add_mood("uuid_mood2", "Moodname2", manis)
+except AlreadyPresentException as e:
+    print("Mood uuid_mood2 already in database...")
 
 s_manager = StripManager(mongo_con, config)
 s_manager.connect()

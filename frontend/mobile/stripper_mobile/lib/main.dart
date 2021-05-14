@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:prompt_dialog/prompt_dialog.dart';
+import 'package:stripper_mobile/colorsetter/MoodSetterWidget.dart';
 import 'package:stripper_mobile/devicemanager/DeviceSelecterWidget.dart';
 import 'package:stripper_mobile/net/requester.dart';
 import 'package:stripper_mobile/types/device.dart';
@@ -44,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
       case 0:
         return DeviceSelecterWidget(devices: devices);
       default:
-        return Text('Index 2: School', style: optionStyle);
+        return MoodSetterWidget();
     }
   }
 
@@ -73,24 +74,16 @@ class _MyHomePageState extends State<MyHomePage> {
                     actions: [
                       IconButton(
                         icon: Icon(Icons.add),
-                        onPressed: () async {
-                          return print(await prompt(
-                            context,
-                            title: Text("Add device uuid.."),
-                            initialValue: '',
-                            textOK: Text('Yes'),
-                            textCancel: Text('No'),
-                            hintText: 'Please add uuid...',
-                            minLines: 1,
-                            maxLines: 3,
-                            autoFocus: true,
-                            obscureText: false,
-                          ));
-                        },
+                        onPressed: 
+                        _selectedIndex == 0 ?
+                        () async {
+                          return await addDevicePrompt(context);
+                        } : () => Navigator.push(context, route)
                       )
                     ],
                   ),
-                  body: Center(child: Column(
+                  body: Center(
+                      child: Column(
                     children: [
                       Expanded(
                         child: ConstrainedBox(
@@ -114,5 +107,20 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 );
         });
+  }
+
+  Future<void> addDevicePrompt(BuildContext context) async {
+    return print(await prompt(
+                          context,
+                          title: Text("Add device uuid.."),
+                          initialValue: '',
+                          textOK: Text('Yes'),
+                          textCancel: Text('No'),
+                          hintText: 'Please add uuid...',
+                          minLines: 1,
+                          maxLines: 3,
+                          autoFocus: true,
+                          obscureText: false,
+                        ));
   }
 }
