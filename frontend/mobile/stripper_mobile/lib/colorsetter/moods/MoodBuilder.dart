@@ -43,7 +43,8 @@ class _MoodBuilderState extends State<MoodBuilderWidget> {
                             _selectedItems.forEach((i) {
                               d_uuids.add(widget.devices[i].uuid);
                             });
-                            Requester.addMood(value, d_uuids);
+                            print("VALUE: " + value);
+                            //Requester.addMood(value, d_uuids);
 
                             ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text("Created new mood...")));

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:prompt_dialog/prompt_dialog.dart';
@@ -72,7 +73,36 @@ class _MyHomePageState extends State<MyHomePage> {
                 )
               : Scaffold(
                   appBar: AppBar(
-                    title: Text(widget.title),
+                    leading: Text(""),
+                    centerTitle: true,
+                    title: Wrap(
+                      runSpacing: 20,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                          child: Wrap(runSpacing: 2, children: [
+                            IconButton(
+                                icon: Icon(Icons.home),
+                                onPressed: () => _onItemTapped(0)),
+                            Text(
+                              "Home",
+                              style: TextStyle(fontSize: 12),
+                            )
+                          ]),
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                            child: Wrap(runSpacing: 2, children: [
+                              IconButton(
+                                  icon: Icon(Icons.mood),
+                                  onPressed: () => _onItemTapped(1)),
+                              Text(
+                                "Mood",
+                                style: TextStyle(fontSize: 12),
+                              )
+                            ]))
+                      ],
+                    ),
                     actions: [
                       IconButton(
                           icon: Icon(Icons.add),
@@ -81,8 +111,9 @@ class _MyHomePageState extends State<MyHomePage> {
                                   addDevicePrompt(context).then((value) => {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(SnackBar(
-                                                content:
-                                                    Text(value == null ? "No device added..." : "Device added...")))
+                                                content: Text(value == null
+                                                    ? "No device added..."
+                                                    : "Device added...")))
                                       });
                                 }
                               : () => Navigator.push(
@@ -104,17 +135,19 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ],
                   )),
-                  bottomNavigationBar: BottomNavigationBar(
-                    items: const <BottomNavigationBarItem>[
-                      BottomNavigationBarItem(
-                          icon: Icon(Icons.home), label: "Home"),
-                      BottomNavigationBarItem(
-                          icon: Icon(Icons.mood), label: "Moods")
-                    ],
-                    currentIndex: _selectedIndex,
-                    selectedItemColor: Colors.amber[800],
-                    onTap: _onItemTapped,
-                  ),
+                  bottomNavigationBar: kIsWeb
+                      ? null
+                      : BottomNavigationBar(
+                          items: const <BottomNavigationBarItem>[
+                            BottomNavigationBarItem(
+                                icon: Icon(Icons.home), label: "Home"),
+                            BottomNavigationBarItem(
+                                icon: Icon(Icons.mood), label: "Moods")
+                          ],
+                          currentIndex: _selectedIndex,
+                          selectedItemColor: Colors.amber[800],
+                          onTap: _onItemTapped,
+                        ),
                 );
         });
   }
