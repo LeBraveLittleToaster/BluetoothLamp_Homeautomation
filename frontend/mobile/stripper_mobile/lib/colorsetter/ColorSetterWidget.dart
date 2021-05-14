@@ -53,41 +53,44 @@ class _ColorSetterState extends State<ColorSetterWidget> {
         appBar: AppBar(
           title: Text("Set color"),
         ),
-        body: Column(children: [
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-              child: Wrap(
-                children: List.generate(modes.length, (index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 2.0),
-                    child: ChoiceChip(
-                        label: Text(
-                          modes[index],
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText2
-                              .copyWith(color: Colors.white, fontSize: 14),
-                        ),
-                        labelPadding: EdgeInsets.all(2.0),
-                        selectedColor: Colors.deepOrange,
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        onSelected: (value) {
-                          setState(() {
-                            selectedChipIndex =
-                                value ? index : selectedChipIndex;
-                          });
-                        },
-                        selected: selectedChipIndex == index),
-                  );
-                }),
+        body: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(children: [
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(0, 3, 0, 0),
+                child: Wrap(
+                  children: List.generate(modes.length, (index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                      child: ChoiceChip(
+                          label: Text(
+                            modes[index],
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2
+                                .copyWith(color: Colors.white, fontSize: 14),
+                          ),
+                          labelPadding: EdgeInsets.all(2.0),
+                          selectedColor: Colors.deepOrange,
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          onSelected: (value) {
+                            setState(() {
+                              selectedChipIndex =
+                                  value ? index : selectedChipIndex;
+                            });
+                          },
+                          selected: selectedChipIndex == index),
+                    );
+                  }),
+                ),
               ),
             ),
-          ),
-          Center(
-            child: _getStateWidget(),
-          )
-        ]));
+            Center(
+              child: _getStateWidget(),
+            ),
+          ]),
+        ));
   }
 }

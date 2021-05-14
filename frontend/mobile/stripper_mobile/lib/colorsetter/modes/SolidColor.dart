@@ -40,7 +40,7 @@ class _SolidColorState extends State<SolidColorWidget> {
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Padding(
-          padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
+          padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
           child: Center(
               child: ConstrainedBox(
             constraints: BoxConstraints(minWidth: 300, maxWidth: 500),
