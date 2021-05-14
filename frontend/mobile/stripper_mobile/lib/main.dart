@@ -6,6 +6,8 @@ import 'package:stripper_mobile/devicemanager/DeviceSelecterWidget.dart';
 import 'package:stripper_mobile/net/requester.dart';
 import 'package:stripper_mobile/types/device.dart';
 
+import 'colorsetter/moods/MoodBuilder.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -73,13 +75,16 @@ class _MyHomePageState extends State<MyHomePage> {
                     title: Text(widget.title),
                     actions: [
                       IconButton(
-                        icon: Icon(Icons.add),
-                        onPressed: 
-                        _selectedIndex == 0 ?
-                        () async {
-                          return await addDevicePrompt(context);
-                        } : () => Navigator.push(context, route)
-                      )
+                          icon: Icon(Icons.add),
+                          onPressed: _selectedIndex == 0
+                              ? () async {
+                                  return await addDevicePrompt(context);
+                                }
+                              : () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          MoodBuilderWidget(devices: snapshot.data))))
                     ],
                   ),
                   body: Center(
@@ -111,16 +116,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> addDevicePrompt(BuildContext context) async {
     return print(await prompt(
-                          context,
-                          title: Text("Add device uuid.."),
-                          initialValue: '',
-                          textOK: Text('Yes'),
-                          textCancel: Text('No'),
-                          hintText: 'Please add uuid...',
-                          minLines: 1,
-                          maxLines: 3,
-                          autoFocus: true,
-                          obscureText: false,
-                        ));
+      context,
+      title: Text("Add device uuid.."),
+      initialValue: '',
+      textOK: Text('Yes'),
+      textCancel: Text('No'),
+      hintText: 'Please add uuid...',
+      minLines: 1,
+      maxLines: 3,
+      autoFocus: true,
+      obscureText: false,
+    ));
   }
 }
