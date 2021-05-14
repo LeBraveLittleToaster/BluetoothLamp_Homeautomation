@@ -39,15 +39,15 @@ except AlreadyPresentException as e:
     print("Device uuid2 already in database...")
 
 try:
-    manis: List[MoodManipulator] = [MoodManipulator("uuid1", ModeSolidColor(1, 2, 3, 123)),
-                                    MoodManipulator("uuid2", ModeSolidColor(123, 321, 111, 255))]
+    manis: List[MoodManipulator] = [MoodManipulator("uuid1", True, ModeSolidColor(1, 2, 3, 123)),
+                                    MoodManipulator("uuid2", True, ModeSolidColor(123, 321, 111, 255))]
     mongo_con.add_mood("uuid_mood", "Moodname", manis)
 except AlreadyPresentException as e:
     print("Mood uuid_mood already in database...")
 
 try:
-    manis: List[MoodManipulator] = [MoodManipulator("uuid1", ModeSolidColor(3, 2, 1, 321)),
-                                    MoodManipulator("uuid2", ModeSolidColor(123, 321, 111, 255))]
+    manis: List[MoodManipulator] = [MoodManipulator("uuid1", True, ModeSolidColor(3, 2, 1, 321)),
+                                    MoodManipulator("uuid2", True, ModeSolidColor(123, 321, 111, 255))]
     mongo_con.add_mood("uuid_mood2", "Moodname2", manis)
 except AlreadyPresentException as e:
     print("Mood uuid_mood2 already in database...")
@@ -104,14 +104,16 @@ def get_mood_list():
 def add_mood():
     if request.is_json:
         data: dict = request.get_json(silent=True)
-        if data is not None and "mood" in data:
-            mood = Mood.from_dict(data.get("mood"))
-            try:
-                m_uuid = uuid.uuid4()
-                mongo_con.add_mood(str(m_uuid), mood.name, mood.manipulators)
-                return "", 200
-            except AlreadyPresentException:
-                print("Mood uuid already present")
+        try:
+            mood_name:str = data.get("mood").get("name")
+            mood_device_uuids:List[str] = data.get("mood").get("device_uuids")
+            device_from_db:List[Device] = mongo_con.get_devices_in_id_list(mood_device_uuids)
+            mood_uuid = str(uuid.uuid4())
+            manis = list(map(lambda d : MoodManipulator(d.uuid, d.state.is_on, d.state.c_mode), device_from_db))
+            mongo_con.add_mood(mood_uuid, mood_name, manis)
+            return "", 200
+        except KeyError as error:
+            print("JSON key missing")
     abort(409)
 
 

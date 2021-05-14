@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:stripper_mobile/net/RequestBodyBuilder.dart';
 import 'package:stripper_mobile/types/device.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -40,6 +41,15 @@ class Requester {
     return completer.future;
   }
 
+  static void addMood(String name, List<String> deviceUuids) {
+    var url = (kIsWeb ? BASE_URL_WEB : BASE_URL_ANDROID) + "/mood/add";
+    http
+        .put(Uri.parse(url),
+            headers: {'Content-Type': 'application/json'},
+            body: buildAddMoodJsonString(name, deviceUuids))
+        .then((response) {});
+  }
+
   static void setMood(String mood_uuid) async {
     var url = (kIsWeb ? BASE_URL_WEB : BASE_URL_ANDROID) +
         "/mood/" +
@@ -68,5 +78,13 @@ class Requester {
         is_on.toString();
     http.put(Uri.parse(url),
         headers: {'Content-Type': 'application/json'}).then((response) {});
+  }
+
+  static Future<Response> deleteMood(String moodUuid) {
+    var url = (kIsWeb ? BASE_URL_WEB : BASE_URL_ANDROID) +
+        "/mood/" +
+        moodUuid +
+        "/delete";
+    return http.delete(Uri.parse(url));
   }
 }

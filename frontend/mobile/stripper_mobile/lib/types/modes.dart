@@ -5,6 +5,7 @@ class Mode {
   Mode(this.mode_id);
 
   factory Mode.fromJson(Map<String, dynamic> json) {
+    if (json == null) return null;
     switch (json["mode_id"]) {
       case 0:
         return ModeOff.fromJson(json);
@@ -26,12 +27,12 @@ class ModeOff extends Mode {
 }
 
 class ModeSolidColor extends Mode {
-  ModeSolidColor({
-    @required this.hue,
-    @required this.saturation,
-    @required this.value,
-    @required this.brightness
-  }) : super(1);
+  ModeSolidColor(
+      {@required this.hue,
+      @required this.saturation,
+      @required this.value,
+      @required this.brightness})
+      : super(1);
 
   int hue;
   int saturation;
@@ -39,17 +40,16 @@ class ModeSolidColor extends Mode {
   int brightness;
 
   factory ModeSolidColor.fromJson(Map<String, dynamic> json) => ModeSolidColor(
-        hue: json["h"],
-        saturation: json["s"],
-        value: json["v"],
-        brightness: json["brightness"]
-      );
+      hue: json["h"],
+      saturation: json["s"],
+      value: json["v"],
+      brightness: json["brightness"]);
 
   Map<String, dynamic> toJson() => {
         "mode_id": mode_id,
         "h": hue,
         "s": saturation,
         "v": value,
-        "brightness" : brightness
+        "brightness": brightness
       };
 }

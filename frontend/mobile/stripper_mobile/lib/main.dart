@@ -78,13 +78,18 @@ class _MyHomePageState extends State<MyHomePage> {
                           icon: Icon(Icons.add),
                           onPressed: _selectedIndex == 0
                               ? () async {
-                                  return await addDevicePrompt(context);
+                                  addDevicePrompt(context).then((value) => {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                                content:
+                                                    Text(value == null ? "No device added..." : "Device added...")))
+                                      });
                                 }
                               : () => Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          MoodBuilderWidget(devices: snapshot.data))))
+                                      builder: (context) => MoodBuilderWidget(
+                                          devices: snapshot.data))))
                     ],
                   ),
                   body: Center(
@@ -114,8 +119,8 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
-  Future<void> addDevicePrompt(BuildContext context) async {
-    return print(await prompt(
+  Future<String> addDevicePrompt(BuildContext context) async {
+    return prompt(
       context,
       title: Text("Add device uuid.."),
       initialValue: '',
@@ -126,6 +131,6 @@ class _MyHomePageState extends State<MyHomePage> {
       maxLines: 3,
       autoFocus: true,
       obscureText: false,
-    ));
+    );
   }
 }

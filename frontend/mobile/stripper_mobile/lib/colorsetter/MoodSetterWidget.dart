@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:stripper_mobile/net/requester.dart';
 import 'package:stripper_mobile/types/mood.dart';
@@ -29,15 +30,30 @@ class _MoodSetterState extends State<MoodSetterWidget> {
               ? ListView.builder(
                   itemCount: snapshot.data == null ? 0 : snapshot.data.length,
                   itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(snapshot.data[index].name),
-                      trailing: IconButton(
-                        icon: Icon(
-                          Icons.line_weight,
-                        ),
-                        onPressed: () => _setMood(snapshot.data[index].uuid),
-                      ),
-                    );
+                    return Slidable(
+                        actionPane: SlidableStrechActionPane(),
+                        actionExtentRatio: 0.25,
+                        secondaryActions: [
+                          IconSlideAction(
+                            caption: "Delete",
+                            color: Colors.red,
+                            icon: Icons.more_horiz,
+                            onTap: () {
+                              Requester.deleteMood(snapshot.data[index].uuid)
+                                  .then((value) => setState(() {}));
+                            },
+                          )
+                        ],
+                        child: ListTile(
+                          title: Text(snapshot.data[index].name),
+                          trailing: IconButton(
+                            icon: Icon(
+                              Icons.line_weight,
+                            ),
+                            onPressed: () =>
+                                _setMood(snapshot.data[index].uuid),
+                          ),
+                        ));
                   })
               : Center(
                   child: SpinKitCircle(
