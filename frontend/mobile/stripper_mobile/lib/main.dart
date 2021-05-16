@@ -18,10 +18,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      title: 'Stripper',
+      theme: ThemeData.dark(),
       home: MyHomePage(title: 'Stripper'),
     );
   }
@@ -43,10 +41,10 @@ class _MyHomePageState extends State<MyHomePage> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
-  Widget _getWidgetOption(int index, List<Device> devices) {
+  Widget _getWidgetOption(int index) {
     switch (index) {
       case 0:
-        return DeviceSelecterWidget(devices: devices);
+        return DeviceSelecterWidget();
       default:
         return MoodSetterWidget();
     }
@@ -60,96 +58,80 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: Requester.getDeviceList(),
-        builder: (context, snapshot) {
-          return !snapshot.hasData
-              ? Scaffold(
-                  body: Center(
-                    child: SpinKitCubeGrid(
-                      color: Colors.amber,
-                    ),
-                  ),
-                )
-              : Scaffold(
-                  appBar: AppBar(
-                    leading: Text(""),
-                    centerTitle: true,
-                    title: Wrap(
-                      runSpacing: 20,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                          child: Wrap(runSpacing: 2, children: [
-                            IconButton(
-                                icon: Icon(Icons.home),
-                                onPressed: () => _onItemTapped(0)),
-                            Text(
-                              "Home",
-                              style: TextStyle(fontSize: 12),
-                            )
-                          ]),
-                        ),
-                        Padding(
-                            padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                            child: Wrap(runSpacing: 2, children: [
-                              IconButton(
-                                  icon: Icon(Icons.mood),
-                                  onPressed: () => _onItemTapped(1)),
-                              Text(
-                                "Mood",
-                                style: TextStyle(fontSize: 12),
-                              )
-                            ]))
-                      ],
-                    ),
-                    actions: [
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: kIsWeb,
+        title: kIsWeb
+            ? Wrap(
+                runSpacing: 20,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                    child: Wrap(runSpacing: 2, children: [
                       IconButton(
-                          icon: Icon(Icons.add),
-                          onPressed: _selectedIndex == 0
-                              ? () async {
-                                  addDevicePrompt(context).then((value) => {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                                content: Text(value == null
-                                                    ? "No device added..."
-                                                    : "Device added...")))
-                                      });
-                                }
-                              : () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => MoodBuilderWidget(
-                                          devices: snapshot.data))))
-                    ],
+                          icon: Icon(Icons.home),
+                          onPressed: () => _onItemTapped(0)),
+                      Text(
+                        "Home",
+                        style: TextStyle(fontSize: 12),
+                      )
+                    ]),
                   ),
-                  body: Center(
-                      child: Column(
-                    children: [
-                      Expanded(
-                        child: ConstrainedBox(
-                            constraints:
-                                BoxConstraints(minWidth: 300, maxWidth: 700),
-                            child: _getWidgetOption(
-                                _selectedIndex, snapshot.data)),
-                      ),
-                    ],
-                  )),
-                  bottomNavigationBar: kIsWeb
-                      ? null
-                      : BottomNavigationBar(
-                          items: const <BottomNavigationBarItem>[
-                            BottomNavigationBarItem(
-                                icon: Icon(Icons.home), label: "Home"),
-                            BottomNavigationBarItem(
-                                icon: Icon(Icons.mood), label: "Moods")
-                          ],
-                          currentIndex: _selectedIndex,
-                          selectedItemColor: Colors.amber[800],
-                          onTap: _onItemTapped,
-                        ),
-                );
-        });
+                  Padding(
+                      padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                      child: Wrap(runSpacing: 2, children: [
+                        IconButton(
+                            icon: Icon(Icons.mood),
+                            onPressed: () => _onItemTapped(1)),
+                        Text(
+                          "Mood",
+                          style: TextStyle(fontSize: 12),
+                        )
+                      ]))
+                ],
+              )
+            : Text("Stripper"),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.add),
+              onPressed: _selectedIndex == 0
+                  ? () async {
+                      addDevicePrompt(context).then((value) => {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(value == null
+                                    ? "No device added..."
+                                    : "Device added...")))
+                          });
+                    }
+                  : () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              MoodBuilderWidget())))
+        ],
+      ),
+      body: Center(
+          child: Column(
+        children: [
+          Expanded(
+            child: ConstrainedBox(
+                constraints: BoxConstraints(minWidth: 300, maxWidth: 700),
+                child: _getWidgetOption(_selectedIndex)),
+          ),
+        ],
+      )),
+      bottomNavigationBar: kIsWeb
+          ? null
+          : BottomNavigationBar(
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+                BottomNavigationBarItem(icon: Icon(Icons.mood), label: "Moods")
+              ],
+              currentIndex: _selectedIndex,
+              selectedItemColor: Colors.amber[800],
+              onTap: _onItemTapped,
+            ),
+    );
   }
 
   Future<String> addDevicePrompt(BuildContext context) async {

@@ -26,6 +26,7 @@ dependencies:
   prompt_dialog: ^1.0.0
   sleek_circular_slider: ^2.0.0
   flutter_slidable: ^0.6.0
+  tuple: ^2.0.0
   flutter:
     sdk: flutter
 

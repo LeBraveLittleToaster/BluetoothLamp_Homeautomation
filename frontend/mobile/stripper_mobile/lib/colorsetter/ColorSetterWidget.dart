@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:stripper_mobile/colorsetter/modes/SingleColorPulse.dart';
 import 'package:stripper_mobile/colorsetter/modes/SolidColor.dart';
 import 'package:stripper_mobile/types/device.dart';
+import 'package:tuple/tuple.dart';
 
 class ColorSetterWidget extends StatefulWidget {
   final List<String> allModes = [
@@ -20,27 +22,34 @@ class ColorSetterWidget extends StatefulWidget {
 }
 
 class _ColorSetterState extends State<ColorSetterWidget> {
-  List<String> modes = [];
+  List<Tuple2<String, int>> modes = [];
   int selectedChipIndex = 0;
 
   @override
   void initState() {
-    List<String> filteredModes = [];
+    List<Tuple2<String, int>> filteredModes = [];
     for (int i = 0; i < widget.allModes.length; i++) {
       if (widget.device.supported_modes.contains(i)) {
-        filteredModes.add(widget.allModes[i]);
+        filteredModes.add(Tuple2<String, int>(widget.allModes[i], i));
       }
     }
     modes = filteredModes;
+    if (widget.device.state.mode != null) {
+      for (int i = 0; i < modes.length; i++) {
+        if (modes[i].item2 == widget.device.state.mode.mode_id) {
+          selectedChipIndex = i;
+        }
+      }
+    }
     super.initState();
   }
 
   Widget _getStateWidget() {
-    switch (selectedChipIndex) {
+    switch (modes[selectedChipIndex].item2) {
       case 0:
         return SolidColorWidget(device: widget.device);
       case 1:
-        return Text("MODE1");
+        return SingleColorPulseWidget(device: widget.device);
       default:
         return Text("MODE2-n + default");
     }
@@ -49,6 +58,7 @@ class _ColorSetterState extends State<ColorSetterWidget> {
 
   @override
   Widget build(BuildContext context) {
+    print("BUILDING: " + widget.device.toJson().toString());
     return Scaffold(
         appBar: AppBar(
           title: Text("Set color"),
@@ -66,7 +76,7 @@ class _ColorSetterState extends State<ColorSetterWidget> {
                       padding: const EdgeInsets.symmetric(horizontal: 2.0),
                       child: ChoiceChip(
                           label: Text(
-                            modes[index],
+                            modes[index].item1,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText2

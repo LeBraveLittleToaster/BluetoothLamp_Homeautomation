@@ -46,7 +46,7 @@ except AlreadyPresentException as e:
     print("Mood uuid_mood already in database...")
 
 try:
-    manis: List[MoodManipulator] = [MoodManipulator("uuid1", True, ModeSolidColor(3, 2, 1, 321)),
+    manis: List[MoodManipulator] = [MoodManipulator("uuid1", True, ModeSolidColor(3, 2, 1, 111)),
                                     MoodManipulator("uuid2", True, ModeSolidColor(123, 321, 111, 255))]
     mongo_con.add_mood("uuid_mood2", "Moodname2", manis)
 except AlreadyPresentException as e:
@@ -105,11 +105,11 @@ def add_mood():
     if request.is_json:
         data: dict = request.get_json(silent=True)
         try:
-            mood_name:str = data.get("mood").get("name")
-            mood_device_uuids:List[str] = data.get("mood").get("device_uuids")
-            device_from_db:List[Device] = mongo_con.get_devices_in_id_list(mood_device_uuids)
+            mood_name: str = data.get("mood").get("name")
+            mood_device_uuids: List[str] = data.get("mood").get("device_uuids")
+            device_from_db: List[Device] = mongo_con.get_devices_in_id_list(mood_device_uuids)
             mood_uuid = str(uuid.uuid4())
-            manis = list(map(lambda d : MoodManipulator(d.uuid, d.state.is_on, d.state.c_mode), device_from_db))
+            manis = list(map(lambda d: MoodManipulator(d.uuid, d.state.is_on, d.state.c_mode), device_from_db))
             mongo_con.add_mood(mood_uuid, mood_name, manis)
             return "", 200
         except KeyError as error:

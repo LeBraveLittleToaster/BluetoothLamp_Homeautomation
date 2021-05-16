@@ -56,7 +56,7 @@ class _MoodSetterState extends State<MoodSetterWidget> {
                         ));
                   })
               : Center(
-                  child: SpinKitCircle(
+                  child: SpinKitCubeGrid(
                     color: Colors.amber,
                   ),
                 );
