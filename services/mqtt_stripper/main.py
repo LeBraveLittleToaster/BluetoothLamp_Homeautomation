@@ -1,5 +1,6 @@
 import argparse
 import uuid
+import logging as log
 from typing import List
 
 from flask import Flask, request, abort
@@ -11,7 +12,7 @@ from mqtt_stripper.strips.db.device import Device
 from mqtt_stripper.strips.db.modes import ModeOff, ModeSolidColor, Mode
 from mqtt_stripper.strips.db.mongo_connector import MongoConnector, MongoDbConfig, AlreadyPresentException
 from mqtt_stripper.strips.db.mood import MoodManipulator, Mood
-from mqtt_stripper.strips.strip_manager import StripManager
+from mqtt_stripper.strips.strip_manager import DeviceManager
 
 app = Flask(__name__)
 CORS(app)
@@ -28,31 +29,34 @@ p_args = parser.parse_args()
 config = RunnerConfig(p_args.port, p_args.mqtt_ip, p_args.mqtt_port, p_args.mqtt_username, p_args.mqtt_password)
 
 mongo_con = MongoConnector(MongoDbConfig.get_default_config())
+
+
+log.info("Creating default objects for testing...")
 try:
     mongo_con.add_device("uuid1", "name", "loc", [1, 2, 3, 4, 5], "in", "out")
 except AlreadyPresentException as e:
-    print("Device uuid1 already in database...")
+    log.warning("Device uuid1 already in database...")
 
 try:
     mongo_con.add_device("uuid2", "name2", "loc2", [1, 2, 3], "in2", "out2")
 except AlreadyPresentException as e:
-    print("Device uuid2 already in database...")
+    log.warning("Device uuid2 already in database...")
 
 try:
     manis: List[MoodManipulator] = [MoodManipulator("uuid1", True, ModeSolidColor(1, 2, 3, 123)),
                                     MoodManipulator("uuid2", True, ModeSolidColor(123, 321, 111, 255))]
     mongo_con.add_mood("uuid_mood", "Moodname", manis)
 except AlreadyPresentException as e:
-    print("Mood uuid_mood already in database...")
+    log.warning("Mood uuid_mood already in database...")
 
 try:
     manis: List[MoodManipulator] = [MoodManipulator("uuid1", True, ModeSolidColor(3, 2, 1, 111)),
                                     MoodManipulator("uuid2", True, ModeSolidColor(123, 321, 111, 255))]
     mongo_con.add_mood("uuid_mood2", "Moodname2", manis)
 except AlreadyPresentException as e:
-    print("Mood uuid_mood2 already in database...")
+    log.warning("Mood uuid_mood2 already in database...")
 
-s_manager = StripManager(mongo_con, config)
+s_manager = DeviceManager(mongo_con, config)
 s_manager.connect()
 
 

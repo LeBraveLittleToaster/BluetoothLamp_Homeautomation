@@ -1,5 +1,5 @@
 from typing import List, Optional, Any
-
+import logging as log
 from pymongo import MongoClient
 
 from mqtt_stripper.strips.db.device import Device, DeviceState
@@ -28,6 +28,7 @@ class MongoConnector:
         self.mood_col = self.client.get_database(db_conf.db_name).get_collection(db_conf.mood_col_name)
 
     def get_device_list(self) -> List[Device]:
+        log.debug("Loading device list from db...")
         return list(map(lambda x: Device.from_dict(x), list(self.device_col.find())))
 
     def add_device(self, uuid: str, name: str, location: str, supported_modes: List[int], input_topic: str,
