@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:prompt_dialog/prompt_dialog.dart';
 import 'package:stripper_mobile/types/device.dart';
 
 class ManageDeviceRoute extends StatefulWidget {

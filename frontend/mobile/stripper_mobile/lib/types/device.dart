@@ -8,7 +8,7 @@ class DeviceState {
 
   factory DeviceState.fromJson(Map<String, dynamic> json) => DeviceState(
     is_on: json["is_on"],
-    mode: json["mode"] == null ? null : Mode.fromJson(json["mode"])
+    mode: json["c_mode"] == null ? null : Mode.fromJson(json["c_mode"])
   );
 
   Map<String, dynamic> toJson() => {

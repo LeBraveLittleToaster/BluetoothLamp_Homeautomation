@@ -4,14 +4,16 @@ from mqtt_stripper.strips.db.modes import Mode
 
 
 class MoodManipulator:
-    def __init__(self, strip_uuid: str, mode: Mode):
+    def __init__(self, strip_uuid: str, is_on:bool, mode: Mode):
         self.strip_uuid = strip_uuid
+        self.is_on = is_on
         self.mode = mode
 
     def to_dict(self):
         return {
             "strip_uuid": self.strip_uuid,
-            "mode": self.mode.to_dict()
+            "is:on" : self.is_on,
+            "mode": None if self.mode is None else self.mode.to_dict()
         }
 
     def __str__(self):
@@ -24,6 +26,7 @@ class MoodManipulator:
     def from_dict(data: dict):
         return MoodManipulator(
             data.get("strip_uuid"),
+            data.get("is_on"),
             Mode.from_dict(data.get("mode"))
         )
 

@@ -1,30 +1,51 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:stripper_mobile/colorsetter/ColorSetterWidget.dart';
 import 'package:stripper_mobile/net/requester.dart';
 import 'package:stripper_mobile/types/device.dart';
 
 import 'ManageDevice.dart';
 
-class DeviceSelecterWidget extends StatelessWidget {
-  final List<Device> devices;
-  const DeviceSelecterWidget({Key key, @required this.devices})
-      : super(key: key);
+class DeviceSelecterWidget extends StatefulWidget {
+  const DeviceSelecterWidget({Key key}) : super(key: key);
 
   @override
+  State<StatefulWidget> createState() => _DeviceSelecterState();
+}
+
+class _DeviceSelecterState extends State<DeviceSelecterWidget> {
+  @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemBuilder: (context, index) {
-          return DeviceSelecterListItemWidget(device: devices[index]);
-        },
-        itemCount: devices.length);
+    return FutureBuilder(
+      future: Requester.getDeviceList(),
+      builder: (context, snapshot) {
+        return !snapshot.hasData
+            ? Center(
+                child: SpinKitCubeGrid(
+                  color: Colors.amber,
+                ),
+              )
+            : ListView.builder(
+                itemBuilder: (context, index) {
+                  return DeviceSelecterListItemWidget(
+                    device: snapshot.data[index],
+                    onRefreshList: () => setState(() {
+                      print("Refreshing List");
+                    }),
+                  );
+                },
+                itemCount: snapshot.data.length);
+      },
+    );
   }
 }
 
 class DeviceSelecterListItemWidget extends StatefulWidget {
   final Device device;
-
-  const DeviceSelecterListItemWidget({Key key, @required this.device})
+  final VoidCallback onRefreshList;
+  const DeviceSelecterListItemWidget(
+      {Key key, @required this.device, @required this.onRefreshList})
       : super(key: key);
   @override
   State<StatefulWidget> createState() => _DeviceSelecterListItemState();
@@ -61,7 +82,7 @@ class _DeviceSelecterListItemState extends State<DeviceSelecterListItemWidget> {
               context,
               MaterialPageRoute(
                 builder: (context) => ColorSetterWidget(device: device),
-              ));
+              )).then((_) => widget.onRefreshList());
         },
         trailing: kIsWeb
             ? Wrap(

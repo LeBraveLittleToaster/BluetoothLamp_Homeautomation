@@ -51,6 +51,6 @@ class MqttModeMessage(MqttMessage):
         return {
             "type": str(self.m_type),
             "data": {
-                "mode": self.mode.to_dict()
+                "mode": self.mode.to_mqtt_dict()
             }
         }
