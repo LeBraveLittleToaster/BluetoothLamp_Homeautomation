@@ -1,6 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:stripper_mobile/types/modes.dart';
 
-class DeviceState {
+class DeviceState with ChangeNotifier {
   DeviceState({this.is_on, this.mode});
 
   bool is_on;
@@ -17,7 +18,7 @@ class DeviceState {
       };
 }
 
-class Device {
+class Device with ChangeNotifier{
   Device({this.uuid, this.name, this.location, this.state, this.supported_modes});
 
   String uuid;

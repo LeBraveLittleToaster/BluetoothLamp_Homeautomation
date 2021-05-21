@@ -59,57 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: kIsWeb,
-        title: kIsWeb
-            ? Wrap(
-                runSpacing: 20,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                    child: Wrap(runSpacing: 2, children: [
-                      IconButton(
-                          icon: Icon(Icons.home),
-                          onPressed: () => _onItemTapped(0)),
-                      Text(
-                        "Home",
-                        style: TextStyle(fontSize: 12),
-                      )
-                    ]),
-                  ),
-                  Padding(
-                      padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
-                      child: Wrap(runSpacing: 2, children: [
-                        IconButton(
-                            icon: Icon(Icons.mood),
-                            onPressed: () => _onItemTapped(1)),
-                        Text(
-                          "Mood",
-                          style: TextStyle(fontSize: 12),
-                        )
-                      ]))
-                ],
-              )
-            : Text("Stripper"),
-        actions: [
-          IconButton(
-              icon: Icon(Icons.add),
-              onPressed: _selectedIndex == 0
-                  ? () async {
-                      addDevicePrompt(context).then((value) => {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text(value == null
-                                    ? "No device added..."
-                                    : "Device added...")))
-                          });
-                    }
-                  : () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              MoodBuilderWidget())))
-        ],
-      ),
+      appBar: getAppBar(this, context),
       body: Center(
           child: Column(
         children: [
@@ -148,4 +98,57 @@ class _MyHomePageState extends State<MyHomePage> {
       obscureText: false,
     );
   }
+}
+
+getAppBar(_MyHomePageState state, BuildContext context) {
+  
+  return AppBar(
+        centerTitle: kIsWeb,
+        title:  kIsWeb
+      ? Wrap(
+          runSpacing: 20,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+              child: Wrap(runSpacing: 2, children: [
+                IconButton(
+                    icon: Icon(Icons.home), onPressed: () => state._onItemTapped(0)),
+                Text(
+                  "Home",
+                  style: TextStyle(fontSize: 12),
+                )
+              ]),
+            ),
+            Padding(
+                padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                child: Wrap(runSpacing: 2, children: [
+                  IconButton(
+                      icon: Icon(Icons.mood),
+                      onPressed: () => state._onItemTapped(1)),
+                  Text(
+                    "Mood",
+                    style: TextStyle(fontSize: 12),
+                  )
+                ]))
+          ],
+        )
+      : Text("Stripper"),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.add),
+              onPressed: state._selectedIndex == 0
+                  ? () async {
+                      state.addDevicePrompt(context).then((value) => {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(value == null
+                                    ? "No device added..."
+                                    : "Device added...")))
+                          });
+                    }
+                  : () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MoodBuilderWidget())))
+        ],
+      );
 }

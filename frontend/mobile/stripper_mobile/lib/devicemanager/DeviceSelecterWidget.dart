@@ -1,22 +1,32 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
 import 'package:stripper_mobile/colorsetter/ColorSetterWidget.dart';
 import 'package:stripper_mobile/net/requester.dart';
 import 'package:stripper_mobile/types/device.dart';
 
 import 'ManageDevice.dart';
 
+_DeviceSelecterState state;
+
 class DeviceSelecterWidget extends StatefulWidget {
   const DeviceSelecterWidget({Key key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _DeviceSelecterState();
+  State<StatefulWidget> createState() {
+    state = _DeviceSelecterState();
+    return state;
+  }
 }
 
 class _DeviceSelecterState extends State<DeviceSelecterWidget> {
   @override
   Widget build(BuildContext context) {
+
+    FutureProvider<List<Device>>(create: create, initialData: initialData)
+
+    /*
     return FutureBuilder(
       future: Requester.getDeviceList(),
       builder: (context, snapshot) {
@@ -37,7 +47,7 @@ class _DeviceSelecterState extends State<DeviceSelecterWidget> {
                 },
                 itemCount: snapshot.data.length);
       },
-    );
+    );*/
   }
 }
 
