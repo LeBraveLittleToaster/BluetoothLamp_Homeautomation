@@ -30,7 +30,6 @@ config = RunnerConfig(p_args.port, p_args.mqtt_ip, p_args.mqtt_port, p_args.mqtt
 
 mongo_con = MongoConnector(MongoDbConfig.get_default_config())
 
-
 log.info("Creating default objects for testing...")
 try:
     mongo_con.add_device("uuid1", "name", "loc", [1, 2, 3, 4, 5], "in", "out")
@@ -72,7 +71,8 @@ def add_device():
         if data is not None and "device" in data:
             device = Device.from_dict(data.get("device"))
             try:
-                mongo_con.add_device(device.uuid, device.name, device.location, device.supported_modes, device.input_topic, device.output_topic)
+                mongo_con.add_device(device.uuid, device.name, device.location, device.supported_modes,
+                                     device.input_topic, device.output_topic)
                 return "", 200
             except AlreadyPresentException:
                 print("Device already registered")
@@ -111,7 +111,7 @@ def add_mood():
             manipulators = list(map(lambda d: MoodManipulator(d.uuid, d.state.is_on, d.state.c_mode), device_from_db))
             mongo_con.add_mood(mood_uuid, mood_name, manipulators)
             return "", 200
-        except KeyError as error:
+        except KeyError:
             print("JSON key missing")
     abort(409)
 
