@@ -1,20 +1,6 @@
 from mqtt_stripper.strips.db.modes import Mode
 
 
-class ModeOff(Mode):
-
-    def __init__(self):
-        super().__init__(0)
-
-    def to_dict(self):
-        return {
-            "mode_id": self.mode_id
-        }
-
-    def to_mqtt_dict(self):
-        return self.to_dict();
-
-
 class ModeSolidColor(Mode):
 
     def __init__(self, h, s, v, brightness):
