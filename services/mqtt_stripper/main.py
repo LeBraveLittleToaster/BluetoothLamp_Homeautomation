@@ -1,6 +1,6 @@
 import argparse
-import uuid
 import logging as log
+import uuid
 from typing import List
 
 from flask import Flask, request, abort
@@ -9,9 +9,9 @@ from flask_cors import CORS
 from mqtt_stripper.config.runnerconfig import RunnerConfig
 from mqtt_stripper.network.NetworkMessages import DeviceMessages, MoodMessages
 from mqtt_stripper.strips.db.device import Device
-from mqtt_stripper.strips.db.modes import ModeOff, ModeSolidColor, Mode
+from mqtt_stripper.strips.db.modes import ModeSolidColor, Mode
 from mqtt_stripper.strips.db.mongo_connector import MongoConnector, MongoDbConfig, AlreadyPresentException
-from mqtt_stripper.strips.db.mood import MoodManipulator, Mood
+from mqtt_stripper.strips.db.mood import MoodManipulator
 from mqtt_stripper.strips.strip_manager import DeviceManager
 
 app = Flask(__name__)
@@ -60,14 +60,9 @@ s_manager = DeviceManager(mongo_con, config)
 s_manager.connect()
 
 
-# s_manager.set_mood_mode("uuid_mood")
-
-
 @app.route("/device/list", methods=["GET"])
 def get_device_list():
-    response = DeviceMessages.get_device_list_msg(mongo_con.get_device_list())
-    print(response)
-    return response
+    return DeviceMessages.get_device_list_msg(mongo_con.get_device_list())
 
 
 @app.route("/device/add", methods=["PUT"])
@@ -77,7 +72,7 @@ def add_device():
         if data is not None and "device" in data:
             device = Device.from_dict(data.get("device"))
             try:
-                mongo_con.add_device(device.uuid, device.name, device.location, device.input_topic, device.output_topic)
+                mongo_con.add_device(device.uuid, device.name, device.location, device.supported_modes, device.input_topic, device.output_topic)
                 return "", 200
             except AlreadyPresentException:
                 print("Device already registered")
@@ -113,8 +108,8 @@ def add_mood():
             mood_device_uuids: List[str] = data.get("mood").get("device_uuids")
             device_from_db: List[Device] = mongo_con.get_devices_in_id_list(mood_device_uuids)
             mood_uuid = str(uuid.uuid4())
-            manis = list(map(lambda d: MoodManipulator(d.uuid, d.state.is_on, d.state.c_mode), device_from_db))
-            mongo_con.add_mood(mood_uuid, mood_name, manis)
+            manipulators = list(map(lambda d: MoodManipulator(d.uuid, d.state.is_on, d.state.c_mode), device_from_db))
+            mongo_con.add_mood(mood_uuid, mood_name, manipulators)
             return "", 200
         except KeyError as error:
             print("JSON key missing")
