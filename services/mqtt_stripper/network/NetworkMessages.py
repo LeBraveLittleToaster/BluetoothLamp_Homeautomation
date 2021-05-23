@@ -3,6 +3,7 @@ import logging as log
 from typing import List, Optional
 
 from mqtt_stripper.strips.db.device import Device
+from mqtt_stripper.strips.db.mode_template import ModeTemplate
 from mqtt_stripper.strips.db.mood import Mood
 
 
@@ -42,4 +43,12 @@ class MoodMessages:
         log.debug("Parsing mood [\n" + str(mood) + "\n to json message...")
         return json.dumps({
             "mood": mood.to_dict()
+        })
+
+
+class ModeTemplateMessages:
+    @staticmethod
+    def get_mode_template_list_msg(mode_templates: List[ModeTemplate]):
+        return json.dumps({
+            "mode_templates": list(map(lambda x: x.to_dict(), mode_templates))
         })

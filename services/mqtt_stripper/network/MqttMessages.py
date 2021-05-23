@@ -2,8 +2,6 @@ import abc
 import json
 from enum import Enum
 
-from mqtt_stripper.strips.db.modes import Mode
-
 
 class MqttMsgType(Enum):
     MODE = 1
@@ -43,7 +41,7 @@ class MqttOnOffMessage(MqttMessage):
 
 
 class MqttModeMessage(MqttMessage):
-    def __init__(self, mode: Mode):
+    def __init__(self, mode: dict):
         super().__init__(MqttMsgType.MODE)
         self.mode = mode
 
@@ -51,6 +49,6 @@ class MqttModeMessage(MqttMessage):
         return {
             "type": str(self.m_type),
             "data": {
-                "mode": self.mode.to_mqtt_dict()
+                "mode": self.mode
             }
         }

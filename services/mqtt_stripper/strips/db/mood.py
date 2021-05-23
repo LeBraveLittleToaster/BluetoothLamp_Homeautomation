@@ -1,19 +1,17 @@
 from typing import List
 
-from mqtt_stripper.strips.db.modes import Mode
-
 
 class MoodManipulator:
-    def __init__(self, strip_uuid: str, is_on:bool, mode: Mode):
+    def __init__(self, strip_uuid: str, is_on:bool, mode: dict):
         self.strip_uuid = strip_uuid
         self.is_on = is_on
-        self.mode = mode
+        self.mode:dict = mode
 
     def to_dict(self):
         return {
             "strip_uuid": self.strip_uuid,
             "is:on" : self.is_on,
-            "mode": None if self.mode is None else self.mode.to_dict()
+            "mode": None if self.mode is None else self.mode
         }
 
     def __str__(self):
@@ -27,7 +25,7 @@ class MoodManipulator:
         return MoodManipulator(
             data.get("strip_uuid"),
             data.get("is_on"),
-            Mode.from_dict(data.get("mode"))
+            data.get("mode")
         )
 
 

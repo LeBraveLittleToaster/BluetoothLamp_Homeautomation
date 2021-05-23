@@ -5,7 +5,6 @@ import paho.mqtt.client as mqtt
 from mqtt_stripper.config.runnerconfig import RunnerConfig
 from mqtt_stripper.network.MqttMessages import MqttModeMessage, MqttOnOffMessage
 from mqtt_stripper.strips.db.device import Device
-from mqtt_stripper.strips.db.modes import Mode
 from mqtt_stripper.strips.db.mongo_connector import MongoConnector
 import logging as log
 
@@ -70,8 +69,8 @@ class DeviceManager:
         else:
             log.warning("No device: " + device_uuid + " in database")
 
-    def set_mode(self, device_uuid: str, mode: Mode):
-        log.info("Setting mode: " + str(mode.to_dict() + " to device_uuid: " + device_uuid))
+    def set_mode(self, device_uuid: str, mode: dict):
+        log.info("Setting mode: " + str(str(mode) + " to device_uuid: " + device_uuid))
         device: Optional[Device] = self.mongo_con.get_device(device_uuid)
         if device is not None:
             self.mongo_con.update_device_mode(device.uuid, mode)

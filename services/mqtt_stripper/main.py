@@ -1,4 +1,5 @@
 import argparse
+import json
 import logging as log
 import uuid
 from typing import List
@@ -7,12 +8,12 @@ from flask import Flask, request, abort
 from flask_cors import CORS
 
 from mqtt_stripper.config.runnerconfig import RunnerConfig
-from mqtt_stripper.network.NetworkMessages import DeviceMessages, MoodMessages
+from mqtt_stripper.network.NetworkMessages import DeviceMessages, MoodMessages, ModeTemplateMessages
 from mqtt_stripper.strips.db.device import Device
-from mqtt_stripper.strips.db.modes import ModeSolidColor, Mode
 from mqtt_stripper.strips.db.mongo_connector import MongoConnector, MongoDbConfig, AlreadyPresentException
 from mqtt_stripper.strips.db.mood import MoodManipulator
 from mqtt_stripper.strips.strip_manager import DeviceManager
+from mqtt_stripper.strips.db.mode_template import ModeTemplate
 
 app = Flask(__name__)
 CORS(app)
@@ -30,33 +31,43 @@ config = RunnerConfig(p_args.port, p_args.mqtt_ip, p_args.mqtt_port, p_args.mqtt
 
 mongo_con = MongoConnector(MongoDbConfig.get_default_config())
 
-log.info("Creating default objects for testing...")
-try:
-    mongo_con.add_device("uuid1", "name", "loc", [1, 2, 3, 4, 5], "in", "out")
-except AlreadyPresentException as e:
-    log.warning("Device uuid1 already in database...")
+with open('../base_modes.json') as f:
+    load_base_mode_templates: List[ModeTemplate] = list(map(ModeTemplate.from_dict, json.load(f).get("mode_templates")))
+    for t in load_base_mode_templates:
+        mongo_con.add_or_overwrite_mode_template(t.mode_id, t.color_params, t.mode_params)
 
-try:
-    mongo_con.add_device("uuid2", "name2", "loc2", [1, 2, 3], "in2", "out2")
-except AlreadyPresentException as e:
-    log.warning("Device uuid2 already in database...")
-
-try:
-    manis: List[MoodManipulator] = [MoodManipulator("uuid1", True, ModeSolidColor(1, 2, 3, 123)),
-                                    MoodManipulator("uuid2", True, ModeSolidColor(123, 321, 111, 255))]
-    mongo_con.add_mood("uuid_mood", "Moodname", manis)
-except AlreadyPresentException as e:
-    log.warning("Mood uuid_mood already in database...")
-
-try:
-    manis: List[MoodManipulator] = [MoodManipulator("uuid1", True, ModeSolidColor(3, 2, 1, 111)),
-                                    MoodManipulator("uuid2", True, ModeSolidColor(123, 321, 111, 255))]
-    mongo_con.add_mood("uuid_mood2", "Moodname2", manis)
-except AlreadyPresentException as e:
-    log.warning("Mood uuid_mood2 already in database...")
+# log.info("Creating default objects for testing...")
+# try:
+#     mongo_con.add_device("uuid1", "name", "loc", [1, 2, 3, 4, 5], "in", "out")
+# except AlreadyPresentException as e:
+#     log.warning("Device uuid1 already in database...")
+#
+# try:
+#     mongo_con.add_device("uuid2", "name2", "loc2", [1, 2, 3], "in2", "out2")
+# except AlreadyPresentException as e:
+#     log.warning("Device uuid2 already in database...")
+#
+# try:
+#     manis: List[MoodManipulator] = [MoodManipulator("uuid1", True, ModeSolidColor(1, 2, 3, 123)),
+#                                     MoodManipulator("uuid2", True, ModeSolidColor(123, 321, 111, 255))]
+#     mongo_con.add_mood("uuid_mood", "Moodname", manis)
+# except AlreadyPresentException as e:
+#     log.warning("Mood uuid_mood already in database...")
+#
+# try:
+#     manis: List[MoodManipulator] = [MoodManipulator("uuid1", True, ModeSolidColor(3, 2, 1, 111)),
+#                                     MoodManipulator("uuid2", True, ModeSolidColor(123, 321, 111, 255))]
+#     mongo_con.add_mood("uuid_mood2", "Moodname2", manis)
+# except AlreadyPresentException as e:
+#     log.warning("Mood uuid_mood2 already in database...")
 
 s_manager = DeviceManager(mongo_con, config)
 s_manager.connect()
+
+
+@app.route("/mode/template/list", methods=["GET"])
+def get_mode_list():
+    return ModeTemplateMessages.get_mode_template_list_msg(mongo_con.get_mode_template_list())
 
 
 @app.route("/device/list", methods=["GET"])
@@ -133,7 +144,7 @@ def set_mode(s_uuid):
     if request.is_json:
         data: dict = request.get_json(silent=True)
         if data is not None and "mode" in data:
-            mode = Mode.from_dict(data.get("mode"))
+            mode = data.get("mode")
             s_manager.set_mode(s_uuid, mode)
             return "", 200
         else:

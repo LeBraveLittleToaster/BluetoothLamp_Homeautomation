@@ -3,21 +3,22 @@ import logging as log
 from pymongo import MongoClient
 
 from mqtt_stripper.strips.db.device import Device, DeviceState
-from mqtt_stripper.strips.db.modes import Mode
+from mqtt_stripper.strips.db.mode_template import ColorParam, ModeParam, ModeTemplate
 from mqtt_stripper.strips.db.mood import MoodManipulator, Mood
 
 
 class MongoDbConfig:
-    def __init__(self, ip: str, port: int, db_name: str, device_col_name: str, mood_col_name: str):
+    def __init__(self, ip: str, port: int, db_name: str, device_col_name: str, mood_col_name: str, mode_col_name: str):
         self.ip = ip
         self.db_name = db_name
         self.port = port
         self.device_col_name = device_col_name
         self.mood_col_name = mood_col_name
+        self.mode_col_name = mode_col_name
 
     @staticmethod
     def get_default_config():
-        return MongoDbConfig("localhost", 27017, "stripper", "devices", "moods")
+        return MongoDbConfig("localhost", 27017, "stripper", "devices", "moods", "modes")
 
 
 class MongoConnector:
@@ -26,6 +27,22 @@ class MongoConnector:
         self.client: MongoClient = MongoClient(db_conf.ip, db_conf.port)
         self.device_col = self.client.get_database(db_conf.db_name).get_collection(db_conf.device_col_name)
         self.mood_col = self.client.get_database(db_conf.db_name).get_collection(db_conf.mood_col_name)
+        self.mode_col = self.client.get_database(db_conf.db_name).get_collection(db_conf.mode_col_name)
+
+    def get_mode_template_list(self):
+        return list(map(ModeTemplate.from_dict, list(self.mode_col.find())))
+
+    def add_or_overwrite_mode_template(self, mode_id: int, color_params: List[ColorParam],
+                                       mode_param: List[ModeParam]):
+        data: dict = ModeTemplate(mode_id, color_params, mode_param).to_dict()
+        print(str(data))
+        self.mode_col.update_one({"mode_id": mode_id},{"$set": data},upsert=True)
+
+    def delete_mode_template_by_mod_id(self, mode_id: int):
+        self.mode_col.delete_one({"mode_id": mode_id})
+
+    def get_mode_template_by_mode_id(self, mode_id: int):
+        return ModeTemplate.from_dict(self.mode_col.find_one({"mode_id": mode_id}))
 
     def get_device_list(self) -> List[Device]:
         log.debug("Loading device list from db...")
@@ -43,8 +60,8 @@ class MongoConnector:
     def update_device_is_on(self, device_uuid: str, is_on: bool):
         self.device_col.update_one({"uuid": device_uuid}, {"$set": {"state.is_on": is_on}})
 
-    def update_device_mode(self, device_uuid: str, mode: Mode):
-        self.device_col.update_one({"uuid": device_uuid}, {"$set": {"state.c_mode": mode.to_dict()}})
+    def update_device_mode(self, device_uuid: str, mode: dict):
+        self.device_col.update_one({"uuid": device_uuid}, {"$set": {"state.c_mode": mode}})
 
     def get_device(self, uuid: str) -> Optional[Device]:
         doc: Optional[Any] = self.device_col.find_one({"uuid": uuid})

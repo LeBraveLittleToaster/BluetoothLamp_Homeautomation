@@ -1,0 +1,41 @@
+{
+  "mode_templates": [
+    {
+      "mode_id": 1,
+      "color_params": [
+        {
+          "color_param_type": "HSV_B",
+          "label" : "Color",
+          "json_key": "hsv_b",
+          "param_type": "ARRAY"
+        }
+      ],
+      "mode_params": []
+    },
+    {
+      "mode_id": 2,
+      "color_params": [
+        {
+          "color_param_type": "HSV_B",
+          "label" : "Color",
+          "json_key": "hsv_b",
+          "param_type": "ARRAY"
+        }
+      ],
+      "mode_params": [
+        {
+          "mode_param_type": "RANGE_VALUE",
+          "label" : "Brightness",
+          "json_key": "brightness_from_to",
+          "param_type": "ARRAY"
+        },
+        {
+          "mode_param_type": "SINGLE_VALUE",
+          "label" : "Speed",
+          "json_key": "speed",
+          "param_type": "SINGLE_VALUE"
+        }
+      ]
+    }
+  ]
+}

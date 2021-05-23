@@ -1,12 +1,10 @@
 from typing import List, Optional
 
-from mqtt_stripper.strips.db.modes import Mode
-
 
 class DeviceState:
-    def __init__(self, is_on: bool, c_mode: Optional[Mode] = None):
+    def __init__(self, is_on: bool, c_mode: Optional[dict] = None):
         self.is_on = is_on
-        self.c_mode = c_mode
+        self.c_mode: dict = c_mode
 
     def __str__(self):
         return str(self.to_dict())
@@ -17,14 +15,14 @@ class DeviceState:
     def to_dict(self):
         return {
             "is_on": self.is_on,
-            "c_mode": None if self.c_mode is None else self.c_mode.to_dict()
+            "c_mode": None if self.c_mode is None else self.c_mode
         }
 
     @staticmethod
     def from_dict(data: dict):
         return None if data is None else DeviceState(
             data.get("is_on", False),
-            Mode.from_dict(data.get("c_mode", None)))
+            data.get("c_mode", None))
 
 
 class Device:
