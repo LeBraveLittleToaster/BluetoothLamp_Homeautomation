@@ -1,12 +1,12 @@
-class GenericModeDefinition {
+class ModeDefinition {
   final int? modeId;
   final List<ColorParam>? colorParams;
   final List<ModeParam>? modeParams;
-  GenericModeDefinition({this.modeId, this.colorParams, this.modeParams});
+  ModeDefinition({this.modeId, this.colorParams, this.modeParams});
 
-  factory GenericModeDefinition.fromJson(Map<String, dynamic> json) {
+  factory ModeDefinition.fromJson(Map<String, dynamic> json) {
     print(json);
-    return GenericModeDefinition(
+    return ModeDefinition(
         modeId: json["mode_id"] ?? -1,
         colorParams: List<ColorParam>.from(
             json["color_params"]?.map((x) => ColorParam.fromJson(x))),
@@ -30,12 +30,19 @@ class ModeParam {
   final ModeParamType? modeParamType;
   final String? label;
   final ParamType? paramType;
+  final int? paramLength;
   final String? jsonKey;
-  ModeParam({this.modeParamType, this.label, this.jsonKey, this.paramType});
+  ModeParam(
+      {this.modeParamType,
+      this.label,
+      this.jsonKey,
+      this.paramLength,
+      this.paramType});
   factory ModeParam.fromJson(Map<String, dynamic> json) {
     return ModeParam(
         modeParamType: modeParamTypeFromString(json["mode_param_type"]),
         paramType: paramTypeFromString(json["param_type"]),
+        paramLength: json["param_length"],
         label: json["label"],
         jsonKey: json["json_key"] ?? null);
   }
@@ -47,6 +54,8 @@ class ModeParam {
         (paramType?.toString() ?? "none") +
         "jsonKey: " +
         (jsonKey?.toString() ?? "none") +
+        "paramLength: " +
+        (paramLength?.toString() ?? "none") +
         "label: " +
         (label?.toString() ?? "none");
   }
@@ -56,12 +65,14 @@ class ColorParam {
   final ColorParamType? colorParamType;
   final String? label;
   final ParamType? paramType;
+  final int? paramLength;
   final String? jsonKey;
-  ColorParam({this.colorParamType, this.label, this.jsonKey, this.paramType});
+  ColorParam({this.colorParamType, this.label, this.jsonKey, this.paramLength, this.paramType});
   factory ColorParam.fromJson(Map<String, dynamic> json) {
     return ColorParam(
         colorParamType: colorParamTypeFromString(json["color_param_type"]),
         paramType: paramTypeFromString(json["param_type"]),
+        paramLength: json["param_length"],
         label: json["label"],
         jsonKey: json["json_key"] ?? null);
   }
@@ -73,6 +84,8 @@ class ColorParam {
         (paramType?.toString() ?? "none") +
         "jsonKey: " +
         (jsonKey?.toString() ?? "none") +
+        "paramLength: " +
+        (paramLength?.toString() ?? "none") +
         "label: " +
         (label?.toString() ?? "none");
   }

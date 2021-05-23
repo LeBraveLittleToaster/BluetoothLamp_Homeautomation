@@ -7,7 +7,8 @@
           "color_param_type": "HSV_B",
           "label" : "Color",
           "json_key": "hsv_b",
-          "param_type": "ARRAY"
+          "param_type": "ARRAY",
+          "param_length" : 4
         }
       ],
       "mode_params": []
@@ -19,7 +20,8 @@
           "color_param_type": "HSV_B",
           "label" : "Color",
           "json_key": "hsv_b",
-          "param_type": "ARRAY"
+          "param_type": "ARRAY",
+          "param_length" : 4
         }
       ],
       "mode_params": [
@@ -27,7 +29,8 @@
           "mode_param_type": "RANGE_VALUE",
           "label" : "Brightness",
           "json_key": "brightness_from_to",
-          "param_type": "ARRAY"
+          "param_type": "ARRAY",
+          "param_length" : 2
         },
         {
           "mode_param_type": "SINGLE_VALUE",

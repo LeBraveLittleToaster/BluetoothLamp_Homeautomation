@@ -17,18 +17,21 @@ class ModeParamType(Enum):
 
 
 class ColorParam:
-    def __init__(self, color_param_type: ColorParamType, label:str, json_key: str, param_type: ParamType):
+    def __init__(self, color_param_type: ColorParamType, label: str, json_key: str, param_type: ParamType,
+                 param_length: int):
         self.color_param_type = color_param_type
         self.label = label
         self.json_key = json_key
         self.param_type = param_type
+        self.param_length = 1 if param_type is None or param_type == ParamType.SINGLE_VALUE else param_length
 
     def to_dict(self):
         return None if self is None else {
             "color_param_type": str(self.color_param_type.name),
-            "label" : self.label,
+            "label": self.label,
             "json_key": self.json_key,
-            "param_type": str(self.param_type.name)
+            "param_type": str(self.param_type.name),
+            "param_length": self.param_length
         }
 
     @staticmethod
@@ -37,23 +40,27 @@ class ColorParam:
             ColorParamType[source.get("color_param_type")],
             source.get("label"),
             source.get("json_key"),
-            ParamType[source.get("param_type")]
+            ParamType[source.get("param_type")],
+            source.get("param_length")
         )
 
 
 class ModeParam:
-    def __init__(self, mode_param_type: ModeParamType, label:str, json_key: str, param_type: ParamType):
+    def __init__(self, mode_param_type: ModeParamType, label: str, json_key: str, param_type: ParamType,
+                 param_length: int):
         self.mode_param_type = mode_param_type
         self.label = label
         self.json_key = json_key
         self.param_type = param_type
+        self.param_length = 1 if param_type is None or param_type == ParamType.SINGLE_VALUE else param_length
 
     def to_dict(self):
         return None if self is None else {
             "mode_param_type": str(self.mode_param_type.name),
-            "label" : self.label,
+            "label": self.label,
             "json_key": self.json_key,
-            "param_type": str(self.param_type.name)
+            "param_type": str(self.param_type.name),
+            "param_length": self.param_length
         }
 
     @staticmethod
@@ -62,7 +69,8 @@ class ModeParam:
             ModeParamType[source.get("mode_param_type")],
             source.get("label"),
             source.get("json_key"),
-            ParamType[source.get("param_type")]
+            ParamType[source.get("param_type")],
+            source.get("param_length")
         )
 
 

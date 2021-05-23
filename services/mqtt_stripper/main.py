@@ -36,30 +36,30 @@ with open('../base_modes.json') as f:
     for t in load_base_mode_templates:
         mongo_con.add_or_overwrite_mode_template(t.mode_id, t.color_params, t.mode_params)
 
-# log.info("Creating default objects for testing...")
-# try:
-#     mongo_con.add_device("uuid1", "name", "loc", [1, 2, 3, 4, 5], "in", "out")
-# except AlreadyPresentException as e:
-#     log.warning("Device uuid1 already in database...")
-#
-# try:
-#     mongo_con.add_device("uuid2", "name2", "loc2", [1, 2, 3], "in2", "out2")
-# except AlreadyPresentException as e:
-#     log.warning("Device uuid2 already in database...")
-#
-# try:
-#     manis: List[MoodManipulator] = [MoodManipulator("uuid1", True, ModeSolidColor(1, 2, 3, 123)),
-#                                     MoodManipulator("uuid2", True, ModeSolidColor(123, 321, 111, 255))]
-#     mongo_con.add_mood("uuid_mood", "Moodname", manis)
-# except AlreadyPresentException as e:
-#     log.warning("Mood uuid_mood already in database...")
-#
-# try:
-#     manis: List[MoodManipulator] = [MoodManipulator("uuid1", True, ModeSolidColor(3, 2, 1, 111)),
-#                                     MoodManipulator("uuid2", True, ModeSolidColor(123, 321, 111, 255))]
-#     mongo_con.add_mood("uuid_mood2", "Moodname2", manis)
-# except AlreadyPresentException as e:
-#     log.warning("Mood uuid_mood2 already in database...")
+log.info("Creating default objects for testing...")
+try:
+    mongo_con.add_device("uuid1", "name", "loc", [1, 2, 3, 4, 5], "in", "out")
+except AlreadyPresentException as e:
+    log.warning("Device uuid1 already in database...")
+
+try:
+    mongo_con.add_device("uuid2", "name2", "loc2", [1, 2, 3], "in2", "out2")
+except AlreadyPresentException as e:
+    log.warning("Device uuid2 already in database...")
+
+try:
+    manis: List[MoodManipulator] = [MoodManipulator("uuid1", True, dict()),
+                                    MoodManipulator("uuid2", True, dict())]
+    mongo_con.add_mood("uuid_mood", "Moodname", manis)
+except AlreadyPresentException as e:
+    log.warning("Mood uuid_mood already in database...")
+
+try:
+    manis: List[MoodManipulator] = [MoodManipulator("uuid1", True, dict()),
+                                    MoodManipulator("uuid2", True, dict())]
+    mongo_con.add_mood("uuid_mood2", "Moodname2", manis)
+except AlreadyPresentException as e:
+    log.warning("Mood uuid_mood2 already in database...")
 
 s_manager = DeviceManager(mongo_con, config)
 s_manager.connect()

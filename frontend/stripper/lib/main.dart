@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:stripper/modes/GenericModeDefinition.dart';
-import 'package:stripper/modes/GenericModeWidget.dart';
-import 'package:stripper/modes/net/ModeRequester.dart';
+import 'package:stripper/modes/ModeDefinition.dart';
+import 'package:stripper/modes/ModeWidget.dart';
+import 'package:stripper/modes/net/Requester.dart';
+import 'package:stripper/types/device.dart';
 
 void main() {
   runApp(MyApp());
@@ -35,15 +36,24 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(child: FutureBuilder<List<GenericModeDefinition>>(
-        future: ModeRequester.getModeDefinitions(),
+      body: Center(
+          child: FutureBuilder<List<ModeDefinition>>(
+        future: Requester.getModeDefinitions(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Text("Loading");
           }
-          return GenericModeWidget(
-            definition: snapshot.data!.elementAt(0),
-          );
+          return FutureBuilder<List<Device>>(
+            future: Requester.getDeviceList(),
+              builder: (context, snapshotDevice) {
+            if (!snapshotDevice.hasData) {
+              return Text("Loading devices");
+            }
+            return ModeWidget(
+              device: snapshotDevice.data![0],
+              definition: snapshot.data!.elementAt(1),
+            );
+          });
         },
       )),
       floatingActionButton: FloatingActionButton(
