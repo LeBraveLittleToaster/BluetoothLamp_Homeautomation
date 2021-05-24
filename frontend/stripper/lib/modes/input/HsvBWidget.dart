@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:stripper/modes/ModeDefinition.dart';
-import 'package:stripper/types/ParamResult.dart';
+import 'package:stripper/types/ParamValue.dart';
 
 class HsvBWidget extends StatefulWidget {
   final String label;
-  final ParamResult startValue;
-  final ValueChanged<ParamResult> onChangeEnd;
+  final ParamValue startValue;
+  final ValueChanged<ParamValue> onChangeEnd;
 
   HsvBWidget(
       {required this.label,
@@ -20,7 +20,8 @@ class _HsvBState extends State<HsvBWidget> {
 
   @override
   void initState() {
-    _sliderValue = widget.startValue.h ?? 0;
+    dynamic h = widget.startValue.value[0];
+    _sliderValue = h?.toDouble() ?? 0;
     super.initState();
   }
 
@@ -29,7 +30,7 @@ class _HsvBState extends State<HsvBWidget> {
     return Wrap(children: [
       Text(widget.label),
       Slider(
-        onChangeEnd: (double value) => widget.onChangeEnd(ParamResult(
+        onChangeEnd: (double value) => widget.onChangeEnd(ParamValue(
             paramType: ParamType.ARRAY,
             paramLength: 4,
             value: [value, value, value, value])),

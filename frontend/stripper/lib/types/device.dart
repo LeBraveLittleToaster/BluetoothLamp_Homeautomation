@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:stripper/modes/ModeDefinition.dart';
 
 class DeviceState with ChangeNotifier {
   bool? isOn;
-  Map<String, String>? mode;
+  Mode? mode;
 
   DeviceState({this.isOn, this.mode});
 
   factory DeviceState.fromJson(Map<String, dynamic> json) => DeviceState(
       isOn: json["is_on"],
-      mode: json["c_mode"] == null ? null : json["c_mode"]);
+      mode: json["c_mode"] == null ? null : Mode.fromJson(json["c_mode"]));
 
   Map<String, dynamic> toJson() =>
       {"is_on": this.isOn, "mode": this.mode == null ? null : this.mode};

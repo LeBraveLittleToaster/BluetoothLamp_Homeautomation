@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:stripper/modes/ModeDefinition.dart';
+import 'package:stripper/types/ParamValue.dart';
 import 'package:stripper/types/device.dart';
 import 'package:stripper/types/mood.dart';
 import 'package:tuple/tuple.dart';
@@ -77,7 +78,7 @@ class Requester {
   }
 
   static void setDeviceMode(
-      String deviceUuid, int modeId, List<Tuple2<String, dynamic>> modeWidgetStates, List<Tuple2<String, dynamic>> colorWidgetStates) async {
+      String deviceUuid, int modeId, List<Tuple2<String, ParamValue>> modeWidgetStates, List<Tuple2<String, ParamValue>> colorWidgetStates) async {
     var url = (kIsWeb ? BASE_URL_WEB : BASE_URL_ANDROID) +
         "/mode/" +
         deviceUuid +

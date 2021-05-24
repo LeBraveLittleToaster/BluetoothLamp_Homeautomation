@@ -22,8 +22,4 @@ Map<String, ParamValue> getMapFromStates(List<Tuple2<String, ParamValue>> state)
   return jsonMap;
 }
 
-String buildAddMoodJsonString(String name, List<String> deviceUuids) {
-  return json.encode({
-    "mood": {"name": name, "device_uuids": deviceUuids}
-  });
-}
+

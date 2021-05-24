@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:stripper/modes/ModeDefinition.dart';
-import 'package:stripper/types/ParamResult.dart';
+import 'package:stripper/types/ParamValue.dart';
 
 class RangeValueWidget extends StatefulWidget {
-  final ParamResult startValue;
+  final ParamValue startValue;
   final String label;
-  final ValueChanged<ParamResult> onChangeEnd;
+  final ValueChanged<ParamValue> onChangeEnd;
 
   RangeValueWidget(
       {required this.startValue,
@@ -13,15 +13,17 @@ class RangeValueWidget extends StatefulWidget {
       required this.onChangeEnd});
 
   @override
-  State<StatefulWidget> createState() => _SingleValueState();
+  State<StatefulWidget> createState() => _RangeValueState();
 }
 
-class _SingleValueState extends State<RangeValueWidget> {
-  double sliderValue = 0;
+class _RangeValueState extends State<RangeValueWidget> {
+  RangeValues sliderValues = RangeValues(0, 0);
 
   @override
   void initState() {
-    sliderValue = widget.startValue.value[0];
+    dynamic v1 = widget.startValue.value?[0] ?? 0;
+    dynamic v2 = widget.startValue.value?[1] ?? 1;
+    sliderValues = RangeValues(v1?.toDouble() ?? 0, v2?.toDouble() ?? 0);
     super.initState();
   }
 
@@ -29,13 +31,15 @@ class _SingleValueState extends State<RangeValueWidget> {
   Widget build(BuildContext context) {
     return Column(children: [
       Text(widget.label),
-      Slider(
-        onChanged: (double value) => setState(() {
-          sliderValue = value;
+      RangeSlider(
+        onChanged: (RangeValues value) => setState(() {
+          sliderValues = value;
         }),
-        onChangeEnd: (value) => widget.onChangeEnd(
-            ParamResult(paramLength: 2, paramType: ParamType.ARRAY)),
-        value: sliderValue,
+        onChangeEnd: (value) => widget.onChangeEnd(ParamValue(
+            paramLength: 2,
+            paramType: ParamType.ARRAY,
+            value: [sliderValues.start, sliderValues.end])),
+        values: sliderValues,
       ),
     ]);
   }

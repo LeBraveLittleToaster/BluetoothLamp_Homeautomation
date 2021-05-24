@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:stripper/modes/ModeDefinition.dart';
-import 'package:stripper/types/ParamResult.dart';
+import 'package:stripper/types/ParamValue.dart';
 
 class SingleValueWidget extends StatefulWidget {
-  final ParamResult startValue;
+  final ParamValue startValue;
   final String label;
-  final ValueChanged<ParamResult> onChangeEnd;
+  final ValueChanged<ParamValue> onChangeEnd;
 
   SingleValueWidget(
       {required this.startValue,
@@ -21,7 +21,10 @@ class _SingleValueState extends State<SingleValueWidget> {
 
   @override
   void initState() {
-    sliderValue = widget.startValue.value?[0];
+    if (widget.startValue.paramType != ParamType.EMPTY) {
+      dynamic v = widget.startValue.value;
+      sliderValue = v?.toDouble() ?? 0;
+    }
     super.initState();
   }
 
@@ -34,7 +37,7 @@ class _SingleValueState extends State<SingleValueWidget> {
           onChanged: (double value) => setState(() {
             sliderValue = value;
           }),
-          onChangeEnd: (value) => widget.onChangeEnd(ParamResult(
+          onChangeEnd: (value) => widget.onChangeEnd(ParamValue(
               paramLength: 1, paramType: ParamType.SINGLE_VALUE, value: value)),
           value: sliderValue,
         ),
