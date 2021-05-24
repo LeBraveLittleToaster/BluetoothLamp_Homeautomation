@@ -15,7 +15,10 @@ class ParamValue {
   }
 
   Map<String, dynamic> toJson() => {
-        "param_type": this.paramType?.toString(),
+        "param_type": this
+            .paramType
+            ?.toString()
+            .substring(this.paramType.toString().indexOf(".") + 1),
         "param_length": this.paramLength,
         "value": this.value
       };

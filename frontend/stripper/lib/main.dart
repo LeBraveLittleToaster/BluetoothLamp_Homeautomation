@@ -51,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
             }
             return ModeWidget(
               device: snapshotDevice.data![0],
-              definition: snapshot.data!.elementAt(1),
+              definition: snapshot.data!.elementAt(2),
             );
           });
         },
@@ -60,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: () {},
         tooltip: 'Increment',
         child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }

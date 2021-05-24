@@ -44,14 +44,15 @@ class _ModeState extends State<ModeWidget> {
   }
 
   void updateColorState(int index, ParamValue value) {
-    Tuple2<String, dynamic> oldValue = this.colorWidgetStates.removeAt(index);
+    Tuple2<String, ParamValue> oldValue =
+        this.colorWidgetStates.removeAt(index);
     this.colorWidgetStates.insert(
         index, Tuple2<String, ParamValue>.fromList([oldValue.item1, value]));
     triggerUploadMode();
   }
 
   void updateModeState(int index, ParamValue value) {
-    Tuple2<String, dynamic> oldValue = this.modeWidgetStates.removeAt(index);
+    Tuple2<String, ParamValue> oldValue = this.modeWidgetStates.removeAt(index);
     this.modeWidgetStates.insert(
         index, Tuple2<String, ParamValue>.fromList([oldValue.item1, value]));
     triggerUploadMode();
@@ -171,10 +172,14 @@ List<Tuple2<String, ParamValue>> generateModeWidgetStates(
     ModeDefinition definition, Mode? initMode) {
   List<Tuple2<String, ParamValue>> states = [];
   definition.modeParams?.forEach((element) {
-    ParamValue? initValue = initMode?.modeValues
-            ?.firstWhere((initElement) => element.jsonKey == initElement.item1)
-            .item2 ??
-        null;
+    ParamValue? initValue;
+    try {
+      initValue = initMode?.modeValues
+          ?.firstWhere((initElement) => element.jsonKey == initElement.item1)
+          .item2;
+    } catch (e) {
+      print(e.toString());
+    }
     states.add(Tuple2<String, ParamValue>.fromList([
       element.jsonKey,
       initValue ?? ParamValue(paramType: ParamType.EMPTY, paramLength: 0)
