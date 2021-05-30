@@ -19,29 +19,37 @@ class ModeWidget extends StatefulWidget {
   }
 
   @override
-  State<StatefulWidget> createState() => _ModeState(definition: definition);
+  State<StatefulWidget> createState() => _ModeState();
 }
 
 class _ModeState extends State<ModeWidget> {
-  final ModeDefinition definition;
-  late final List<Tuple2<String, ParamValue>> colorWidgetStates;
-  late final List<Tuple2<String, ParamValue>> modeWidgetStates;
+  late List<Tuple2<String, ParamValue>> colorWidgetStates;
+  late List<Tuple2<String, ParamValue>> modeWidgetStates;
 
-  _ModeState({required this.definition});
 
   @override
   void initState() {
-    this.colorWidgetStates =
-        generateColorWidgetStates(definition, widget.initMode);
-    this.modeWidgetStates =
-        generateModeWidgetStates(definition, widget.initMode);
+    generateStates();
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant ModeWidget oldWidget) {
+    generateStates();
+    super.didUpdateWidget(oldWidget);
+  }
+
+  void generateStates(){
+    print("Generating states");
+    this.colorWidgetStates =
+        generateColorWidgetStates(widget.definition, widget.initMode);
+    this.modeWidgetStates =
+        generateModeWidgetStates(widget.definition, widget.initMode);
   }
 
   void triggerUploadMode() {
     context.read<DeviceListModel>().setDeviceMode(widget.device.uuid ?? "",
-        definition.modeId ?? -1, modeWidgetStates, colorWidgetStates);
-    print("Uploading");
+        widget.definition.modeId ?? -1, modeWidgetStates, colorWidgetStates);
   }
 
   void updateColorState(int index, ParamValue value) {
