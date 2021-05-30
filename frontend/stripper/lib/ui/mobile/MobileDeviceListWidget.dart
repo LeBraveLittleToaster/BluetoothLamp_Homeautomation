@@ -12,10 +12,12 @@ class _MobileDeviceListState extends State<MobileDeviceListWidget> {
   @override
   Widget build(BuildContext context) {
     return Consumer<DeviceListModel>(builder: (context, deviceModel, child) {
+      print("Rebuilding");
       return deviceModel.isLoading
-          ? SpinKitCubeGrid()
-          : Text(
-              "Loaded " + (deviceModel.devices.length).toString() + " devices");
+          ? SpinKitCubeGrid(
+            color: Colors.orangeAccent,
+          )
+          : Text("Loaded " + (deviceModel.devices.length).toString() + " devices");
     });
   }
 }

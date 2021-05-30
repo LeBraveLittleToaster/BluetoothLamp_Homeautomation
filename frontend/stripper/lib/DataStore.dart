@@ -5,7 +5,7 @@ import 'package:stripper/types/device.dart';
 class DeviceListModel extends ChangeNotifier {
   List<Device> devices = [];
   bool _isLoading = false;
-  bool get isLoading{
+  bool get isLoading {
     return _isLoading;
   }
 
@@ -15,15 +15,15 @@ class DeviceListModel extends ChangeNotifier {
   }
 
   void loadDevices() {
+    _isLoading = true;
+    notifyListeners();
     Requester.getDeviceList().then((value) {
       devices = value;
       _isLoading = false;
-      print("Notifying listeners");
       notifyListeners();
     }).catchError((error) {
       print(error);
       _isLoading = false;
-      print("Notifying listeners");
       notifyListeners();
     });
   }
