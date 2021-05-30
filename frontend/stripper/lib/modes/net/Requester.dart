@@ -12,8 +12,8 @@ import 'package:tuple/tuple.dart';
 
 import 'RequestBodyBuilder.dart';
 
-String BASE_URL_ANDROID = "http://10.0.2.2:4321";
-String BASE_URL_WEB = "http://localhost:4321";
+String BASE_URL_ANDROID = "http://192.168.0.103:4321";//"http://10.0.2.2:4321";
+String BASE_URL_WEB ="http://192.168.0.103:4321"; // "http://localhost:4321";
 
 class Requester {
   static Future<List<ModeDefinition>> getModeDefinitions() async {

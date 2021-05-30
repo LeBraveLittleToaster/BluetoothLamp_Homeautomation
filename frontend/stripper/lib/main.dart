@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:stripper/DataStore.dart';
 import 'package:stripper/modes/ModeDefinition.dart';
 import 'package:stripper/modes/ModeWidget.dart';
 import 'package:stripper/modes/net/Requester.dart';
 import 'package:stripper/types/device.dart';
+import 'package:stripper/ui/mobile/MobileDeviceListWidget.dart';
 
 void main() {
   runApp(MyApp());
@@ -33,29 +36,29 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-          child: FutureBuilder<List<ModeDefinition>>(
-        future: Requester.getModeDefinitions(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return Text("Loading");
-          }
-          return FutureBuilder<List<Device>>(
-            future: Requester.getDeviceList(),
-              builder: (context, snapshotDevice) {
-            if (!snapshotDevice.hasData) {
-              return Text("Loading devices");
-            }
-            return ModeWidget(
-              device: snapshotDevice.data![0],
-              definition: snapshot.data!.elementAt(2),
-            );
-          });
+      body: NestedScrollView(
+        floatHeaderSlivers: true,
+        body: MultiProvider(
+          providers: [
+            ChangeNotifierProvider<DeviceListModel>(
+              create: (_) => DeviceListModel().initDevices(),
+            )
+          ],
+          builder: (context, child) => Center(
+            child: MobileDeviceListWidget(),
+          ),
+        ),
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return [
+            SliverAppBar(
+              title: Text(widget.title),
+              pinned: false,
+              floating: true,
+              forceElevated: innerBoxIsScrolled,
+            )
+          ];
         },
-      )),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         tooltip: 'Increment',

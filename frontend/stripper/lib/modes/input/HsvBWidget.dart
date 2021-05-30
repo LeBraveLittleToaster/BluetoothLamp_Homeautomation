@@ -20,8 +20,10 @@ class _HsvBState extends State<HsvBWidget> {
 
   @override
   void initState() {
-    dynamic h = widget.startValue.value[0];
-    _sliderValue = h?.toDouble() ?? 0;
+    if (widget.startValue.paramType != ParamType.EMPTY) {
+      dynamic h = widget.startValue.value?[0] ?? null;
+      _sliderValue = h?.toDouble() ?? 0;
+    }
     super.initState();
   }
 

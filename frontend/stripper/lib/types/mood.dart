@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
+
 import 'mood_manipulator.dart';
 
-class Mood {
+class Mood{
   Mood({
     this.uuid,
     this.name,
