@@ -1,4 +1,4 @@
-import 'package:stripper/modes/ModeDefinition.dart';
+import 'package:stripper/types/ModeDefinition.dart';
 
 class ParamValue {
   final ParamType? paramType;

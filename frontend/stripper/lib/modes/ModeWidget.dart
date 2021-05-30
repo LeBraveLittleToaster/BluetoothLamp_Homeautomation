@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:stripper/modes/ModeDefinition.dart';
+import 'package:provider/provider.dart';
+import 'package:stripper/types/ModeDefinition.dart';
 import 'package:stripper/modes/input/HsvBWidget.dart';
 import 'package:stripper/modes/input/RangeValueWidget.dart';
 import 'package:stripper/modes/input/SingleValueWidget.dart';
-import 'package:stripper/modes/net/Requester.dart';
+import 'package:stripper/store/DeviceListModel.dart';
 import 'package:stripper/types/ParamValue.dart';
 import 'package:stripper/types/device.dart';
 import 'package:tuple/tuple.dart';
@@ -38,8 +39,8 @@ class _ModeState extends State<ModeWidget> {
   }
 
   void triggerUploadMode() {
-    Requester.setDeviceMode(widget.device.uuid ?? "", definition.modeId ?? -1,
-        modeWidgetStates, colorWidgetStates);
+    context.read<DeviceListModel>().setDeviceMode(widget.device.uuid ?? "",
+        definition.modeId ?? -1, modeWidgetStates, colorWidgetStates);
     print("Uploading");
   }
 
@@ -60,12 +61,14 @@ class _ModeState extends State<ModeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> colorAndModeParamWdigets = [];
-    colorAndModeParamWdigets.addAll(generateColorParamWidgets(
-        widget.definition, colorWidgetStates, this.updateColorState));
-    colorAndModeParamWdigets.addAll(generateModeParamWidgets(
-        widget.definition, modeWidgetStates, this.updateModeState));
-    return Column(children: colorAndModeParamWdigets);
+    return Consumer<DeviceListModel>(builder: (context, modeModel, child) {
+      List<Widget> colorAndModeParamWdigets = [];
+      colorAndModeParamWdigets.addAll(generateColorParamWidgets(
+          widget.definition, colorWidgetStates, this.updateColorState));
+      colorAndModeParamWdigets.addAll(generateModeParamWidgets(
+          widget.definition, modeWidgetStates, this.updateModeState));
+      return Column(children: colorAndModeParamWdigets);
+    });
   }
 }
 
@@ -134,11 +137,7 @@ List<Widget> generateColorParamWidgets(
       case ColorParamType.HSV_B:
         widgets.add(HsvBWidget(
           label: element.label ?? "No label given",
-          startValue: initValue ??
-              ParamValue(
-                  paramLength: 4,
-                  paramType: ParamType.ARRAY,
-                  value: [1, 2, 3, 4]),
+          startValue: initValue,
           onChangeEnd: (ParamValue value) =>
               updateColorState(elementIndex, value),
         ));

@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-import 'package:stripper/modes/ModeDefinition.dart';
+import 'package:stripper/types/ModeDefinition.dart';
 import 'package:stripper/types/ParamValue.dart';
 import 'package:stripper/types/device.dart';
 import 'package:stripper/types/mood.dart';

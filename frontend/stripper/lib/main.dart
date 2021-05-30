@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:stripper/DataStore.dart';
-import 'package:stripper/modes/ModeDefinition.dart';
+import 'package:stripper/store/DeviceListModel.dart';
+import 'package:stripper/types/ModeDefinition.dart';
 import 'package:stripper/modes/ModeWidget.dart';
 import 'package:stripper/modes/net/Requester.dart';
+import 'package:stripper/store/ModeDefinitionModel.dart';
 import 'package:stripper/types/device.dart';
 import 'package:stripper/ui/mobile/MobileDeviceListWidget.dart';
 
@@ -15,11 +16,20 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData.dark(),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider<DeviceListModel>(
+            create: (_) => DeviceListModel().initDevices(),
+          ),
+          ChangeNotifierProvider<ModeDefinitionModel>(
+            create: (_) => ModeDefinitionModel().initModeDefinitions(),
+          )
+        ],
+        builder: (context, child) => MaterialApp(
+              title: 'Flutter Demo',
+              theme: ThemeData.dark(),
+              home: MyHomePage(title: 'Flutter Demo Home Page'),
+            ));
   }
 }
 
@@ -38,15 +48,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       body: NestedScrollView(
         floatHeaderSlivers: true,
-        body: MultiProvider(
-          providers: [
-            ChangeNotifierProvider<DeviceListModel>(
-              create: (_) => DeviceListModel().initDevices(),
-            )
-          ],
-          builder: (context, child) => Center(
-            child: MobileDeviceListWidget(),
-          ),
+        body: Center(
+          child: MobileDeviceListWidget(),
         ),
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return [
@@ -58,12 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
             )
           ];
         },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
+      )
     );
   }
 }

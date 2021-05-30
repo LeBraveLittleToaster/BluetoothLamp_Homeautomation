@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stripper/modes/ModeDefinition.dart';
+import 'package:stripper/types/ModeDefinition.dart';
 import 'package:stripper/types/ParamValue.dart';
 
 class HsvBWidget extends StatefulWidget {
