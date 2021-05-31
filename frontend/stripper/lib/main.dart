@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:stripper/store/DeviceListModel.dart';
-import 'package:stripper/types/ModeDefinition.dart';
-import 'package:stripper/modes/ModeWidget.dart';
-import 'package:stripper/modes/net/Requester.dart';
 import 'package:stripper/store/ModeDefinitionModel.dart';
-import 'package:stripper/types/device.dart';
 import 'package:stripper/ui/mobile/MobileDeviceListWidget.dart';
 
 void main() {

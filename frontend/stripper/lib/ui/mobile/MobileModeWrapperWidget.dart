@@ -61,7 +61,7 @@ class _MobileModeWrapperState extends State<MobileModeWrapperWidget> {
         activeIcon: Icons.remove,
         visible: true,
         orientation: SpeedDialOrientation.Up,
-        children: getModeSelectionDials(context.read<ModeDefinitionModel>().definitions, widget.device),
+        children: getModeSelectionDials(context.watch<ModeDefinitionModel>().definitions, widget.device),
       ),
     );
   }

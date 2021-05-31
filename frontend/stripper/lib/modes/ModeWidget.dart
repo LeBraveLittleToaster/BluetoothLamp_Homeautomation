@@ -26,7 +26,6 @@ class _ModeState extends State<ModeWidget> {
   late List<Tuple2<String, ParamValue>> colorWidgetStates;
   late List<Tuple2<String, ParamValue>> modeWidgetStates;
 
-
   @override
   void initState() {
     generateStates();
@@ -39,8 +38,7 @@ class _ModeState extends State<ModeWidget> {
     super.didUpdateWidget(oldWidget);
   }
 
-  void generateStates(){
-    print("Generating states");
+  void generateStates() {
     this.colorWidgetStates =
         generateColorWidgetStates(widget.definition, widget.initMode);
     this.modeWidgetStates =
@@ -167,12 +165,31 @@ List<Tuple2<String, ParamValue>> generateColorWidgetStates(
             ?.firstWhere((initElement) => element.jsonKey == initElement.item1)
             .item2 ??
         null;
-    states.add(Tuple2<String, ParamValue>.fromList([
-      element.jsonKey,
-      initValue ?? ParamValue(paramType: ParamType.EMPTY, paramLength: 0)
-    ]));
+    ParamValue initValueSafe =
+        initValue ?? getDefaultParam(element.paramType, element.paramLength);
+    states.add(
+        Tuple2<String, ParamValue>.fromList([element.jsonKey, initValueSafe]));
   });
   return states;
+}
+
+getDefaultParam(ParamType? paramType, int? paramLength) {
+  if (paramType == null || paramLength == null) return null;
+  return ParamValue(
+      paramType: paramType,
+      paramLength: paramLength,
+      value: getDefaultValue(paramLength));
+}
+
+getDefaultValue(int paramLength) {
+  if (paramLength <= 1) {
+    return 0;
+  }
+  List<int> values = [];
+  for (int i = 0; i < paramLength; i++) {
+    values.add(i);
+  }
+  return values;
 }
 
 List<Tuple2<String, ParamValue>> generateModeWidgetStates(
@@ -180,6 +197,7 @@ List<Tuple2<String, ParamValue>> generateModeWidgetStates(
   List<Tuple2<String, ParamValue>> states = [];
   definition.modeParams?.forEach((element) {
     ParamValue? initValue;
+    ParamValue initValueSafe;
     try {
       initValue = initMode?.modeValues
           ?.firstWhere((initElement) => element.jsonKey == initElement.item1)
@@ -187,10 +205,10 @@ List<Tuple2<String, ParamValue>> generateModeWidgetStates(
     } catch (e) {
       print(e.toString());
     }
-    states.add(Tuple2<String, ParamValue>.fromList([
-      element.jsonKey,
-      initValue ?? ParamValue(paramType: ParamType.EMPTY, paramLength: 0)
-    ]));
+    initValueSafe =
+        initValue ?? getDefaultParam(element.paramType, element.paramLength);
+    states.add(
+        Tuple2<String, ParamValue>.fromList([element.jsonKey, initValueSafe]));
   });
   return states;
 }
