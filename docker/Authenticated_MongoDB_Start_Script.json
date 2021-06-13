@@ -1,1 +1,0 @@
-docker run -d -p 27017:27017 -v mongodbdata:/data/db -e MONGO_INITDB_ROOT_USERNAME=<uname> -e MONGO_INITDB_ROOT_PASSWORD=<password> --name auth_me_mongo mongo:latest
