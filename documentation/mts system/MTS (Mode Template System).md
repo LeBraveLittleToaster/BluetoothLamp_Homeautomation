@@ -87,11 +87,15 @@ tbd. (multiple predefined Lights manipulated at once with predefined mode preset
 
 ## MTSControlGroup
 
-tbd. (multiple Lights manipulated at once with same mode)
+A ControlGroup simply gives the user the ability to set the same mode to multiple devices.
+
+1. ***groupId*** - unique uuid
+1. ***name*** - name for the control group
+1. ***lampMacs*** - assosiated lampMacs
 
 ## MTSManipulator
 
-tbd. (MTSLight mac to mode relation)
+Manipulators define the mode a specific lamp should be set to. This is mostly used as a list of manipulators for a MTSMood.
 
 1. ***lightMac*** - mac of light that is set
 1. ***mode*** MTSMode defined for that light
