@@ -150,3 +150,6 @@ This files is used to validate if a given template-json is valid, only if the mo
 1. Graph based, learning and easier updatability after changes
 1. use Label for node to find types easier (MOOD, CONTROL_GROUP, LIGHT etc.)
 1. Serialize set modes to string and store in node
+
+
+![Possible database structure](documentation/mtssystem/Tables.drawio.svg)
