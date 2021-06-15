@@ -82,7 +82,7 @@ A light needs to define:
 
 ## MTSMood
 
-tbd. (multiple predefined Lights manipulated at once with predefined mode presets)
+A mood is a predefined set of manipulators that set a specific mode to the specified lamps.
 1. ***manipulators*** - list of all manipulators
 
 ## MTSControlGroup
