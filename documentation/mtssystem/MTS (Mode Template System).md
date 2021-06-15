@@ -152,4 +152,4 @@ This files is used to validate if a given template-json is valid, only if the mo
 1. Serialize set modes to string and store in node
 
 
-<img style="background-color: #2D333B; padding: 50px;" src="./Tables.drawio.svg"><img>
+<img style="padding: 50px;" src="./Tables.drawio.svg"><img>
