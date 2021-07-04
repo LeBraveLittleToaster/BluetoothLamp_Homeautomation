@@ -23,21 +23,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1e97e3f3-7ff2-44b5-80d9-7cf885dd69f5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/checksums/md5-checksums.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.gradle/checksums/sha1-checksums.bin" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/de/pschiessle/klight/backend/WebSocketerino.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/backend.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/de/pschiessle/klight/backend/WebSocketConfig.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/pschiessle/klight/backend/BackendApplication.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/de/pschiessle/klight/backend/BackendApplication.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/pschiessle/klight/backend/data/WebSocketerino.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/de/pschiessle/klight/backend/WebSocketerino.kt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,8 +90,8 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RequestMappingsPanelOrder0" value="0" />
     <property name="RequestMappingsPanelOrder1" value="1" />
-    <property name="RequestMappingsPanelWidth0" value="462" />
-    <property name="RequestMappingsPanelWidth1" value="462" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
@@ -179,6 +168,17 @@
     </option>
   </component>
   <component name="RunManager" selected="Spring Boot.BackendApplication">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="BackendApplication#1" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" path="$APPLICATION_CONFIG_DIR$/scratches/BackendApplication.http" runType="Run single request">
       <method v="2" />
     </configuration>
@@ -216,6 +216,7 @@
       <updated>1625397104886</updated>
       <workItem from="1625397107182" duration="6368000" />
       <workItem from="1625403560533" duration="640000" />
+      <workItem from="1625417584072" duration="738000" />
     </task>
     <servers />
   </component>
@@ -242,42 +243,42 @@
       <screen x="0" y="0" width="2048" height="1112" />
     </state>
     <state x="959" y="211" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2048.1112@0.0.2048.1112" timestamp="1625403805590" />
-    <state x="1328" y="272" key="#com.intellij.ide.util.MemberChooser" timestamp="1625399182835">
+    <state x="1328" y="272" key="#com.intellij.ide.util.MemberChooser" timestamp="1625418152142">
       <screen x="0" y="0" width="2048" height="1112" />
     </state>
-    <state x="1328" y="272" key="#com.intellij.ide.util.MemberChooser/0.0.2048.1112@0.0.2048.1112" timestamp="1625399182835" />
-    <state width="982" height="374" key="GridCell.Tab.0.bottom" timestamp="1625404208165">
+    <state x="1328" y="272" key="#com.intellij.ide.util.MemberChooser/0.0.2048.1112@0.0.2048.1112" timestamp="1625418152142" />
+    <state width="982" height="303" key="GridCell.Tab.0.bottom" timestamp="1625418330442">
       <screen x="0" y="0" width="2048" height="1112" />
     </state>
-    <state width="982" height="374" key="GridCell.Tab.0.bottom/0.0.2048.1112@0.0.2048.1112" timestamp="1625404208165" />
-    <state width="982" height="374" key="GridCell.Tab.0.center" timestamp="1625404208165">
+    <state width="982" height="303" key="GridCell.Tab.0.bottom/0.0.2048.1112@0.0.2048.1112" timestamp="1625418330442" />
+    <state width="982" height="303" key="GridCell.Tab.0.center" timestamp="1625418330440">
       <screen x="0" y="0" width="2048" height="1112" />
     </state>
-    <state width="982" height="374" key="GridCell.Tab.0.center/0.0.2048.1112@0.0.2048.1112" timestamp="1625404208165" />
-    <state width="982" height="374" key="GridCell.Tab.0.left" timestamp="1625404208165">
+    <state width="982" height="303" key="GridCell.Tab.0.center/0.0.2048.1112@0.0.2048.1112" timestamp="1625418330440" />
+    <state width="982" height="303" key="GridCell.Tab.0.left" timestamp="1625418330439">
       <screen x="0" y="0" width="2048" height="1112" />
     </state>
-    <state width="982" height="374" key="GridCell.Tab.0.left/0.0.2048.1112@0.0.2048.1112" timestamp="1625404208165" />
-    <state width="982" height="374" key="GridCell.Tab.0.right" timestamp="1625404208165">
+    <state width="982" height="303" key="GridCell.Tab.0.left/0.0.2048.1112@0.0.2048.1112" timestamp="1625418330439" />
+    <state width="982" height="303" key="GridCell.Tab.0.right" timestamp="1625418330441">
       <screen x="0" y="0" width="2048" height="1112" />
     </state>
-    <state width="982" height="374" key="GridCell.Tab.0.right/0.0.2048.1112@0.0.2048.1112" timestamp="1625404208165" />
-    <state width="982" height="374" key="GridCell.Tab.1.bottom" timestamp="1625404208166">
+    <state width="982" height="303" key="GridCell.Tab.0.right/0.0.2048.1112@0.0.2048.1112" timestamp="1625418330441" />
+    <state width="982" height="303" key="GridCell.Tab.1.bottom" timestamp="1625418330445">
       <screen x="0" y="0" width="2048" height="1112" />
     </state>
-    <state width="982" height="374" key="GridCell.Tab.1.bottom/0.0.2048.1112@0.0.2048.1112" timestamp="1625404208166" />
-    <state width="982" height="374" key="GridCell.Tab.1.center" timestamp="1625404208166">
+    <state width="982" height="303" key="GridCell.Tab.1.bottom/0.0.2048.1112@0.0.2048.1112" timestamp="1625418330445" />
+    <state width="982" height="303" key="GridCell.Tab.1.center" timestamp="1625418330443">
       <screen x="0" y="0" width="2048" height="1112" />
     </state>
-    <state width="982" height="374" key="GridCell.Tab.1.center/0.0.2048.1112@0.0.2048.1112" timestamp="1625404208166" />
-    <state width="982" height="374" key="GridCell.Tab.1.left" timestamp="1625404208165">
+    <state width="982" height="303" key="GridCell.Tab.1.center/0.0.2048.1112@0.0.2048.1112" timestamp="1625418330443" />
+    <state width="982" height="303" key="GridCell.Tab.1.left" timestamp="1625418330442">
       <screen x="0" y="0" width="2048" height="1112" />
     </state>
-    <state width="982" height="374" key="GridCell.Tab.1.left/0.0.2048.1112@0.0.2048.1112" timestamp="1625404208165" />
-    <state width="982" height="374" key="GridCell.Tab.1.right" timestamp="1625404208166">
+    <state width="982" height="303" key="GridCell.Tab.1.left/0.0.2048.1112@0.0.2048.1112" timestamp="1625418330442" />
+    <state width="982" height="303" key="GridCell.Tab.1.right" timestamp="1625418330444">
       <screen x="0" y="0" width="2048" height="1112" />
     </state>
-    <state width="982" height="374" key="GridCell.Tab.1.right/0.0.2048.1112@0.0.2048.1112" timestamp="1625404208166" />
+    <state width="982" height="303" key="GridCell.Tab.1.right/0.0.2048.1112@0.0.2048.1112" timestamp="1625418330444" />
     <state width="982" height="374" key="GridCell.Tab.2.bottom" timestamp="1625404208167">
       <screen x="0" y="0" width="2048" height="1112" />
     </state>
