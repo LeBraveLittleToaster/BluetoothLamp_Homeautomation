@@ -82,16 +82,20 @@ A light needs to define:
 
 ## MTSMood
 
-tbd. (multiple predefined Lights manipulated at once with predefined mode presets)
+A mood is a predefined set of manipulators that set a specific mode to the specified lamps.
 1. ***manipulators*** - list of all manipulators
 
 ## MTSControlGroup
 
-tbd. (multiple Lights manipulated at once with same mode)
+A ControlGroup simply gives the user the ability to set the same mode to multiple devices.
+
+1. ***groupId*** - unique uuid
+1. ***name*** - name for the control group
+1. ***lampMacs*** - assosiated lampMacs
 
 ## MTSManipulator
 
-tbd. (MTSLight mac to mode relation)
+Manipulators define the mode a specific lamp should be set to. This is mostly used as a list of manipulators for a MTSMood.
 
 1. ***lightMac*** - mac of light that is set
 1. ***mode*** MTSMode defined for that light
@@ -146,3 +150,6 @@ This files is used to validate if a given template-json is valid, only if the mo
 1. Graph based, learning and easier updatability after changes
 1. use Label for node to find types easier (MOOD, CONTROL_GROUP, LIGHT etc.)
 1. Serialize set modes to string and store in node
+
+
+<img style="background: #2D333B; padding: 50px;" src="./Tables.drawio.svg"><img>
